@@ -19,9 +19,10 @@
   font-size: 0.75rem;
   color: #000;
   font-weight: 400;
-  margin: 0;
+  margin-top: -1  font-size: 40px;5px;
   padding: 15px 0px;
   display: block;
+  margin-top: -15px;
 }
 
 .left-indent {
@@ -37,6 +38,25 @@
   font-family: 'Roboto', sans-serif;
 }
 
+.inter-caption {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+}
+
+
+.archivo-header {
+  font-family: "Archivo", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+
+
 .header-content {
   display: flex;
   flex-direction: column;
@@ -45,9 +65,9 @@
   line-height: 1.2;
 }
 
-.header-content h1 {
-  font-size: 0.9rem;
-  font-weight: 700;
+.header-name  {
+  font-size: 1.2rem;
+  font-weight: 600;
   color: #000;
   margin: 0;
 }
@@ -58,14 +78,16 @@
   gap: 14px;
   align-items: flex-start;
   padding: 0px 32px 0 0;
-  margin-top: 0px;
+  margin-top: -60px;
 }
 
-.social-icon {
-  width: 18px;
-  height: 18px;
-  vertical-align: middle;
+
+.animated-icon {
+  width: 25px;   /* or whatever size you want */
+  height: 25px;
+  object-fit: contain;
 }
+
 
 .social-icon:hover {
   transform: scale(1.05);
@@ -104,6 +126,7 @@
   opacity: 0;
   transform: translateY(50px);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  padding-left: 32px;
 }
 
 /* Visible when scrolled into view */
@@ -117,7 +140,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
   gap: 40px;
-  padding-left: 64px;  /* ✨ Aligns with text */
+  padding-left: 64px;
   padding-right: 64px; /* keep symmetry */
   perspective: 1000px;
 }
@@ -139,6 +162,7 @@
   background-position: center;
   display: flex;
   align-items: flex-end;
+
 }
 
 /* Optional: if you ever use a nested <div class="project-image"> */
@@ -148,38 +172,33 @@
   height: 100%;
   background-size: cover;
   background-position: center;
+
 }
 
-/* === Slanted Black Info Panel === */
-.project-info {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 15%;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px); /* Safari support */
-  clip-path: polygon(0 0, 100% 10%, 100% 100%, 0% 100%);
-  color: white;
-  padding: 24px;
+.project-card-wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  gap: 12px;
 }
 
-
-
-/* === Text Inside Cards === */
-.project-info h3 {
-  margin: 0;
-  font-size: 1.2rem;
-  font-weight: 700;
-}
-
-.project-info p {
-  margin: 4px 0 0;
-  font-size: 0.95rem;
+.project-caption {
+  font-family: 'Icona Sans', sans-serif;
+  padding: 0 4px;
+  color: #333;
+  font-size: 0.85rem;
   line-height: 1.4;
+}
+
+.project-caption h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0 0 2px 0;
+  color: #000;
+}
+
+.project-caption p {
+  margin: 0;
+  color: #555;
+  font-weight: 400;
+  font-size: 0.85rem;
 }

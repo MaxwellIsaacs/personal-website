@@ -1,83 +1,113 @@
-<!DOCTYPE html <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maxwell Isaacs</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <script src="script.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>max's portfolio</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="script.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container left-indent">
     <!-- Header Section -->
     <header class="header">
       <div class="header-content">
-        <h1>Maxwell Isaacs</h1>
-        <p class="copywrite">Low-level programming & cyber security <br>©2025 </p>
+        <p class="header-name archivo-header">Maxwell Isaacs </p>
+        <p class="copywrite archivo-header">Low-level programming & cyber security <br />©2025</p>
       </div>
       <div class="social-links">
         <a href="https://github.com/maxwellisaacs" target="_blank" rel="noopener noreferrer" aria-label="Visit Maxwell's GitHub Profile">
-          <img src="images/GitHub.svg" alt="GitHub Icon" class="social-icon">
+<img id="github-icon" class="animated-icon" src="images/github.png"
+     data-png="images/github.png"
+     data-gif="images/github.gif" alt="GitHub Icon" />
+
         </a>
         <a href="https://www.linkedin.com/in/maxwellisaacs" target="_blank" rel="noopener noreferrer" aria-label="Visit Maxwell's LinkedIn Profile">
-          <img src="images/linkden.svg" alt="LinkedIn Icon" class="social-icon">
+<img id="linkedin-icon" class="animated-icon" src="images/linkedin.png"
+     data-png="images/linkedin.png"
+     data-gif="images/linkedin.gif" alt="LinkedIn Icon" />
+
         </a>
         <a href="mailto:maxwellisaacs@example.com" aria-label="Send Maxwell an Email">
-          <img src="images/email.svg" alt="Email Icon" class="social-icon">
+
+<img id="instagram-icon" class="animated-icon" src="images/instagram.png"
+     data-png="images/instagram.png"
+     data-gif="images/instagram.gif" alt="Instagram Icon" />
         </a>
       </div>
     </header>
-    <!-- Main Content -->
+
+    <!-- Intro Section -->
     <main>
-      <!-- Intro Section -->
       <section class="intro">
-        <p>Rust developer based in Montreal. <br>Currently studying at <a href="https://www.mcgill.ca/study/2024-2025/faculties/arts/undergraduate/programs/bachelor-arts-ba-major-concentration-computer-science" target="_blank"> McGill University</a>
+        <p>
+          Developer based in Brooklyn & Montreal.<br />
+          Currently studying at
+          <a href="https://www.mcgill.ca/study/2024-2025/faculties/arts/undergraduate/programs/bachelor-arts-ba-major-concentration-computer-science" target="_blank">
+            McGill University
+          </a>
         </p>
       </section>
+    </main>
   </div>
+
+  <!-- Projects Section -->
   <section class="projects">
     <div class="project-grid left-indent">
-      <div class="project-card" style="background-image: url('images/proj1.png');">
-        <div class="project-info">
-          <h3>Portfolio Site</h3>
+
+      <div class="project-card-wrapper">
+        <div class="project-card" style="background-image: url('images/proj1.png');"></div>
+        <div class="project-caption">
+          <h4>rust 6502 emulator</h4>
           <p>A modern portfolio built with HTML, CSS, and JS. Smooth animations and responsive design.</p>
         </div>
       </div>
-      <div class="project-card" style="background-image: url('images/project2.jpg');">
-        <div class="project-info">
-          <h3>Ticketing App</h3>
+
+      <div class="project-card-wrapper inter-caption">
+        <div class="project-card" style="background-image: url('images/project2.jpg');"></div>
+        <div class="project-caption">
+          <h4>Ticketing App</h4>
           <p>Full-stack ticketing platform with Stripe payments, QR codes, and role-based access.</p>
         </div>
       </div>
-      <div class="project-card" style="background-image: url('images/project3.jpg');">
-        <div class="project-info">
-          <h3>Rust RAT</h3>
+
+      <div class="project-card-wrapper">
+        <div class="project-card" style="background-image: url('images/project3.jpg');"></div>
+        <div class="project-caption">
+          <h4>Rust RAT</h4>
           <p>Remote access tool written in Rust with stealth mode, persistence, and live command streaming.</p>
         </div>
       </div>
 
-      <div class="project-card" style="background-image: url('images/6502_emulator_proj.png');">
-        <div class="project-info">
-          <h3>Portfolio Site</h3>
-          <p>A modern portfolio built with HTML, CSS, and JS. Smooth animations and responsive design.</p>
+      <div class="project-card-wrapper">
+        <div class="project-card" style="background-image: url('images/6502_emulator_proj.png');"></div>
+        <div class="project-caption">
+          <h4>• <i>6502 Emulator</i> •</h4>
+          <p>An emulator for the 6502 microprocessor, written from scratch with performance in mind.</p>
         </div>
       </div>
-      <div class="project-card" style="background-image: url('images/project2.jpg');">
-        <div class="project-info">
-          <h3>Ticketing App</h3>
+
+      <div class="project-card-wrapper">
+        <div class="project-card" style="background-image: url('images/project2.jpg');"></div>
+        <div class="project-caption">
+          <h4>Ticketing App</h4>
           <p>Full-stack ticketing platform with Stripe payments, QR codes, and role-based access.</p>
         </div>
       </div>
-      <div class="project-card" style="background-image: url('images/project3.jpg');">
-        <div class="project-info">
-          <h3>Rust RAT</h3>
+
+      <div class="project-card-wrapper">
+        <div class="project-card" style="background-image: url('images/project3.jpg');"></div>
+        <div class="project-caption">
+          <h4>Rust RAT</h4>
           <p>Remote access tool written in Rust with stealth mode, persistence, and live command streaming.</p>
         </div>
       </div>
 
-      <!--- end of grid-->
     </div>
-  </section>
   </section>
 </body>
 </html>
