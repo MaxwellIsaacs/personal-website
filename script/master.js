@@ -1,148 +1,31 @@
-// Page data for different sections
+// Master script - shared functionality across all pages
+
+// Page data consolidated from individual modules
 const pageData = {
-  work: {
-    intro: `
-      <p>
-        Developer based in Brooklyn & Montreal.<br />
-        Currently studying at
-        <a href="https://www.mcgill.ca/study/2024-2025/faculties/arts/undergraduate/programs/bachelor-arts-ba-major-concentration-computer-science" target="_blank">
-          McGill University
-        </a>
-      </p>
-    `,
-    cards: [
-      {
-        image: 'images/light-party.png',
-        title: 'PartyPass',
-        year: '2023-2024',
-        tech: 'Django + Next.js',
-        description: 'Full-stack event ticketing platform with Stripe Connect integration, QR validation, and real-time analytics.'
-      }
-    ]
-  },
-  projects: {
-    intro: `
-      <p>
-        Personal projects and experiments.<br />
-        Building with
-        <a href="https://github.com/maxwellisaacs" target="_blank">
-          open source tools
-        </a>
-      </p>
-    `,
-    cards: [
-      {
-        image: 'images/remy-photo.png',
-        title: 'remy the rat',
-        year: '2025',
-        tech: 'rust',
-        description: 'Remote access tool written in Rust with stealth mode, persistence, and live command streaming.'
-      },
-      {
-        image: 'images/6502-photo.png',
-        title: '6502 emulator',
-        year: '2024–2025',
-        tech: 'rust + asm',
-        description: 'A rust based 6502 emulator with a simple assmebler'
-      },
-      {
-        image: 'images/lin-alg-photo.gif',
-        title: 'terrible linear algebra + neural network',
-        year: '2024',
-        tech: 'java',
-        description: 'A java based linear algebra library I wrote in tandem with my linear algebra class.'
-      },
-      {
-        image: 'images/mandelbrot-photo.png',
-        title: 'mandelbrot visualization',
-        year: '2024',
-        tech: 'c + javascript',
-        description: 'Two mandelbrot set visualizers, one written in p5.js and one written in C. Guess which one is faster lol.'
-      },
-      {
-        image: 'images/podcast-photo.png',
-        title: 'Illegal Empire Podcast',
-        year: '2023',
-        tech: 'Research + Audio Production',
-        description: 'Investigative podcast series examining how Latin American criminal networks infiltrate politics and industry. Featured conversations with leading academics on cartel economics, digital crime networks, and criminal governance.',
-        link: 'https://maxwellisaacs.github.io/epd/index.html'
-      },
-      {
-        image: 'images/6502_emulator_proj.png',
-        title: 'chessDL',
-        year: '2023',
-        tech: 'C++',
-        description: 'One of the ugliest (yet functional) versions of chess created using c++ & SDL'
-      },
-      {
-        image: 'images/project3.jpg',
-        title: 'huffman encoding',
-        year: '2022',
-        tech: 'Rust',
-        description: 'A compression algorithm implementation using Huffman coding techniques.'
-      }
-    ]
-  },
-  dotfiles: {
-    intro: `
-      <p>
-        Configuration files and development setup.<br />
-        Optimized for
-        <a href="https://github.com/maxwellisaacs" target="_blank">
-          productivity and aesthetics
-        </a>
-      </p>
-    `,
-    cards: [
-      {
-        image: 'images/three-dots.png',
-        title: 'arch linux setup',
-        year: '2024',
-        tech: 'arch + aur',
-        description: 'Custom Arch Linux installation with optimized kernel and minimal bloat.'
-      },
-      {
-        image: 'images/three-dots.png',
-        title: 'sway + waybar',
-        year: '2024',
-        tech: 'wayland compositor',
-        description: 'Tiling window manager for Wayland with custom status bar and keybindings.'
-      },
-      {
-        image: 'images/three-dots.png',
-        title: 'emacs configuration',
-        year: '2024',
-        tech: 'elisp + org-mode',
-        description: 'Comprehensive Emacs setup with Evil mode, LSP, and literate configuration.'
-      },
-      {
-        image: 'images/three-dots.png',
-        title: 'shell environment',
-        year: '2024',
-        tech: 'zsh + tmux',
-        description: 'Terminal setup with custom themes, aliases, and workflow automation.'
-      }
-    ]
-  },
-  contact: {
-    intro: `
-      <p>
-        Let's connect and collaborate.<br />
-        Reach out via
-        <a href="mailto:maxwellisaacs@gmail.com">
-          maxwellisaacs@gmail.com
-        </a>
-      </p>
-    `,
-    cards: []
-  }
+  work: null,      // Will be populated by work.js
+  projects: null,  // Will be populated by projects.js
+  dotfiles: null,  // Will be populated by dotfiles.js
+  contact: null    // Will be populated by contact.js
 };
 
+// Global state variables
 let currentPage = 'work';
 let isTransitioning = false;
 let isProjectView = false;
 let returnToPage = 'work';
 
+// Animation options: 'wave', 'flip', 'ripple'
+let currentAnimation = 'wave';
+
+// Initialize page data from modules
+function initializePageData() {
+  if (window.workPageData) pageData.work = window.workPageData;
+  if (window.projectsPageData) pageData.projects = window.projectsPageData;
+  if (window.dotfilesPageData) pageData.dotfiles = window.dotfilesPageData;
+  if (window.contactPageData) pageData.contact = window.contactPageData;
+}
+
+// Card HTML creation
 function createCardHTML(card) {
   return `
     <div class="project-card-wrapper">
@@ -159,6 +42,7 @@ function createCardHTML(card) {
   `;
 }
 
+// Navigation management
 function updateActiveNav(newPage) {
   document.querySelectorAll('.nav-item').forEach(item => {
     item.classList.remove('active');
@@ -168,9 +52,7 @@ function updateActiveNav(newPage) {
   });
 }
 
-// Animation options: 'wave', 'flip', 'ripple'
-let currentAnimation = 'wave';
-
+// Page transitions
 function transitionToPage(newPage) {
   if (isTransitioning || newPage === currentPage) return;
   
@@ -247,6 +129,7 @@ function setAnimationType(type) {
   }
 }
 
+// Card hover effects and interactions
 function setupCardHoverEffects() {
   document.querySelectorAll('.project-card').forEach(card => {
     // Remove existing listeners by cloning the element
@@ -284,8 +167,8 @@ function setupCardHoverEffects() {
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
 
-      const rotateX = -(y - centerY) / 100;
-      const rotateY = (x - centerX) / 100;
+      const rotateX = -(y - centerY) / 200;
+      const rotateY = (x - centerX) / 200;
 
       newCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
     });
@@ -301,6 +184,7 @@ function setupCardHoverEffects() {
   });
 }
 
+// Project detail view management
 function openProjectDetail(projectTitle) {
   if (isTransitioning) return;
   
@@ -313,23 +197,8 @@ function openProjectDetail(projectTitle) {
   const introContent = document.getElementById('intro-content');
   const bottomNav = document.getElementById('bottomNav');
   
-  // Show project detail page
-  projectDetail.classList.add('active');
-  
-  // Ensure clean scroll state after showing
-  setTimeout(() => {
-    projectDetail.scrollTop = 0;
-  }, 0);
-  
-  // Set up project content
+  // Set up project content based on title
   setupProjectContent(projectTitle);
-  
-  // Ensure hero starts in full state
-  const projectHero = projectDetail.querySelector('.project-hero');
-  const projectContent = projectDetail.querySelector('.project-content');
-  
-  if (projectHero) projectHero.classList.remove('scrolled');
-  if (projectContent) projectContent.classList.remove('visible');
   
   // Hide main content
   mainContent.style.display = 'none';
@@ -345,10 +214,14 @@ function openProjectDetail(projectTitle) {
     </a>
   `;
   
-  // Set up scroll animation immediately after transition
-  setTimeout(() => {
-    setupProjectScrollAnimation();
-  }, 300); // Wait for CSS transition
+  // Show project detail page
+  projectDetail.classList.add('active');
+  
+  // Scroll to top of project detail
+  projectDetail.scrollTo(0, 0);
+  
+  // Set up scroll animation for project detail
+  setupProjectScrollAnimation();
   
   // Trigger counter animations for PartyPass
   if (projectTitle && projectTitle.toLowerCase().includes('partypass')) {
@@ -400,11 +273,12 @@ function closeProjectDetail() {
   }, 300);
 }
 
+// Project content setup (contains all the detailed project content from original file)
 function setupProjectContent(projectTitle) {
   const projectDetail = document.getElementById('project-detail');
   
   if (projectTitle && projectTitle.toLowerCase().includes('partypass')) {
-    // Minimalist PartyPass page with Emacs-style tech stack
+    // Complete PartyPass page with all original content
     projectDetail.innerHTML = `
       <!-- Hero Section -->
       <section class="project-hero" style="background: #3D3B36; position: relative; overflow: hidden;">
@@ -472,7 +346,7 @@ function setupProjectContent(projectTitle) {
         </div>
       </section>
       
-      <!-- Minimalist Content -->
+      <!-- Full PartyPass Content -->
       <div class="project-content">
         <!-- My Role Section -->
         <section style="padding: 80px 64px; max-width: 1200px; margin: 0 auto;">
@@ -528,15 +402,11 @@ function setupProjectContent(projectTitle) {
         
         <!-- Tech Stack Emacs Buffer -->
         <section style="padding: 80px 64px; max-width: 1200px; margin: 0 auto;">
-          <!-- Authentic Emacs Buffer -->
           <div style="background: #1d2021; font-family: 'Monaco', 'Menlo', monospace; font-size: 0.85rem; overflow: hidden; border: 1px solid #3c3836;">
-            <!-- Emacs top bar -->
             <div style="background: #3c3836; color: #ebdbb2; padding: 4px 12px; font-size: 0.8rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #504945;">
               <span style="color: #fabd2f;">emacsclient</span>
               <span style="color: #83a598;">partypass_stack.py</span>
             </div>
-            
-            <!-- Buffer content -->
             <div style="padding: 20px; background: #1d2021; color: #ebdbb2; line-height: 1.7;">
               <div style="color: #928374; margin-bottom: 24px;">
                 <div style="margin-bottom: 4px;">"""</div>
@@ -547,7 +417,6 @@ function setupProjectContent(projectTitle) {
                 <div style="margin-bottom: 4px;">================================================================</div>
                 <div>"""</div>
               </div>
-              
               <div style="margin-bottom: 24px;">
                 <span style="color: #fb4934;">frontend</span><span style="color: #fe8019;"> = </span><span style="color: #ebdbb2;">{</span>
                 <div style="margin-left: 20px;">
@@ -558,7 +427,6 @@ function setupProjectContent(projectTitle) {
                 </div>
                 <span style="color: #ebdbb2;">}</span>
               </div>
-              
               <div style="margin-bottom: 24px;">
                 <span style="color: #fb4934;">backend</span><span style="color: #fe8019;"> = </span><span style="color: #ebdbb2;">{</span>
                 <div style="margin-left: 20px;">
@@ -569,7 +437,6 @@ function setupProjectContent(projectTitle) {
                 </div>
                 <span style="color: #ebdbb2;">}</span>
               </div>
-              
               <div style="margin-bottom: 24px;">
                 <span style="color: #fb4934;">infrastructure</span><span style="color: #fe8019;"> = </span><span style="color: #ebdbb2;">{</span>
                 <div style="margin-left: 20px;">
@@ -580,13 +447,10 @@ function setupProjectContent(projectTitle) {
                 </div>
                 <span style="color: #ebdbb2;">}</span>
               </div>
-              
               <div style="color: #928374; margin-bottom: 20px;">
                 <span style="color: #fb4934;">print</span><span style="color: #ebdbb2;">(</span><span style="color: #8ec07c;">"Security: JWT + cryptographic validation"</span><span style="color: #ebdbb2;">)</span>
               </div>
             </div>
-            
-            <!-- Authentic Emacs modeline with proper spacing -->
             <div style="background: #3c3836; color: #ebdbb2; padding: 4px 12px; font-size: 0.7rem; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #504945;">
               <div style="display: flex; align-items: center; gap: 16px;">
                 <span style="color: #ebdbb2;">**-</span>
@@ -609,7 +473,6 @@ function setupProjectContent(projectTitle) {
         <!-- Development Toolbox -->
         <section style="padding: 80px 64px; max-width: 1200px; margin: 0 auto;">
           <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 600; color: #2C2923; margin: 0 0 48px 0;">Development Toolbox</h2>
-          
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 32px;">
             <div style="padding: 24px; border: 1px solid #e5e5e5;">
               <h3 style="font-family: 'Playfair Display', serif; font-size: 1.2rem; color: #2C2923; margin: 0 0 12px;">Editor & Environment</h3>
@@ -620,7 +483,6 @@ function setupProjectContent(projectTitle) {
                 <div>Fish shell + Starship</div>
               </div>
             </div>
-            
             <div style="padding: 24px; border: 1px solid #e5e5e5;">
               <h3 style="font-family: 'Playfair Display', serif; font-size: 1.2rem; color: #2C2923; margin: 0 0 12px;">AI & Assistance</h3>
               <div style="font-family: 'Georgia', serif; font-size: 0.95rem; color: #555; line-height: 1.6;">
@@ -629,7 +491,6 @@ function setupProjectContent(projectTitle) {
                 <div style="margin-bottom: 6px;">ChatGPT-4</div>
               </div>
             </div>
-            
             <div style="padding: 24px; border: 1px solid #e5e5e5;">
               <h3 style="font-family: 'Playfair Display', serif; font-size: 1.2rem; color: #2C2923; margin: 0 0 12px;">DevOps & Deployment</h3>
               <div style="font-family: 'Georgia', serif; font-size: 0.95rem; color: #555; line-height: 1.6;">
@@ -639,7 +500,6 @@ function setupProjectContent(projectTitle) {
                 <div>Cloudinary</div>
               </div>
             </div>
-            
             <div style="padding: 24px; border: 1px solid #e5e5e5;">
               <h3 style="font-family: 'Playfair Display', serif; font-size: 1.2rem; color: #2C2923; margin: 0 0 12px;">Design & Planning</h3>
               <div style="font-family: 'Georgia', serif; font-size: 0.95rem; color: #555; line-height: 1.6;">
@@ -655,28 +515,24 @@ function setupProjectContent(projectTitle) {
         <!-- Impact Metrics -->
         <section style="padding: 80px 64px; max-width: 1200px; margin: 0 auto;">
           <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 600; color: #2C2923; margin: 0 0 48px 0;">Impact & Results</h2>
-          
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px; margin-bottom: 48px;">
             <div>
               <div style="font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; color: #2C2923; line-height: 1; margin-bottom: 8px;">$125,000+</div>
               <div style="font-family: 'Georgia', serif; font-size: 1.1rem; color: #666; margin-bottom: 12px;">Fraud Prevented</div>
               <p style="font-family: 'Georgia', serif; font-size: 0.95rem; color: #555; line-height: 1.6; margin: 0;">Through cryptographic validation across 200+ events.</p>
             </div>
-            
             <div>
               <div style="font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; color: #2C2923; line-height: 1; margin-bottom: 8px;">85%</div>
               <div style="font-family: 'Georgia', serif; font-size: 1.1rem; color: #666; margin-bottom: 12px;">Faster Check-ins</div>
               <p style="font-family: 'Georgia', serif; font-size: 0.95rem; color: #555; line-height: 1.6; margin: 0;">Instant QR validation eliminates lines.</p>
             </div>
           </div>
-          
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px;">
             <div>
               <div style="font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; color: #2C2923; line-height: 1; margin-bottom: 8px;">18,000+</div>
               <div style="font-family: 'Georgia', serif; font-size: 1.1rem; color: #666; margin-bottom: 12px;">Tickets Processed</div>
               <p style="font-family: 'Georgia', serif; font-size: 0.95rem; color: #555; line-height: 1.6; margin: 0;">From intimate gatherings to major festivals.</p>
             </div>
-            
             <div>
               <div style="font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; color: #2C2923; line-height: 1; margin-bottom: 8px;">99.9%</div>
               <div style="font-family: 'Georgia', serif; font-size: 1.1rem; color: #666; margin-bottom: 12px;">System Uptime</div>
@@ -687,7 +543,7 @@ function setupProjectContent(projectTitle) {
       </div>
     `;
   } else if (projectTitle && projectTitle.toLowerCase().includes('podcast')) {
-    // Podcast page with simpler design
+    // Podcast page with full content
     projectDetail.innerHTML = `
       <!-- Hero Section -->
       <section class="project-hero" style="background: #2C2923;">
@@ -902,7 +758,7 @@ function setupProjectContent(projectTitle) {
       </div>
     `;
   } else {
-    // 6502 emulator content with modern design
+    // Complete 6502 emulator content with modern design
     projectDetail.innerHTML = `
       <!-- Hero Section -->
       <section class="project-hero" style="background: linear-gradient(135deg, #556B2F 0%, #8FBC8F 100%);">
@@ -1087,6 +943,7 @@ function setupProjectContent(projectTitle) {
   }
 }
 
+// Project scroll animations
 function setupProjectScrollAnimation() {
   const projectDetail = document.getElementById('project-detail');
   const projectHero = projectDetail.querySelector('.project-hero');
@@ -1094,16 +951,16 @@ function setupProjectScrollAnimation() {
   
   if (!projectHero || !projectContent) return;
   
+  // Track the current state to prevent going backwards
+  let hasReachedHero = false;
+  
   // Remove any existing scroll listeners
-  if (projectDetail.handleProjectScroll) {
-    projectDetail.removeEventListener('scroll', projectDetail.handleProjectScroll);
-  }
+  projectDetail.removeEventListener('scroll', handleProjectScroll);
   
   // Define the scroll handler
   function handleProjectScroll() {
     const scrollY = projectDetail.scrollTop;
-    const heroHeight = projectHero.offsetHeight;
-    const heroTrigger = heroHeight * 0.4; // Use hero height instead of viewport
+    const heroTrigger = window.innerHeight * 0.15; // Very smooth, early trigger
     
     // Find live preview container for fade effect
     const livePreview = projectDetail.querySelector('.live-preview-container');
@@ -1119,23 +976,23 @@ function setupProjectScrollAnimation() {
       livePreview.style.transform = `translateY(${fadeProgress * 20}px)`;
     }
     
-    // Bidirectional scroll handling
-    if (scrollY > heroTrigger) {
+    // One-way progression only
+    if (!hasReachedHero && scrollY > heroTrigger) {
       // Transition to hero (island) state
+      hasReachedHero = true;
       projectHero.classList.add('scrolled');
       projectContent.classList.add('visible');
-    } else {
-      // Return to full-screen state
-      projectHero.classList.remove('scrolled');
-      projectContent.classList.remove('visible');
     }
   }
   
-  // Store reference for cleanup and add listener
-  projectDetail.handleProjectScroll = handleProjectScroll;
+  // Add scroll listener to project detail container
   projectDetail.addEventListener('scroll', handleProjectScroll);
+  
+  // Store reference for cleanup
+  projectDetail.handleProjectScroll = handleProjectScroll;
 }
 
+// Utility functions
 function scrollToTop() {
   const projectDetail = document.getElementById('project-detail');
   if (projectDetail) {
@@ -1150,6 +1007,7 @@ function capitalizeFirst(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+// Navigation setup
 function setupNavigation() {
   document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', (e) => {
@@ -1160,6 +1018,7 @@ function setupNavigation() {
   });
 }
 
+// Scroll animations
 function setupScrollAnimation() {
   const section = document.querySelector('.projects');
   const revealOnScroll = () => {
@@ -1175,6 +1034,7 @@ function setupScrollAnimation() {
   window.addEventListener('scroll', revealOnScroll);
 }
 
+// Icon animations
 function setupIconAnimations() {
   const icons = document.querySelectorAll('.animated-icon');
 
@@ -1249,23 +1109,35 @@ function animateCounters() {
 
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialize page data from modules
+  initializePageData();
+  
   // Load initial content for the work page
   const introContent = document.getElementById('intro-content');
   const projectGrid = document.getElementById('project-grid');
   
   // Set initial intro content
-  introContent.innerHTML = pageData[currentPage].intro;
+  if (pageData[currentPage]) {
+    introContent.innerHTML = pageData[currentPage].intro;
+    
+    // Load initial cards
+    pageData[currentPage].cards.forEach((card, index) => {
+      const cardElement = document.createElement('div');
+      cardElement.innerHTML = createCardHTML(card);
+      const cardWrapper = cardElement.firstElementChild;
+      projectGrid.appendChild(cardWrapper);
+    });
+  }
   
-  // Load initial cards
-  pageData[currentPage].cards.forEach((card, index) => {
-    const cardElement = document.createElement('div');
-    cardElement.innerHTML = createCardHTML(card);
-    const cardWrapper = cardElement.firstElementChild;
-    projectGrid.appendChild(cardWrapper);
-  });
-  
+  // Initialize all functionality
   setupCardHoverEffects();
   setupNavigation();
   setupScrollAnimation();
   setupIconAnimations();
+  
+  // Initialize page-specific functionality
+  if (window.initWorkPage) window.initWorkPage();
+  if (window.initProjectsPage) window.initProjectsPage();
+  if (window.initDotfilesPage) window.initDotfilesPage();
+  if (window.initContactPage) window.initContactPage();
 });

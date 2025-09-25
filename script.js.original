@@ -313,23 +313,8 @@ function openProjectDetail(projectTitle) {
   const introContent = document.getElementById('intro-content');
   const bottomNav = document.getElementById('bottomNav');
   
-  // Show project detail page
-  projectDetail.classList.add('active');
-  
-  // Ensure clean scroll state after showing
-  setTimeout(() => {
-    projectDetail.scrollTop = 0;
-  }, 0);
-  
-  // Set up project content
+  // Set up project content based on title
   setupProjectContent(projectTitle);
-  
-  // Ensure hero starts in full state
-  const projectHero = projectDetail.querySelector('.project-hero');
-  const projectContent = projectDetail.querySelector('.project-content');
-  
-  if (projectHero) projectHero.classList.remove('scrolled');
-  if (projectContent) projectContent.classList.remove('visible');
   
   // Hide main content
   mainContent.style.display = 'none';
@@ -345,10 +330,14 @@ function openProjectDetail(projectTitle) {
     </a>
   `;
   
-  // Set up scroll animation immediately after transition
-  setTimeout(() => {
-    setupProjectScrollAnimation();
-  }, 300); // Wait for CSS transition
+  // Show project detail page
+  projectDetail.classList.add('active');
+  
+  // Scroll to top of project detail
+  projectDetail.scrollTo(0, 0);
+  
+  // Set up scroll animation for project detail
+  setupProjectScrollAnimation();
   
   // Trigger counter animations for PartyPass
   if (projectTitle && projectTitle.toLowerCase().includes('partypass')) {
@@ -1094,16 +1083,16 @@ function setupProjectScrollAnimation() {
   
   if (!projectHero || !projectContent) return;
   
+  // Track the current state to prevent going backwards
+  let hasReachedHero = false;
+  
   // Remove any existing scroll listeners
-  if (projectDetail.handleProjectScroll) {
-    projectDetail.removeEventListener('scroll', projectDetail.handleProjectScroll);
-  }
+  projectDetail.removeEventListener('scroll', handleProjectScroll);
   
   // Define the scroll handler
   function handleProjectScroll() {
     const scrollY = projectDetail.scrollTop;
-    const heroHeight = projectHero.offsetHeight;
-    const heroTrigger = heroHeight * 0.4; // Use hero height instead of viewport
+    const heroTrigger = window.innerHeight * 0.15; // Very smooth, early trigger
     
     // Find live preview container for fade effect
     const livePreview = projectDetail.querySelector('.live-preview-container');
@@ -1119,21 +1108,20 @@ function setupProjectScrollAnimation() {
       livePreview.style.transform = `translateY(${fadeProgress * 20}px)`;
     }
     
-    // Bidirectional scroll handling
-    if (scrollY > heroTrigger) {
+    // One-way progression only
+    if (!hasReachedHero && scrollY > heroTrigger) {
       // Transition to hero (island) state
+      hasReachedHero = true;
       projectHero.classList.add('scrolled');
       projectContent.classList.add('visible');
-    } else {
-      // Return to full-screen state
-      projectHero.classList.remove('scrolled');
-      projectContent.classList.remove('visible');
     }
   }
   
-  // Store reference for cleanup and add listener
-  projectDetail.handleProjectScroll = handleProjectScroll;
+  // Add scroll listener to project detail container
   projectDetail.addEventListener('scroll', handleProjectScroll);
+  
+  // Store reference for cleanup
+  projectDetail.handleProjectScroll = handleProjectScroll;
 }
 
 function scrollToTop() {

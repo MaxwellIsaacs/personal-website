@@ -6,7 +6,13 @@
   <title>max's portfolio</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-  <script src="script.js" defer></script>
+  <!-- Load page-specific modules first -->
+  <script src="script/work.js" defer></script>
+  <script src="script/projects.js" defer></script>
+  <script src="script/dotfiles.js" defer></script>
+  <script src="script/contact.js" defer></script>
+  <!-- Load master script last -->
+  <script src="script/master.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
@@ -47,18 +53,11 @@
 
     <!-- Intro Section -->
     <main>
-      <section class="intro">
+      <section class="intro" style="margin-top: 0; padding-top: 80px;">
         <p>
           Email me at
-          <a href="https://www.mcgill.ca/study/2024-2025/faculties/arts/undergraduate/programs/bachelor-arts-ba-major-concentration-computer-science" target="_blank">
-            maxwellaisaacs@gmail.com
-          </a>
-         <br />
-        </p>
-        <p>
-          ___ me at 
-          <a href="https://www.mcgill.ca/study/2024-2025/faculties/arts/undergraduate/programs/bachelor-arts-ba-major-concentration-computer-science" target="_blank">
-            maxwellaisaacs@gmail.com
+          <a href="mailto:maxwellisaacs@gmail.com">
+            maxwellisaacs@gmail.com
           </a>
          <br />
         </p>
@@ -66,10 +65,10 @@
     </main>
   </div>
 <div class="bottom-nav">
-  <a href="index.html" class="nav-item">Projects</a>
+  <a href="work.html" class="nav-item">Work</a>
+  <a href="projects.html" class="nav-item">Projects</a>
   <a href="dotfiles.html" class="nav-item">Dotfiles</a>
-  <a href="about.html" class="nav-item">About</a>
-  <a href="#" class="nav-item active">Contact</a>
+  <a href="contact.html" class="nav-item active">Contact</a>
 </div>
 <footer class="footer-spacer"></footer>
 

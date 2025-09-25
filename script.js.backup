@@ -46,7 +46,7 @@ const pageData = {
         description: 'A rust based 6502 emulator with a simple assmebler'
       },
       {
-        image: 'images/lin-alg-photo.gif',
+        image: 'images/.png',
         title: 'terrible linear algebra + neural network',
         year: '2024',
         tech: 'java',
@@ -259,7 +259,7 @@ function setupCardHoverEffects() {
       const title = cardWrapper.querySelector('.caption-left')?.textContent;
       
       // Open project detail for specific projects
-      if (title && (title.toLowerCase().includes('6502') || title.toLowerCase().includes('partypass') || title.toLowerCase().includes('podcast') || title.toLowerCase().includes('remy') || title.toLowerCase().includes('linear algebra') || title.toLowerCase().includes('mandelbrot') || title.toLowerCase().includes('chess') || title.toLowerCase().includes('huffman'))) {
+      if (title && (title.toLowerCase().includes('6502') || title.toLowerCase().includes('partypass') || title.toLowerCase().includes('podcast'))) {
         openProjectDetail(title);
       }
     });
@@ -268,8 +268,46 @@ function setupCardHoverEffects() {
     const cardWrapper = newCard.closest('.project-card-wrapper');
     const title = cardWrapper?.querySelector('.caption-left')?.textContent;
     if (title && title.toLowerCase().includes('partypass')) {
-      // Add the simple modern animation class
+      // Add the special PartyPass animation class
       newCard.classList.add('partypass-card');
+      
+      // Create additional floating bubbles with JavaScript for more variety
+      const createBubble = (size, delay, top, left) => {
+        const bubble = document.createElement('div');
+        
+        // Calculate background position to match the exact same spot as the light image
+        const cardRect = newCard.getBoundingClientRect();
+        const bubbleTop = (top / 100) * cardRect.height;
+        const bubbleLeft = (left / 100) * cardRect.width;
+        
+        // Position background to show the exact same area as the light background
+        const bgPosX = -bubbleLeft + (size / 2);
+        const bgPosY = -bubbleTop + (size / 2);
+        
+        bubble.style.cssText = `
+          position: absolute;
+          width: ${size}px;
+          height: ${size}px;
+          border-radius: 50%;
+          background-image: url('images/dark-party.png');
+          background-size: ${cardRect.width}px ${cardRect.height}px;
+          background-position: ${bgPosX}px ${bgPosY}px;
+          background-repeat: no-repeat;
+          opacity: 1;
+          pointer-events: none;
+          top: ${top}%;
+          left: ${left}%;
+          animation: floatBubble${Math.random() > 0.5 ? '1' : '2'} ${8 + Math.random() * 4}s infinite ease-in-out;
+          animation-delay: ${delay}s;
+          z-index: 2;
+        `;
+        newCard.appendChild(bubble);
+      };
+      
+      // Create a few positioned bubbles
+      createBubble(40, 1, 25, 20);
+      createBubble(55, 3, 65, 75);
+      createBubble(35, 5, 45, 50);
       
       // Start the animation
       setTimeout(() => {
@@ -295,7 +333,7 @@ function setupCardHoverEffects() {
     });
     
     // Add cursor pointer for clickable cards
-    if (title && (title.toLowerCase().includes('6502') || title.toLowerCase().includes('partypass') || title.toLowerCase().includes('podcast') || title.toLowerCase().includes('remy') || title.toLowerCase().includes('linear algebra') || title.toLowerCase().includes('mandelbrot') || title.toLowerCase().includes('chess') || title.toLowerCase().includes('huffman'))) {
+    if (title && (title.toLowerCase().includes('6502') || title.toLowerCase().includes('partypass') || title.toLowerCase().includes('podcast'))) {
       newCard.style.cursor = 'pointer';
     }
   });
@@ -313,23 +351,8 @@ function openProjectDetail(projectTitle) {
   const introContent = document.getElementById('intro-content');
   const bottomNav = document.getElementById('bottomNav');
   
-  // Show project detail page
-  projectDetail.classList.add('active');
-  
-  // Ensure clean scroll state after showing
-  setTimeout(() => {
-    projectDetail.scrollTop = 0;
-  }, 0);
-  
-  // Set up project content
+  // Set up project content based on title
   setupProjectContent(projectTitle);
-  
-  // Ensure hero starts in full state
-  const projectHero = projectDetail.querySelector('.project-hero');
-  const projectContent = projectDetail.querySelector('.project-content');
-  
-  if (projectHero) projectHero.classList.remove('scrolled');
-  if (projectContent) projectContent.classList.remove('visible');
   
   // Hide main content
   mainContent.style.display = 'none';
@@ -345,10 +368,14 @@ function openProjectDetail(projectTitle) {
     </a>
   `;
   
-  // Set up scroll animation immediately after transition
-  setTimeout(() => {
-    setupProjectScrollAnimation();
-  }, 300); // Wait for CSS transition
+  // Show project detail page
+  projectDetail.classList.add('active');
+  
+  // Scroll to top of project detail
+  projectDetail.scrollTo(0, 0);
+  
+  // Set up scroll animation for project detail
+  setupProjectScrollAnimation();
   
   // Trigger counter animations for PartyPass
   if (projectTitle && projectTitle.toLowerCase().includes('partypass')) {
@@ -391,10 +418,6 @@ function closeProjectDetail() {
   // Re-setup navigation listeners
   setupNavigation();
   
-  // Ensure main page scrolls to top and is focusable
-  window.scrollTo(0, 0);
-  document.body.focus();
-  
   setTimeout(() => {
     isTransitioning = false;
   }, 300);
@@ -407,80 +430,42 @@ function setupProjectContent(projectTitle) {
     // Minimalist PartyPass page with Emacs-style tech stack
     projectDetail.innerHTML = `
       <!-- Hero Section -->
-      <section class="project-hero" style="background: #3D3B36; position: relative; overflow: hidden;">
-        <div class="project-hero-content" style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; max-width: 1400px; margin: 0 auto; padding: 100px 64px;">
-          <div>
-            <h1 class="project-hero-title" style="font-family: 'Playfair Display', 'Times New Roman', serif; font-weight: 400; letter-spacing: -0.02em; color: #E8E3D3; margin-bottom: 24px;">
-              <a href="https://partypass.vip" target="_blank" style="color: inherit; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#C7BCA1'" onmouseout="this.style.color='#E8E3D3'">
-                PartyPass<span style="font-size: 0.6em; font-weight: 300; opacity: 0.8;">.vip</span>
-              </a>
-            </h1>
-            <p class="project-hero-subtitle" style="font-family: 'Georgia', serif; font-weight: 400; color: #C7BCA1; line-height: 1.6; max-width: 520px; font-size: 1.15rem; margin-bottom: 48px;">Full-stack event ticketing platform with enterprise-grade security. Built from the ground up with cryptographic ticket validation, instant Stripe Connect payouts, and a full suite of host tools for analytics and event management.</p>
-            <div class="project-hero-meta" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 400px;">
-              <div>
-                <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">built</span>
-                <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">2025</span>
-              </div>
-              <div style="position: relative;">
-                <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">stack</span>
-                <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400; cursor: pointer; transition: color 0.3s ease;" onmouseover="this.nextElementSibling.style.opacity='1'; this.nextElementSibling.style.visibility='visible'" onmouseout="this.nextElementSibling.style.opacity='0'; this.nextElementSibling.style.visibility='hidden'">django/next</span>
-                <div style="position: absolute; top: 100%; left: -20px; background: #3D3B36; color: #E8E3D3; padding: 16px 20px; border-radius: 6px; font-family: 'Georgia', serif; font-size: 0.9rem; white-space: nowrap; opacity: 0; visibility: hidden; transition: all 0.3s ease; margin-top: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); z-index: 10; border: 1px solid #8B7D6B;">
-                  <div style="margin-bottom: 8px; color: #C7BCA1; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Full Stack</div>
-                  <div style="line-height: 1.5;">
-                    <div style="margin-bottom: 4px;"><span style="color: #8B7D6B;">Frontend:</span> Next.js 13 + TypeScript</div>
-                    <div style="margin-bottom: 4px;"><span style="color: #8B7D6B;">Backend:</span> Django 4.2 + DRF</div>
-                    <div style="margin-bottom: 4px;"><span style="color: #8B7D6B;">Database:</span> PostgreSQL + Redis</div>
-                    <div><span style="color: #8B7D6B;">Payments:</span> Stripe Connect</div>
-                  </div>
+      <section class="project-hero" style="background: #3D3B36;">
+        <div class="project-hero-content">
+          <h1 class="project-hero-title" style="font-family: 'Playfair Display', 'Times New Roman', serif; font-weight: 400; letter-spacing: -0.02em; color: #E8E3D3;">
+            <a href="https://partypass.vip" target="_blank" style="color: inherit; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#C7BCA1'" onmouseout="this.style.color='#E8E3D3'">
+              PartyPass<span style="font-size: 0.6em; font-weight: 300; opacity: 0.8;">.vip</span>
+            </a>
+          </h1>
+          <p class="project-hero-subtitle" style="font-family: 'Georgia', serif; font-weight: 400; color: #C7BCA1; line-height: 1.6; max-width: 520px; font-size: 1.15rem;">Event ticketing that doesn't suck. Cryptographic validation, instant payouts, no bullshit.</p>
+          <div class="project-hero-meta" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin: 48px 0; max-width: 400px;">
+            <div>
+              <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">built</span>
+              <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">2025</span>
+            </div>
+            <div style="position: relative;">
+              <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">stack</span>
+              <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400; cursor: pointer; transition: color 0.3s ease;" onmouseover="this.nextElementSibling.style.opacity='1'; this.nextElementSibling.style.visibility='visible'" onmouseout="this.nextElementSibling.style.opacity='0'; this.nextElementSibling.style.visibility='hidden'">django/next</span>
+              <div style="position: absolute; top: 100%; left: -20px; background: #3D3B36; color: #E8E3D3; padding: 16px 20px; border-radius: 6px; font-family: 'Georgia', serif; font-size: 0.9rem; white-space: nowrap; opacity: 0; visibility: hidden; transition: all 0.3s ease; margin-top: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); z-index: 10; border: 1px solid #8B7D6B;">
+                <div style="margin-bottom: 8px; color: #C7BCA1; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Full Stack</div>
+                <div style="line-height: 1.5;">
+                  <div style="margin-bottom: 4px;"><span style="color: #8B7D6B;">Frontend:</span> Next.js 13 + TypeScript</div>
+                  <div style="margin-bottom: 4px;"><span style="color: #8B7D6B;">Backend:</span> Django 4.2 + DRF</div>
+                  <div style="margin-bottom: 4px;"><span style="color: #8B7D6B;">Database:</span> PostgreSQL + Redis</div>
+                  <div><span style="color: #8B7D6B;">Payments:</span> Stripe Connect</div>
                 </div>
               </div>
-              <div>
-                <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">status</span>
-                <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">live</span>
-              </div>
             </div>
-          </div>
-          
-          <!-- Live Preview Window -->
-          <div class="live-preview-container" style="position: relative; width: 100%; max-width: 800px; height: 600px;">
-            <div class="browser-chrome" style="background: #2C2C2C; border-radius: 16px 16px 0 0; padding: 16px 20px; display: flex; align-items: center; gap: 10px;">
-              <div style="width: 16px; height: 16px; border-radius: 50%; background: #FF5F57;"></div>
-              <div style="width: 16px; height: 16px; border-radius: 50%; background: #FFBD2E;"></div>
-              <div style="width: 16px; height: 16px; border-radius: 50%; background: #28CA42;"></div>
-              <div style="flex: 1; margin-left: 20px; background: #1C1C1C; border-radius: 8px; padding: 8px 16px; color: #C7BCA1; font-family: 'Georgia', serif; font-size: 0.9rem;">
-                partypass.vip
-              </div>
+            <div>
+              <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">status</span>
+              <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">live</span>
             </div>
-            <div class="preview-frame" style="width: 100%; height: 560px; border-radius: 0 0 16px 16px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.4); border: 1px solid #8B7D6B; border-top: none; position: relative;">
-              <iframe 
-                src="https://partypass.vip" 
-                style="width: 100%; height: 100%; border: none; background: white; opacity: 0; transition: opacity 0.3s ease;"
-                loading="eager"
-                sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation"
-                title="PartyPass Live Preview"
-                onload="this.style.opacity='1'"
-                onerror="this.nextElementSibling.style.display='block'">
-              </iframe>
-              <div style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: #C7BCA1; font-family: 'Georgia', serif;">
-                <div style="font-size: 1.2rem; margin-bottom: 8px;">🚀</div>
-                <div style="font-size: 0.9rem;">Visit PartyPass.vip</div>
-                <a href="https://partypass.vip" target="_blank" style="color: #E8E3D3; text-decoration: underline; font-size: 0.8rem;">Open in new tab</a>
-              </div>
-            </div>
-            <div class="preview-overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%); pointer-events: none; border-radius: 16px;"></div>
           </div>
         </div>
       </section>
       
       <!-- Minimalist Content -->
       <div class="project-content">
-        <!-- My Role Section -->
-        <section style="padding: 80px 64px; max-width: 1200px; margin: 0 auto;">
-          <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 600; color: #2C2923; margin: 0 0 32px 0; line-height: 1.2;">My Role</h2>
-          <p style="font-family: 'Georgia', serif; font-size: 1.2rem; line-height: 1.8; color: #333; margin-bottom: 40px; max-width: 900px;">As the sole architect and full-stack developer, I designed and built the entire PartyPass platform from the ground up as a freelance project. I architected a complete event ticketing ecosystem with complex multi-role user management, real-time payment processing, and automated ticket generation - handling everything from database schema design and API architecture to responsive frontend development and production deployment.</p>
-          <p style="font-family: 'Georgia', serif; font-size: 1.1rem; line-height: 1.7; color: #444; max-width: 900px;">The platform demonstrates my ability to independently deliver enterprise-grade software with sophisticated business logic, handling thousands of concurrent users and processing real money transactions through Stripe's payment infrastructure. Built with microservices architecture, async task processing, and comprehensive security measures - all developed solo over 8 months.</p>
-        </section>
-        
         <!-- Problem & Solution -->
         <section style="padding: 80px 64px; max-width: 1200px; margin: 0 auto;">
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;">
@@ -500,28 +485,16 @@ function setupProjectContent(projectTitle) {
           <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 600; color: #2C2923; margin: 0 0 48px 0;">Security Features</h2>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 48px;">
             <div>
-              <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px;">Multi-Layer Authentication</h3>
-              <p style="font-family: 'Georgia', serif; font-size: 1rem; color: #555; line-height: 1.6; margin: 0;">Token-based API auth, account lockout protection, rate limiting, and 2FA via SMS with password history tracking.</p>
+              <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px;">Tamper-Proof</h3>
+              <p style="font-family: 'Georgia', serif; font-size: 1rem; color: #555; line-height: 1.6; margin: 0;">Any modification to ticket data invalidates the cryptographic signature immediately.</p>
             </div>
             <div>
-              <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px;">PCI-Compliant Payments</h3>
-              <p style="font-family: 'Georgia', serif; font-size: 1rem; color: #555; line-height: 1.6; margin: 0;">Stripe webhook verification, idempotency protection, transaction locking, and zero card data storage.</p>
+              <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px;">Time-Locked</h3>
+              <p style="font-family: 'Georgia', serif; font-size: 1rem; color: #555; line-height: 1.6; margin: 0;">Tickets automatically expire after event ends, preventing resale fraud.</p>
             </div>
             <div>
-              <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px;">Defense-in-Depth</h3>
-              <p style="font-family: 'Georgia', serif; font-size: 1rem; color: #555; line-height: 1.6; margin: 0;">HTTPS enforcement, HSTS headers, CSRF protection, CORS restrictions, and comprehensive security monitoring.</p>
-            </div>
-            <div>
-              <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px;">Input Validation</h3>
-              <p style="font-family: 'Georgia', serif; font-size: 1rem; color: #555; line-height: 1.6; margin: 0;">Server-side validation through DRF serializers, SQL injection prevention via Django ORM, and email enumeration protection.</p>
-            </div>
-            <div>
-              <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px;">Security Monitoring</h3>
-              <p style="font-family: 'Georgia', serif; font-size: 1rem; color: #555; line-height: 1.6; margin: 0;">Comprehensive audit trails, login attempt tracking with IP monitoring, and database security logging for all critical operations.</p>
-            </div>
-            <div>
-              <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px;">Cryptographic Validation</h3>
-              <p style="font-family: 'Georgia', serif; font-size: 1rem; color: #555; line-height: 1.6; margin: 0;">Tamper-proof tickets with embedded signatures that work offline and automatically expire after events.</p>
+              <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px;">Offline Ready</h3>
+              <p style="font-family: 'Georgia', serif; font-size: 1rem; color: #555; line-height: 1.6; margin: 0;">Validation works without internet connection using embedded signatures.</p>
             </div>
           </div>
         </section>
@@ -627,6 +600,7 @@ function setupProjectContent(projectTitle) {
                 <div style="margin-bottom: 6px;">Claude Code</div>
                 <div style="margin-bottom: 6px;">GitHub Copilot</div>
                 <div style="margin-bottom: 6px;">ChatGPT-4</div>
+                <div>Cursor IDE</div>
               </div>
             </div>
             
@@ -636,14 +610,14 @@ function setupProjectContent(projectTitle) {
                 <div style="margin-bottom: 6px;">Docker + Compose</div>
                 <div style="margin-bottom: 6px;">GitHub Actions</div>
                 <div style="margin-bottom: 6px;">Render Cloud</div>
-                <div>Cloudinary</div>
+                <div>Cloudflare</div>
               </div>
             </div>
             
             <div style="padding: 24px; border: 1px solid #e5e5e5;">
               <h3 style="font-family: 'Playfair Display', serif; font-size: 1.2rem; color: #2C2923; margin: 0 0 12px;">Design & Planning</h3>
               <div style="font-family: 'Georgia', serif; font-size: 0.95rem; color: #555; line-height: 1.6;">
-                <div style="margin-bottom: 6px;">Org-roam</div>
+                <div style="margin-bottom: 6px;">Figma</div>
                 <div style="margin-bottom: 6px;">Notion</div>
                 <div style="margin-bottom: 6px;">Excalidraw</div>
                 <div>Linear</div>
@@ -748,156 +722,6 @@ function setupProjectContent(projectTitle) {
               <p style="font-family: 'Georgia', serif; font-size: 1rem; color: #555; line-height: 1.6; margin: 0;">Criminal governance in Brazilian favelas and the societal dynamics that allow organized gangs to exert local control.</p>
             </div>
           </div>
-        </section>
-      </div>
-    `;
-  } else if (projectTitle && projectTitle.toLowerCase().includes('remy')) {
-    // Remy the Rat page
-    projectDetail.innerHTML = `
-      <section class="project-hero" style="background: linear-gradient(135deg, #8B4513 0%, #CD853F 100%);">
-        <div class="project-hero-content">
-          <h1 class="project-hero-title">Remy the Rat</h1>
-          <p class="project-hero-subtitle">Remote access tool written in Rust with stealth mode, persistence, and live command streaming</p>
-          <div class="project-hero-meta">
-            <div class="hero-meta-item">
-              <span class="hero-meta-label">Year</span>
-              <span class="hero-meta-value">2025</span>
-            </div>
-            <div class="hero-meta-item">
-              <span class="hero-meta-label">Language</span>
-              <span class="hero-meta-value">Rust</span>
-            </div>
-            <div class="hero-meta-item">
-              <span class="hero-meta-label">Type</span>
-              <span class="hero-meta-value">Security Tool</span>
-            </div>
-          </div>
-        </div>
-      </section>
-      <div class="project-content">
-        <section class="content-section">
-          <h2 class="section-title">Project Overview</h2>
-          <p class="section-subtitle">Advanced remote access tool built for security research and penetration testing.</p>
-        </section>
-      </div>
-    `;
-  } else if (projectTitle && projectTitle.toLowerCase().includes('linear algebra')) {
-    // Linear Algebra page
-    projectDetail.innerHTML = `
-      <section class="project-hero" style="background: linear-gradient(135deg, #4B0082 0%, #9932CC 100%);">
-        <div class="project-hero-content">
-          <h1 class="project-hero-title">Linear Algebra + Neural Network</h1>
-          <p class="project-hero-subtitle">Java-based linear algebra library built alongside coursework</p>
-          <div class="project-hero-meta">
-            <div class="hero-meta-item">
-              <span class="hero-meta-label">Year</span>
-              <span class="hero-meta-value">2024</span>
-            </div>
-            <div class="hero-meta-item">
-              <span class="hero-meta-label">Language</span>
-              <span class="hero-meta-value">Java</span>
-            </div>
-            <div class="hero-meta-item">
-              <span class="hero-meta-label">Type</span>
-              <span class="hero-meta-value">Educational</span>
-            </div>
-          </div>
-        </div>
-      </section>
-      <div class="project-content">
-        <section class="content-section">
-          <h2 class="section-title">Project Overview</h2>
-          <p class="section-subtitle">Custom linear algebra implementation to better understand the mathematics behind neural networks.</p>
-        </section>
-      </div>
-    `;
-  } else if (projectTitle && projectTitle.toLowerCase().includes('mandelbrot')) {
-    // Mandelbrot page
-    projectDetail.innerHTML = `
-      <section class="project-hero" style="background: linear-gradient(135deg, #FF6347 0%, #FF8C00 100%);">
-        <div class="project-hero-content">
-          <h1 class="project-hero-title">Mandelbrot Visualization</h1>
-          <p class="project-hero-subtitle">Two mandelbrot set visualizers - C and JavaScript implementations</p>
-          <div class="project-hero-meta">
-            <div class="hero-meta-item">
-              <span class="hero-meta-label">Year</span>
-              <span class="hero-meta-value">2024</span>
-            </div>
-            <div class="hero-meta-item">
-              <span class="hero-meta-label">Languages</span>
-              <span class="hero-meta-value">C + JavaScript</span>
-            </div>
-            <div class="hero-meta-item">
-              <span class="hero-meta-label">Type</span>
-              <span class="hero-meta-value">Visualization</span>
-            </div>
-          </div>
-        </div>
-      </section>
-      <div class="project-content">
-        <section class="content-section">
-          <h2 class="section-title">Project Overview</h2>
-          <p class="section-subtitle">Performance comparison between C and p5.js implementations of fractal visualization.</p>
-        </section>
-      </div>
-    `;
-  } else if (projectTitle && projectTitle.toLowerCase().includes('chess')) {
-    // ChessDL page
-    projectDetail.innerHTML = `
-      <section class="project-hero" style="background: linear-gradient(135deg, #2F4F4F 0%, #708090 100%);">
-        <div class="project-hero-content">
-          <h1 class="project-hero-title">ChessDL</h1>
-          <p class="project-hero-subtitle">Functional chess game built with C++ and SDL</p>
-          <div class="project-hero-meta">
-            <div class="hero-meta-item">
-              <span class="hero-meta-label">Year</span>
-              <span class="hero-meta-value">2023</span>
-            </div>
-            <div class="hero-meta-item">
-              <span class="hero-meta-label">Language</span>
-              <span class="hero-meta-value">C++</span>
-            </div>
-            <div class="hero-meta-item">
-              <span class="hero-meta-label">Framework</span>
-              <span class="hero-meta-value">SDL</span>
-            </div>
-          </div>
-        </div>
-      </section>
-      <div class="project-content">
-        <section class="content-section">
-          <h2 class="section-title">Project Overview</h2>
-          <p class="section-subtitle">Complete chess implementation with game logic, piece movement validation, and graphical interface.</p>
-        </section>
-      </div>
-    `;
-  } else if (projectTitle && projectTitle.toLowerCase().includes('huffman')) {
-    // Huffman Encoding page
-    projectDetail.innerHTML = `
-      <section class="project-hero" style="background: linear-gradient(135deg, #228B22 0%, #32CD32 100%);">
-        <div class="project-hero-content">
-          <h1 class="project-hero-title">Huffman Encoding</h1>
-          <p class="project-hero-subtitle">Compression algorithm implementation using Huffman coding techniques</p>
-          <div class="project-hero-meta">
-            <div class="hero-meta-item">
-              <span class="hero-meta-label">Year</span>
-              <span class="hero-meta-value">2022</span>
-            </div>
-            <div class="hero-meta-item">
-              <span class="hero-meta-label">Language</span>
-              <span class="hero-meta-value">Rust</span>
-            </div>
-            <div class="hero-meta-item">
-              <span class="hero-meta-label">Type</span>
-              <span class="hero-meta-value">Algorithm</span>
-            </div>
-          </div>
-        </div>
-      </section>
-      <div class="project-content">
-        <section class="content-section">
-          <h2 class="section-title">Project Overview</h2>
-          <p class="section-subtitle">Lossless data compression using variable-length prefix codes based on character frequency.</p>
         </section>
       </div>
     `;
@@ -1094,46 +918,31 @@ function setupProjectScrollAnimation() {
   
   if (!projectHero || !projectContent) return;
   
+  // Track the current state to prevent going backwards
+  let hasReachedHero = false;
+  
   // Remove any existing scroll listeners
-  if (projectDetail.handleProjectScroll) {
-    projectDetail.removeEventListener('scroll', projectDetail.handleProjectScroll);
-  }
+  projectDetail.removeEventListener('scroll', handleProjectScroll);
   
   // Define the scroll handler
   function handleProjectScroll() {
     const scrollY = projectDetail.scrollTop;
-    const heroHeight = projectHero.offsetHeight;
-    const heroTrigger = heroHeight * 0.4; // Use hero height instead of viewport
+    const heroTrigger = window.innerHeight * 0.15; // Very smooth, early trigger
     
-    // Find live preview container for fade effect
-    const livePreview = projectDetail.querySelector('.live-preview-container');
-    
-    if (livePreview) {
-      // Calculate fade based on scroll progress
-      const fadeStart = 50; // Start fading after 50px scroll
-      const fadeEnd = 200; // Fully faded by 200px scroll
-      const fadeProgress = Math.min(Math.max((scrollY - fadeStart) / (fadeEnd - fadeStart), 0), 1);
-      const opacity = 1 - fadeProgress;
-      
-      livePreview.style.opacity = opacity;
-      livePreview.style.transform = `translateY(${fadeProgress * 20}px)`;
-    }
-    
-    // Bidirectional scroll handling
-    if (scrollY > heroTrigger) {
+    // One-way progression only
+    if (!hasReachedHero && scrollY > heroTrigger) {
       // Transition to hero (island) state
+      hasReachedHero = true;
       projectHero.classList.add('scrolled');
       projectContent.classList.add('visible');
-    } else {
-      // Return to full-screen state
-      projectHero.classList.remove('scrolled');
-      projectContent.classList.remove('visible');
     }
   }
   
-  // Store reference for cleanup and add listener
-  projectDetail.handleProjectScroll = handleProjectScroll;
+  // Add scroll listener to project detail container
   projectDetail.addEventListener('scroll', handleProjectScroll);
+  
+  // Store reference for cleanup
+  projectDetail.handleProjectScroll = handleProjectScroll;
 }
 
 function scrollToTop() {
