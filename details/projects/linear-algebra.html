@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linear Algebra + Neural Network - Maxwell Isaacs</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Archivo:opsz,wght@8..144,400;8..144,500;8..144,600;8..144,700&family=Playfair+Display:wght@300;400;500;600;700&family=Georgia:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <script>
+        function goBackToPortfolio() {
+            const returnPage = localStorage.getItem('returnToPage') || 'work';
+            window.location.href = '../../index.html#projects';
+        }
+    </script>
+    <!-- Hero Section -->
+    <section class="project-hero" id="project-hero" style="background: linear-gradient(135deg, #4B0082 0%, #9932CC 100%);">
+        <div class="project-hero-content">
+            <h1 class="project-hero-title">Linear Algebra + Neural Network</h1>
+            <p class="project-hero-subtitle">A java based linear algebra library I wrote in tandem with my linear algebra class.</p>
+            <div class="project-hero-meta">
+                <div class="hero-meta-item">
+                    <span class="hero-meta-label">Built</span>
+                    <span class="hero-meta-value">2024</span>
+                </div>
+                <div class="hero-meta-item">
+                    <span class="hero-meta-label">Language</span>
+                    <span class="hero-meta-value">Java</span>
+                </div>
+                <div class="hero-meta-item">
+                    <span class="hero-meta-label">Type</span>
+                    <span class="hero-meta-value">Educational</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Main Content -->
+    <div class="project-content" id="project-content">
+        <!-- Overview Section -->
+        <section class="content-section">
+            <h2 class="section-title">Project Overview</h2>
+            <p class="section-subtitle">Custom linear algebra implementation to better understand the mathematics behind neural networks.</p>
+        </section>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav" id="bottomNav">
+        <a href="#" onclick="goBackToPortfolio(); return false;" class="nav-back-item">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Back to Portfolio
+        </a>
+    </nav>
+</body>
+</html>

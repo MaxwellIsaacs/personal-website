@@ -74,6 +74,9 @@ function transitionToPage(newPage) {
   // Update navigation
   updateActiveNav(newPage);
   
+  // Update current page immediately so project clicks work correctly
+  currentPage = newPage;
+  
   // Wait for exit animations to complete
   setTimeout(() => {
     // Update intro text
@@ -117,8 +120,6 @@ function transitionToPage(newPage) {
     }, 800);
     
   }, 450); // Wait for exit animation
-  
-  currentPage = newPage;
 }
 
 // Function to switch animation types (for testing)
@@ -167,8 +168,8 @@ function setupCardHoverEffects() {
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
 
-      const rotateX = -(y - centerY) / 200;
-      const rotateY = (x - centerX) / 200;
+      const rotateX = -(y - centerY) / 400;
+      const rotateY = (x - centerX) / 400;
 
       newCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
     });
@@ -184,55 +185,44 @@ function setupCardHoverEffects() {
   });
 }
 
-// Project detail view management
+// Project detail navigation - redirect to separate HTML pages
 function openProjectDetail(projectTitle) {
   if (isTransitioning) return;
   
-  isTransitioning = true;
-  isProjectView = true;
-  returnToPage = currentPage;
+  // Map project titles to their corresponding HTML files
+  const projectPageMap = {
+    '6502': 'details/projects/6502-emulator.html',
+    'partypass': 'details/work/partypass.html',
+    'podcast': 'details/projects/podcast.html',
+    'remy': 'details/projects/remy-conductor.html',
+    'linear algebra': 'details/projects/linear-algebra.html',
+    'mandelbrot': 'details/projects/mandelbrot.html',
+    'chess': 'details/projects/chessdl.html',
+    'huffman': 'details/projects/huffman.html',
+    'arch linux': 'details/dotfiles/arch-setup.html',
+    'sway': 'details/dotfiles/sway-waybar.html',
+    'emacs': 'details/dotfiles/emacs-config.html',
+    'shell': 'details/dotfiles/shell-environment.html'
+  };
   
-  const projectDetail = document.getElementById('project-detail');
-  const mainContent = document.getElementById('dynamic-content');
-  const introContent = document.getElementById('intro-content');
-  const bottomNav = document.getElementById('bottomNav');
+  const title = projectTitle.toLowerCase();
+  let targetPage = null;
   
-  // Set up project content based on title
-  setupProjectContent(projectTitle);
-  
-  // Hide main content
-  mainContent.style.display = 'none';
-  introContent.style.display = 'none';
-  
-  // Transform nav to go back button
-  bottomNav.innerHTML = `
-    <a href="#" class="nav-back-item" onclick="closeProjectDetail(); return false;">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      Go back
-    </a>
-  `;
-  
-  // Show project detail page
-  projectDetail.classList.add('active');
-  
-  // Scroll to top of project detail
-  projectDetail.scrollTo(0, 0);
-  
-  // Set up scroll animation for project detail
-  setupProjectScrollAnimation();
-  
-  // Trigger counter animations for PartyPass
-  if (projectTitle && projectTitle.toLowerCase().includes('partypass')) {
-    setTimeout(() => {
-      animateCounters();
-    }, 1000);
+  // Find matching page
+  for (const [key, path] of Object.entries(projectPageMap)) {
+    if (title.includes(key)) {
+      targetPage = path;
+      break;
+    }
   }
   
-  setTimeout(() => {
-    isTransitioning = false;
-  }, 300);
+  // Navigate to the project page
+  if (targetPage) {
+    // Store the current page in localStorage so we can return to it
+    console.log('Storing current page for return:', currentPage);
+    localStorage.setItem('returnToPage', currentPage);
+    window.location.href = targetPage;
+  }
 }
 
 function closeProjectDetail() {
@@ -1112,7 +1102,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize page data from modules
   initializePageData();
   
-  // Load initial content for the work page
+  // Check for URL fragment first to set correct initial page
+  const urlFragment = window.location.hash.substring(1);
+  if (urlFragment && ['work', 'projects', 'dotfiles', 'contact'].includes(urlFragment)) {
+    currentPage = urlFragment;
+    console.log('Setting initial page from URL fragment:', urlFragment);
+  }
+  
+  // Load initial content for the correct page
   const introContent = document.getElementById('intro-content');
   const projectGrid = document.getElementById('project-grid');
   
@@ -1128,6 +1125,9 @@ document.addEventListener('DOMContentLoaded', () => {
       projectGrid.appendChild(cardWrapper);
     });
   }
+  
+  // Update navigation to match the current page
+  updateActiveNav(currentPage);
   
   // Initialize all functionality
   setupCardHoverEffects();

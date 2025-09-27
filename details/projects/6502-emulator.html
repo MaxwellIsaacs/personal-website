@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6502 Emulator - Maxwell Isaacs</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Archivo:opsz,wght@8..144,400;8..144,500;8..144,600;8..144,700&family=Playfair+Display:wght@300;400;500;600;700&family=Georgia:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <script>
+        function goBackToPortfolio() {
+            const returnPage = localStorage.getItem('returnToPage') || 'work';
+            console.log('Going back to page:', returnPage);
+            window.location.href = '../../index.html#projects';
+        }
+    </script>
+    <!-- Hero Section -->
+    <section class="project-hero" id="project-hero" style="background: linear-gradient(135deg, #556B2F 0%, #8FBC8F 100%);">
+        <div class="project-hero-content">
+            <h1 class="project-hero-title">6502 Emulator</h1>
+            <p class="project-hero-subtitle">Recreating the legendary microprocessor that powered the Apple II, Commodore 64, and NES</p>
+            <div class="project-hero-meta">
+                <div class="hero-meta-item">
+                    <span class="hero-meta-label">Timeline</span>
+                    <span class="hero-meta-value">2024-2025</span>
+                </div>
+                <div class="hero-meta-item">
+                    <span class="hero-meta-label">Language</span>
+                    <span class="hero-meta-value">Rust</span>
+                </div>
+                <div class="hero-meta-item">
+                    <span class="hero-meta-label">Status</span>
+                    <span class="hero-meta-value">Active Development</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Main Content -->
+    <div class="project-content" id="project-content">
+        <!-- Overview Section -->
+        <section class="content-section">
+            <h2 class="section-title">Project Overview</h2>
+            <p class="section-subtitle">The MOS 6502 microprocessor revolutionized computing by making powerful technology affordable. This emulator captures every quirk and timing characteristic of the original hardware through meticulous implementation.</p>
+        </section>
+        
+        <!-- Key Features -->
+        <section class="content-section">
+            <h2 class="section-title">Core Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #3B82F6 0%, #0EA5E9 100%);"></div>
+                    <h3 class="feature-title">Complete Instruction Set</h3>
+                    <p class="feature-description">All 151 legal opcodes plus undocumented instructions used by vintage software</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #10B981 0%, #3B82F6 100%);"></div>
+                    <h3 class="feature-title">Cycle Accuracy</h3>
+                    <p class="feature-description">Precise timing emulation capturing the exact behavior of original hardware</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #F59E0B 0%, #EF4444 100%);"></div>
+                    <h3 class="feature-title">Modern Assembler</h3>
+                    <p class="feature-description">Custom assembler with macro support and helpful error messages</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%);"></div>
+                    <h3 class="feature-title">Memory Architecture</h3>
+                    <p class="feature-description">Flexible memory mapping supporting ROM, RAM, and memory-mapped I/O</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #EC4899 0%, #F59E0B 100%);"></div>
+                    <h3 class="feature-title">Interactive Debugger</h3>
+                    <p class="feature-description">Step through code with register inspection and memory visualization</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #3B82F6 0%, #10B981 100%);"></div>
+                    <h3 class="feature-title">Test Suite</h3>
+                    <p class="feature-description">Comprehensive tests against Klaus Dormann's test suite and real ROMs</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Code Example -->
+        <section class="content-section">
+            <h2 class="section-title">Example Code</h2>
+            <p class="section-subtitle">A simple multiplication routine demonstrating 6502 assembly programming.</p>
+            
+            <!-- Emacs Buffer for 6502 Code -->
+            <div style="background: #1d2021; font-family: 'Monaco', 'Menlo', monospace; font-size: 0.85rem; overflow: hidden; border: 1px solid #3c3836;">
+                <!-- Emacs top bar -->
+                <div style="background: #3c3836; color: #ebdbb2; padding: 4px 12px; font-size: 0.8rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #504945;">
+                    <span style="color: #fabd2f;">emacsclient</span>
+                    <span style="color: #83a598;">multiply_demo.asm</span>
+                </div>
+                
+                <!-- Buffer content -->
+                <div style="padding: 20px; background: #1d2021; color: #ebdbb2; line-height: 1.7;">
+                    <div style="color: #928374; margin-bottom: 24px;">
+                        <div style="margin-bottom: 4px;">;</div>
+                        <div style="margin-bottom: 4px;">; ================================================================</div>
+                        <div style="margin-bottom: 4px;">;                         6502 EMULATOR</div>
+                        <div style="margin-bottom: 4px;">;                    Multiplication Routine Demo</div>
+                        <div style="margin-bottom: 4px;">;              8-bit Integer Multiplication Algorithm</div>
+                        <div style="margin-bottom: 4px;">; ================================================================</div>
+                        <div style="margin-bottom: 4px;">;</div>
+                    </div>
+                    
+                    <div style="margin-bottom: 16px;">
+                        <div style="color: #928374;">; Multiply two 8-bit numbers</div>
+                        <div style="color: #928374;">; Input: $00 = multiplier, $01 = multiplicand</div>
+                        <div style="color: #928374;">; Output: $02 = result</div>
+                    </div>
+                    
+                    <div style="margin-bottom: 16px;">
+                        <div><span style="color: #fabd2f;">multiply:</span></div>
+                        <div style="margin-left: 20px;"><span style="color: #fb4934;">LDA</span> <span style="color: #b8bb26;">#$05</span>    <span style="color: #928374;">; Load multiplier (5)</span></div>
+                        <div style="margin-left: 20px;"><span style="color: #fb4934;">STA</span> <span style="color: #8ec07c;">$00</span>     <span style="color: #928374;">; Store in zero page</span></div>
+                        <div style="margin-left: 20px;"><span style="color: #fb4934;">LDA</span> <span style="color: #b8bb26;">#$03</span>    <span style="color: #928374;">; Load multiplicand (3)</span></div>
+                        <div style="margin-left: 20px;"><span style="color: #fb4934;">STA</span> <span style="color: #8ec07c;">$01</span>     <span style="color: #928374;">; Store in zero page</span></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 16px;">
+                        <div style="margin-left: 20px;"><span style="color: #fb4934;">LDX</span> <span style="color: #b8bb26;">#$00</span>    <span style="color: #928374;">; Clear result register</span></div>
+                        <div style="margin-left: 20px;"><span style="color: #fb4934;">LDY</span> <span style="color: #8ec07c;">$00</span>     <span style="color: #928374;">; Load counter with multiplier</span></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 16px;">
+                        <div><span style="color: #fabd2f;">loop:</span></div>
+                        <div style="margin-left: 20px;"><span style="color: #fb4934;">CPY</span> <span style="color: #b8bb26;">#$00</span>    <span style="color: #928374;">; Check if done</span></div>
+                        <div style="margin-left: 20px;"><span style="color: #fb4934;">BEQ</span> <span style="color: #fabd2f;">done</span>    <span style="color: #928374;">; Exit if counter is zero</span></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 16px;">
+                        <div style="margin-left: 20px;"><span style="color: #fb4934;">CLC</span>         <span style="color: #928374;">; Clear carry for addition</span></div>
+                        <div style="margin-left: 20px;"><span style="color: #fb4934;">TXA</span>         <span style="color: #928374;">; Transfer result to accumulator</span></div>
+                        <div style="margin-left: 20px;"><span style="color: #fb4934;">ADC</span> <span style="color: #8ec07c;">$01</span>     <span style="color: #928374;">; Add multiplicand</span></div>
+                        <div style="margin-left: 20px;"><span style="color: #fb4934;">TAX</span>         <span style="color: #928374;">; Store back to result</span></div>
+                        <div style="margin-left: 20px;"><span style="color: #fb4934;">DEY</span>         <span style="color: #928374;">; Decrement counter</span></div>
+                        <div style="margin-left: 20px;"><span style="color: #fb4934;">JMP</span> <span style="color: #fabd2f;">loop</span>    <span style="color: #928374;">; Continue loop</span></div>
+                    </div>
+                    
+                    <div>
+                        <div><span style="color: #fabd2f;">done:</span></div>
+                        <div style="margin-left: 20px;"><span style="color: #fb4934;">STX</span> <span style="color: #8ec07c;">$02</span>     <span style="color: #928374;">; Store final result (15)</span></div>
+                        <div style="margin-left: 20px;"><span style="color: #fb4934;">RTS</span>         <span style="color: #928374;">; Return</span></div>
+                    </div>
+                </div>
+                
+                <!-- Authentic Emacs modeline -->
+                <div style="background: #3c3836; color: #ebdbb2; padding: 4px 12px; font-size: 0.7rem; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #504945;">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <span style="color: #ebdbb2;">**-</span>
+                        <span style="background: #458588; color: #1d2021; padding: 2px 8px; font-weight: bold;">N</span>
+                        <span style="color: #ebdbb2;">1.2k</span>
+                        <span style="color: #ebdbb2;">multiply_demo.asm</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="color: #ebdbb2;">28:1</span>
+                        <span style="color: #ebdbb2;">100%</span>
+                        <span style="color: #fabd2f; font-weight: bold;">ASM</span>
+                        <span style="color: #83a598;">⎇ main</span>
+                        <span style="background: #b8bb26; color: #1d2021; padding: 2px 6px;">✓</span>
+                        <span style="background: #458588; color: #ebdbb2; padding: 2px 6px;">LSP</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Technical Details -->
+        <section class="content-section">
+            <h2 class="section-title">Implementation Details</h2>
+            <div class="tech-showcase">
+                <p style="margin: 0 0 32px 0; color: #666;">Built with Rust for memory safety and performance, leveraging modern development practices while respecting vintage computing constraints.</p>
+                <div class="tech-grid">
+                    <div class="tech-item">Rust</div>
+                    <div class="tech-item">WebAssembly</div>
+                    <div class="tech-item">Zero-Copy</div>
+                    <div class="tech-item">Bit Manipulation</div>
+                    <div class="tech-item">State Machines</div>
+                    <div class="tech-item">Unit Testing</div>
+                    <div class="tech-item">Benchmarking</div>
+                    <div class="tech-item">CI/CD</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav" id="bottomNav">
+        <a href="#projects" onclick="goBackToPortfolio(); return false;" class="nav-back-item">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Back to Portfolio
+        </a>
+    </nav>
+
+    <script>
+        function setupProjectScrollAnimation() {
+            const projectHero = document.getElementById('project-hero');
+            const projectContent = document.getElementById('project-content');
+            
+            if (!projectHero || !projectContent) return;
+            
+            let hasScrolled = false;
+            
+            function handleScroll() {
+                const scrollY = window.scrollY;
+                const heroHeight = projectHero.offsetHeight;
+                const heroTrigger = heroHeight * 0.4;
+                
+                // Once scrolled past trigger, keep header compressed
+                if (scrollY > heroTrigger && !hasScrolled) {
+                    projectHero.classList.add('scrolled');
+                    projectContent.classList.add('visible');
+                    hasScrolled = true;
+                }
+                
+                // Show/hide preview based on scroll position (only at very top)
+                if (scrollY <= 10) {
+                    projectHero.classList.remove('hide-preview');
+                } else {
+                    projectHero.classList.add('hide-preview');
+                }
+            }
+            
+            window.addEventListener('scroll', handleScroll);
+        }
+
+        document.addEventListener('DOMContentLoaded', setupProjectScrollAnimation);
+    </script>
+
+    <div class="footer-spacer"></div>
+</body>
+</html>

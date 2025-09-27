@@ -9,13 +9,12 @@
   <link rel="shortcut icon" href="favicon.png" />
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-  <!-- Load page-specific modules first -->
+
+  <script src="script/master.js" defer></script>
   <script src="script/work.js" defer></script>
   <script src="script/projects.js" defer></script>
   <script src="script/dotfiles.js" defer></script>
   <script src="script/contact.js" defer></script>
-  <!-- Load master script last -->
-  <script src="script/master.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
@@ -76,8 +75,8 @@
 </section>
 
 <!-- Project Detail Page (separate from main content) -->
-<div class="project-detail" id="project-detail">
-  <!-- Project detail content will be inserted here -->
+<div id="project-detail" class="project-detail">
+  <!-- Project detail content will be inserted here dynamically -->
 </div>
 <div class="bottom-nav" id="bottomNav">
   <a href="#" class="nav-item active" data-page="work">Work</a>

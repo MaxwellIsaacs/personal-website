@@ -1,14 +1,14 @@
 /* === Fonts === */
 @font-face {
   font-family: 'Icona Sans';
-  src: url('fonts/icona-font/IconaSansTRIAL-Regular.otf') format('opentype');
+  src: url('fonts/icona-font/IconaSansTRIAL-Regular-BF6683702d1fa41.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Icona Sans';
-  src: url('fonts/icona-font/IconaSansTRIAL-Bold.otf') format('opentype');
+  src: url('fonts/icona-font/IconaSansTRIAL-Bold-BF6683702c976d7.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
 }
@@ -1295,6 +1295,8 @@ html {
 }
 
 body {
+  margin: 0;
+  padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeSpeed;
@@ -1352,6 +1354,13 @@ body {
 
 .project-hero.scrolled .live-preview-container .preview-overlay {
   border-radius: 12px !important;
+}
+
+/* Hide preview when scrolling */
+.project-hero.hide-preview .live-preview-container {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.3s ease-in-out;
 }
 
 /* Medium mobile - single column */
