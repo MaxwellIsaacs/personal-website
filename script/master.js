@@ -1096,6 +1096,7 @@ function animateCounters() {
   });
 }
 
+
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize page data from modules
@@ -1128,11 +1129,32 @@ document.addEventListener('DOMContentLoaded', () => {
   // Update navigation to match the current page
   updateActiveNav(currentPage);
   
+// Header scroll behavior
+function setupHeaderScrollBehavior() {
+  const header = document.querySelector('.header');
+  if (!header) return;
+  
+  function handleScroll() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (scrollTop > 50) {
+      header.classList.add('scrolled');
+      document.body.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+      document.body.classList.remove('scrolled');
+    }
+  }
+  
+  window.addEventListener('scroll', handleScroll, { passive: true });
+}
+
   // Initialize all functionality
   setupCardHoverEffects();
   setupNavigation();
   setupScrollAnimation();
   setupIconAnimations();
+  setupHeaderScrollBehavior();
   
   // Initialize page-specific functionality
   if (window.initWorkPage) window.initWorkPage();

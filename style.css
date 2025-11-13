@@ -1,3 +1,8 @@
+/* === Global Styles === */
+body {
+  padding-top: 100px; /* Account for fixed header */
+}
+
 /* === Fonts === */
 @font-face {
   font-family: 'Icona Sans';
@@ -37,6 +42,139 @@
   font-family: 'Roboto', sans-serif;
 }
 
+body.detail-page .container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+body.detail-page .header {
+  background-color: transparent;
+  transition: all 0.3s ease;
+  pointer-events: all;
+}
+
+.header-name  {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  color: #000;
+}
+
+.copywrite {
+  color: #000;
+}
+
+/* Detail page header styling */
+body.detail-page .header .header-name,
+body.detail-page .header .copywrite {
+  color: #E8E3D3;
+  transition: color 0.3s ease;
+}
+
+body.detail-page .header .social-links img {
+  filter: invert(1);
+  transition: filter 0.3s ease;
+}
+
+body.detail-page .header.scrolled {
+  position: fixed;
+  background-color: #fff;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+body.detail-page.scrolled {
+  padding-top: 100px;
+}
+
+body.detail-page .header.scrolled .header-name,
+body.detail-page .header.scrolled .copywrite {
+  color: #000;
+}
+
+body.detail-page .header.scrolled .social-links img {
+  filter: invert(0);
+}
+
+/* Header size reduction on scroll for mandelbrot page */
+.header.scrolled-small {
+  padding: 12px 64px 4px 64px !important;
+  transition: all 0.3s ease;
+}
+
+.header.scrolled-small .header-name {
+  font-size: 0.85rem !important;
+  transition: font-size 0.3s ease;
+}
+
+.header.scrolled-small .copywrite {
+  font-size: 0.65rem !important;
+  line-height: 1.3;
+  transition: font-size 0.3s ease;
+}
+
+.header.scrolled-small .social-links {
+  gap: 8px;
+}
+
+.header.scrolled-small .animated-icon {
+  width: 18px !important;
+  height: 18px !important;
+  transition: all 0.3s ease;
+}
+
+/* Responsive header sizing */
+@media (max-width: 1200px) {
+  .header {
+    padding: 16px 24px 6px 24px;
+  }
+  
+  .header-name {
+    font-size: 0.9rem;
+  }
+  
+  .copywrite {
+    font-size: 0.7rem;
+  }
+  
+  .social-links {
+    gap: 10px;
+  }
+  
+  .animated-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 12px 16px 4px 16px;
+  }
+  
+  .header-name {
+    font-size: 0.8rem;
+  }
+  
+  .copywrite {
+    font-size: 0.65rem;
+  }
+  
+  .social-links {
+    gap: 8px;
+  }
+  
+  .animated-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
 .inter-caption {
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
@@ -62,13 +200,6 @@
   justify-content: flex-start;
   gap: 2px;
   line-height: 1.2;
-}
-
-.header-name  {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #000;
-  margin: 0;
 }
 
 /* === Social Icons === */

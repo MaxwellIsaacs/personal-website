@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Max's Mandelbrot Explorer - Maxwell Isaacs</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../images/favicon.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="../../images/favicon.png" />
+    <link rel="shortcut icon" href="../../images/favicon.png" />
     <link rel="stylesheet" href="../../style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -170,7 +173,7 @@
         .string { color: #b8bb26; }
     </style>
 </head>
-<body>
+<body class="detail-page">
     <script>
         function goBackToPortfolio() {
             const returnPage = localStorage.getItem('returnToPage') || 'projects';
@@ -178,6 +181,7 @@
         }
     </script>
     
+
     <!-- Hero Section -->
     <section class="project-hero" id="project-hero" style="background: #2C2A26; position: relative; overflow: hidden;">
         <div class="project-hero-content" style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; max-width: 1400px; margin: 0 auto; padding: 100px 64px;">
@@ -306,6 +310,7 @@
         function setupProjectScrollAnimation() {
             const projectHero = document.getElementById('project-hero');
             const projectContent = document.getElementById('project-content');
+            const header = document.querySelector('.header');
             
             if (!projectHero || !projectContent) return;
             
@@ -320,6 +325,13 @@
                     projectHero.classList.add('scrolled');
                     projectContent.classList.add('visible');
                     hasScrolled = true;
+                }
+                
+                // Header size reduction on scroll
+                if (scrollY > 50) {
+                    if (header) header.classList.add('scrolled-small');
+                } else {
+                    if (header) header.classList.remove('scrolled-small');
                 }
                 
                 if (scrollY <= 10) {

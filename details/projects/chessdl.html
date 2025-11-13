@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChessDL - Maxwell Isaacs</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../images/favicon.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="../../images/favicon.png" />
+    <link rel="shortcut icon" href="../../images/favicon.png" />
     <link rel="stylesheet" href="../../style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -173,6 +176,14 @@
             border-bottom: 1px solid #504945;
         }
         
+        @media (max-width: 768px) {
+            .execution-area {
+                grid-template-columns: 1fr;
+                height: auto;
+                min-height: 300px;
+            }
+        }
+        
         .code-display {
             padding: 8px 12px;
             border-right: 1px solid #504945;
@@ -190,6 +201,20 @@
             overflow-y: auto;
             font-size: 0.7rem;
             background: #1d2021;
+        }
+        
+        @media (max-width: 768px) {
+            .code-display {
+                height: 250px;
+                border-right: none;
+                border-bottom: 1px solid #504945;
+                font-size: 0.7rem;
+            }
+            
+            .execution-output {
+                height: 200px;
+                font-size: 0.65rem;
+            }
         }
         
         .output-line {
@@ -236,7 +261,8 @@
         }
     </style>
 </head>
-<body>
+<body class="detail-page">
+
     <script>
         function goBackToPortfolio() {
             const returnPage = localStorage.getItem('returnToPage') || 'projects';
