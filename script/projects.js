@@ -17,50 +17,59 @@ const projectsPageData = {
       title: 'remy conductor',
       year: '2025',
       tech: 'rust + wasm',
-      description: 'A stealthy C2 framework that uses WASM with a standardized, custom ABI for fully modular payloads.'
+      description: 'a stealthy C2 framework that uses WASM with a standardized, custom ABI for fully modular payloads.'
+    },
+    {
+      image: 'images/sudoku.png',
+      title: 'sudoku.wasm',
+      year: '2024',
+      tech: 'rust + wasm',
+      description: 'high-performance sudoku puzzle game built with rust and WASM featuring algorithmic generation and canvas rendering.',
+      link: 'details/projects/sudoku.html'
     },
     {
       image: 'images/6502-photo.png',
       title: '6502 emulator',
       year: '2024–2025',
       tech: 'rust + asm',
-      description: 'A rust based 6502 emulator capable of running NES games with a simple assmebler'
+      description: 'a rust based 6502 emulator capable of running NES games with a simple assmebler'
     },
     {
-      image: 'images/lin-alg-photo.gif',
-      title: 'terrible linear algebra + neural network',
+      image: 'images/lin-alg-photo.png',
+      title: 'linear algebra library',
       year: '2024',
       tech: 'java',
-      description: 'A java based linear algebra library I wrote in tandem with my linear algebra class.'
+      description: 'a java based linear algebra library I wrote in tandem with my linear algebra class.',
+      link: 'details/projects/java-linear-algebra.html'
     },
     {
       image: 'images/mandelbrot-photo.png',
       title: 'mandelbrot visualization',
       year: '2024',
-      tech: 'c + javascript',
-      description: 'Two mandelbrot set explorers, one written in p5.js and one written in C. Guess which one is faster lol.'
+      tech: 'c + p5.js',
+      description: 'two mandelbrot set explorers, one written in p5.js and one written in C'
     },
     {
       image: 'images/podcast-photo.png',
       title: 'illegal empire podcast',
       year: '2023',
       tech: 'research + audio production',
-      description: 'Investigative podcast series examining how Latin American criminal networks infiltrate politics and industry. Featured conversations with leading academics on cartel economics, digital crime networks, and criminal governance.',
+      description: 'investigative podcast series examining how Latin American criminal networks infiltrate politics and industry, featuring conversations with leading academics on cartel economics, digital crime networks, and criminal governance.',
       link: 'https://maxwellisaacs.github.io/epd/index.html'
     },
     {
-      image: 'images/proj1.png',
+      image: 'images/chess.png',
       title: 'chessDL',
       year: '2023',
       tech: 'C++',
-      description: 'One of the ugliest (yet functional) versions of chess created using c++ & SDL'
+      description: 'one of the ugliest (yet functional) versions of chess created using c++ & SDL'
     },
     {
-      image: 'images/project3.jpg',
+      image: 'images/huffman.png',
       title: 'huffman encoding',
       year: '2022',
       tech: 'rust',
-      description: 'A compression algorithm implementation using Huffman coding techniques.'
+      description: 'a huffman compression implementation and visualization'
     }
   ]
 };

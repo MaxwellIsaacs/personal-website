@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyprland Configuration - Maxwell Isaacs</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Archivo:opsz,wght@8..144,400;8..144,500;8..144,600;8..144,700&family=Playfair+Display:wght@300;400;500;600;700&family=Georgia:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <script>
+        function goBackToPortfolio() {
+            window.location.href = '../../index.html#dotfiles';
+        }
+    </script>
+    
+    <!-- Hero Section -->
+    <section class="project-hero" id="project-hero" style="background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);">
+        <div class="project-hero-content">
+            <h1 class="project-hero-title" style="font-family: 'Playfair Display', 'Times New Roman', serif; font-weight: 400; letter-spacing: -0.02em;">Hyprland Configuration</h1>
+            <p class="project-hero-subtitle" style="font-family: 'Georgia', serif; font-weight: 400; line-height: 1.6; max-width: 520px; font-size: 1.15rem;">Modern Wayland compositor configuration with custom animations and workspace management.</p>
+            <div class="project-hero-meta" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin: 48px 0; max-width: 400px;">
+                <div>
+                    <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">Using for</span>
+                    <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">6 months</span>
+                </div>
+                <div>
+                    <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">Type</span>
+                    <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">wayland compositor</span>
+                </div>
+                <div>
+                    <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">Platform</span>
+                    <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">linux</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Photo Carousel -->
+    <div class="project-content" id="project-content">
+        <section style="padding: 80px 64px; max-width: 1200px; margin: 0 auto;">
+            <style>
+                .config-carousel {
+                    position: relative;
+                    background: white;
+                    border: 1px solid #e5e5e5;
+                    border-radius: 8px;
+                    margin: 0 auto;
+                    max-width: 1000px;
+                    height: 600px;
+                    overflow: hidden;
+                }
+                
+                .carousel-track {
+                    display: flex;
+                    transition: transform 0.5s ease;
+                    height: 100%;
+                }
+                
+                .carousel-slide {
+                    min-width: 100%;
+                    box-sizing: border-box;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: #fafafa;
+                }
+                
+                .slide-image {
+                    max-width: 100%;
+                    max-height: 100%;
+                    object-fit: contain;
+                    border-radius: 4px;
+                }
+                
+                .carousel-controls {
+                    position: absolute;
+                    bottom: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    display: flex;
+                    gap: 16px;
+                    align-items: center;
+                }
+                
+                .carousel-btn {
+                    background: rgba(0,0,0,0.7);
+                    border: none;
+                    width: 40px;
+                    height: 40px;
+                    color: white;
+                    cursor: pointer;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 18px;
+                    transition: all 0.3s ease;
+                }
+                
+                .carousel-btn:hover {
+                    background: rgba(0,0,0,0.9);
+                    transform: scale(1.1);
+                }
+                
+                .carousel-indicators {
+                    display: flex;
+                    gap: 8px;
+                }
+                
+                .indicator {
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                    background: rgba(255,255,255,0.5);
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                }
+                
+                .indicator.active {
+                    background: white;
+                    transform: scale(1.2);
+                }
+                
+                .slide-caption {
+                    position: absolute;
+                    top: 20px;
+                    left: 20px;
+                    background: rgba(0,0,0,0.8);
+                    color: white;
+                    padding: 12px 16px;
+                    border-radius: 6px;
+                    font-family: 'Inter', sans-serif;
+                    font-size: 0.85rem;
+                    font-weight: 500;
+                }
+            </style>
+            
+            <div class="config-carousel">
+                <div class="carousel-track" id="carousel-track">
+                    <div class="carousel-slide">
+                        <img src="../../images/hyprland-desktop.png" alt="Hyprland Desktop" class="slide-image" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'color: #666; font-family: Inter, sans-serif;\'>Screenshot: Hyprland Desktop Overview</div>'">
+                        <div class="slide-caption">Desktop Overview</div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="../../images/hyprland-workspaces.png" alt="Workspace Management" class="slide-image" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'color: #666; font-family: Inter, sans-serif;\'>Screenshot: Workspace Management</div>'">
+                        <div class="slide-caption">Workspace Management</div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="../../images/hyprland-animations.png" alt="Window Animations" class="slide-image" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'color: #666; font-family: Inter, sans-serif;\'>Screenshot: Window Animations</div>'">
+                        <div class="slide-caption">Custom Animations</div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="../../images/hyprland-keybinds.png" alt="Keybinding Setup" class="slide-image" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'color: #666; font-family: Inter, sans-serif;\'>Screenshot: Keybinding Configuration</div>'">
+                        <div class="slide-caption">Keybinding Configuration</div>
+                    </div>
+                </div>
+                
+                <div class="carousel-controls">
+                    <button class="carousel-btn" id="prev-btn">‹</button>
+                    <div class="carousel-indicators" id="indicators">
+                        <div class="indicator active" data-slide="0"></div>
+                        <div class="indicator" data-slide="1"></div>
+                        <div class="indicator" data-slide="2"></div>
+                        <div class="indicator" data-slide="3"></div>
+                    </div>
+                    <button class="carousel-btn" id="next-btn">›</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav" id="bottomNav">
+        <a href="#" onclick="goBackToPortfolio(); return false;" class="nav-back-item">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Back to Portfolio
+        </a>
+    </nav>
+
+    <script>
+        function setupProjectScrollAnimation() {
+            const projectHero = document.getElementById('project-hero');
+            const projectContent = document.getElementById('project-content');
+            
+            if (!projectHero || !projectContent) return;
+            
+            let hasScrolled = false;
+            
+            function handleScroll() {
+                const scrollY = window.scrollY;
+                const heroHeight = projectHero.offsetHeight;
+                const heroTrigger = heroHeight * 0.4;
+                
+                if (scrollY > heroTrigger && !hasScrolled) {
+                    projectHero.classList.add('scrolled');
+                    projectContent.classList.add('visible');
+                    hasScrolled = true;
+                }
+                
+                if (scrollY <= 10) {
+                    projectHero.classList.remove('hide-preview');
+                } else {
+                    projectHero.classList.add('hide-preview');
+                }
+            }
+            
+            window.addEventListener('scroll', handleScroll);
+        }
+
+        // Carousel functionality
+        function setupCarousel() {
+            const track = document.getElementById('carousel-track');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const indicators = document.querySelectorAll('.indicator');
+            
+            let currentSlide = 0;
+            const totalSlides = 4;
+            
+            function updateCarousel() {
+                const translateX = -(currentSlide * 100);
+                track.style.transform = `translateX(${translateX}%)`;
+                
+                indicators.forEach((indicator, index) => {
+                    indicator.classList.toggle('active', index === currentSlide);
+                });
+            }
+            
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                updateCarousel();
+            }
+            
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+                updateCarousel();
+            }
+            
+            function goToSlide(index) {
+                currentSlide = index;
+                updateCarousel();
+            }
+            
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+            
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => goToSlide(index));
+            });
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') prevSlide();
+                if (e.key === 'ArrowRight') nextSlide();
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            setupProjectScrollAnimation();
+            setupCarousel();
+        });
+    </script>
+
+    <div class="footer-spacer"></div>
+</body>
+</html>

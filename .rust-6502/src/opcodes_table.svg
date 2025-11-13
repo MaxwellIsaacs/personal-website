@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1400">
+  <style>
+    .header { font: bold 16px monospace; }
+    .row { font: 14px monospace; }
+  </style>
+  <rect width="100%" height="100%" fill="white"/>
+  <!-- Header -->
+  <text x="10" y="20" class="header">Opcode</text>
+  <text x="100" y="20" class="header">Mnemonic</text>
+  <text x="250" y="20" class="header">Addressing Mode</text>
+
+  <!-- Row 1: LDA Immediate -->
+  <text x="10" y="40" class="row">0xA9</text>
+  <text x="100" y="40" class="row">LDA</text>
+  <text x="250" y="40" class="row">Immediate</text>
+
+  <!-- Row 2: LDA Zero Page -->
+  <text x="10" y="60" class="row">0xA5</text>
+  <text x="100" y="60" class="row">LDA</text>
+  <text x="250" y="60" class="row">Zero Page</text>
+
+  <!-- Row 3: LDA Absolute -->
+  <text x="10" y="80" class="row">0xAD</text>
+  <text x="100" y="80" class="row">LDA</text>
+  <text x="250" y="80" class="row">Absolute</text>
+
+  <!-- Row 4: STA Zero Page -->
+  <text x="10" y="100" class="row">0x85</text>
+  <text x="100" y="100" class="row">STA</text>
+  <text x="250" y="100" class="row">Zero Page</text>
+
+  <!-- Row 5: STA Absolute -->
+  <text x="10" y="120" class="row">0x8D</text>
+  <text x="100" y="120" class="row">STA</text>
+  <text x="250" y="120" class="row">Absolute</text>
+
+  <!-- Row 6: LDX Immediate -->
+  <text x="10" y="140" class="row">0xA2</text>
+  <text x="100" y="140" class="row">LDX</text>
+  <text x="250" y="140" class="row">Immediate</text>
+
+  <!-- Row 7: LDX Zero Page -->
+  <text x="10" y="160" class="row">0xA6</text>
+  <text x="100" y="160" class="row">LDX</text>
+  <text x="250" y="160" class="row">Zero Page</text>
+
+  <!-- Row 8: LDX Absolute -->
+  <text x="10" y="180" class="row">0xAE</text>
+  <text x="100" y="180" class="row">LDX</text>
+  <text x="250" y="180" class="row">Absolute</text>
+
+  <!-- Row 9: STX Zero Page -->
+  <text x="10" y="200" class="row">0x86</text>
+  <text x="100" y="200" class="row">STX</text>
+  <text x="250" y="200" class="row">Zero Page</text>
+
+  <!-- Row 10: STX Absolute -->
+  <text x="10" y="220" class="row">0x8E</text>
+  <text x="100" y="220" class="row">STX</text>
+  <text x="250" y="220" class="row">Absolute</text>
+
+  <!-- Row 11: LDY Immediate -->
+  <text x="10" y="240" class="row">0xA0</text>
+  <text x="100" y="240" class="row">LDY</text>
+  <text x="250" y="240" class="row">Immediate</text>
+
+  <!-- Row 12: LDY Zero Page -->
+  <text x="10" y="260" class="row">0xA4</text>
+  <text x="100" y="260" class="row">LDY</text>
+  <text x="250" y="260" class="row">Zero Page</text>
+
+  <!-- Row 13: LDY Absolute -->
+  <text x="10" y="280" class="row">0xAC</text>
+  <text x="100" y="280" class="row">LDY</text>
+  <text x="250" y="280" class="row">Absolute</text>
+
+  <!-- Row 14: STY Zero Page -->
+  <text x="10" y="300" class="row">0x84</text>
+  <text x="100" y="300" class="row">STY</text>
+  <text x="250" y="300" class="row">Zero Page</text>
+
+  <!-- Row 15: STY Absolute -->
+  <text x="10" y="320" class="row">0x8C</text>
+  <text x="100" y="320" class="row">STY</text>
+  <text x="250" y="320" class="row">Absolute</text>
+
+  <!-- Row 16: TAX (Transfer A to X) -->
+  <text x="10" y="340" class="row">0xAA</text>
+  <text x="100" y="340" class="row">TAX</text>
+  <text x="250" y="340" class="row">Implied</text>
+
+  <!-- Row 17: TAY (Transfer A to Y) -->
+  <text x="10" y="360" class="row">0xA8</text>
+  <text x="100" y="360" class="row">TAY</text>
+  <text x="250" y="360" class="row">Implied</text>
+
+  <!-- Row 18: TSX (Transfer SP to X) -->
+  <text x="10" y="380" class="row">0xBA</text>
+  <text x="100" y="380" class="row">TSX</text>
+  <text x="250" y="380" class="row">Implied</text>
+
+  <!-- Row 19: TXA (Transfer X to A) -->
+  <text x="10" y="400" class="row">0x8A</text>
+  <text x="100" y="400" class="row">TXA</text>
+  <text x="250" y="400" class="row">Implied</text>
+
+  <!-- Row 20: TXS (Transfer X to SP) -->
+  <text x="10" y="420" class="row">0x9A</text>
+  <text x="100" y="420" class="row">TXS</text>
+  <text x="250" y="420" class="row">Implied</text>
+
+  <!-- Row 21: TYA (Transfer Y to A) -->
+  <text x="10" y="440" class="row">0x98</text>
+  <text x="100" y="440" class="row">TYA</text>
+  <text x="250" y="440" class="row">Implied</text>
+
+  <!-- Row 22: JMP Absolute -->
+  <text x="10" y="460" class="row">0x4C</text>
+  <text x="100" y="460" class="row">JMP</text>
+  <text x="250" y="460" class="row">Absolute</text>
+
+  <!-- Row 23: JMP Indirect -->
+  <text x="10" y="480" class="row">0x6C</text>
+  <text x="100" y="480" class="row">JMP</text>
+  <text x="250" y="480" class="row">Indirect</text>
+
+  <!-- Row 24: JSR (Jump to Subroutine) -->
+  <text x="10" y="500" class="row">0x20</text>
+  <text x="100" y="500" class="row">JSR</text>
+  <text x="250" y="500" class="row">Absolute</text>
+
+  <!-- Row 25: CMP Immediate -->
+  <text x="10" y="520" class="row">0xCD</text>
+  <text x="100" y="520" class="row">CMP</text>
+  <text x="250" y="520" class="row">Immediate</text>
+
+  <!-- Row 26: CMP Zero Page -->
+  <text x="10" y="540" class="row">0xC5</text>
+  <text x="100" y="540" class="row">CMP</text>
+  <text x="250" y="540" class="row">Zero Page</text>
+
+  <!-- Row 27: CMP Absolute -->
+  <text x="10" y="560" class="row">0xC9</text>
+  <text x="100" y="560" class="row">CMP</text>
+  <text x="250" y="560" class="row">Absolute</text>
+
+  <!-- Row 28: CPX Immediate -->
+  <text x="10" y="580" class="row">0xE0</text>
+  <text x="100" y="580" class="row">CPX</text>
+  <text x="250" y="580" class="row">Immediate</text>
+
+  <!-- Row 29: CPX Zero Page -->
+  <text x="10" y="600" class="row">0xE4</text>
+  <text x="100" y="600" class="row">CPX</text>
+  <text x="250" y="600" class="row">Zero Page</text>
+
+  <!-- Row 30: CPX Absolute -->
+  <text x="10" y="620" class="row">0xEC</text>
+  <text x="100" y="620" class="row">CPX</text>
+  <text x="250" y="620" class="row">Absolute</text>
+
+  <!-- Row 31: CPY Immediate -->
+  <text x="10" y="640" class="row">0xC0</text>
+  <text x="100" y="640" class="row">CPY</text>
+  <text x="250" y="640" class="row">Immediate</text>
+
+  <!-- Row 32: CPY Zero Page -->
+  <text x="10" y="660" class="row">0xC4</text>
+  <text x="100" y="660" class="row">CPY</text>
+  <text x="250" y="660" class="row">Zero Page</text>
+
+  <!-- Row 33: CPY Absolute -->
+  <text x="10" y="680" class="row">0xCC</text>
+  <text x="100" y="680" class="row">CPY</text>
+  <text x="250" y="680" class="row">Absolute</text>
+
+  <!-- Row 34: CLC (Clear Carry) -->
+  <text x="10" y="700" class="row">0x18</text>
+  <text x="100" y="700" class="row">CLC</text>
+  <text x="250" y="700" class="row">Implied</text>
+
+  <!-- Row 35: CLD (Clear Decimal) -->
+  <text x="10" y="720" class="row">0xD8</text>
+  <text x="100" y="720" class="row">CLD</text>
+  <text x="250" y="720" class="row">Implied</text>
+
+  <!-- Row 36: CLI (Clear Interrupt) -->
+  <text x="10" y="740" class="row">0x58</text>
+  <text x="100" y="740" class="row">CLI</text>
+  <text x="250" y="740" class="row">Implied</text>
+
+  <!-- Row 37: CLY (Clear Overflow) -->
+  <text x="10" y="760" class="row">0xB8</text>
+  <text x="100" y="760" class="row">CLY</text>
+  <text x="250" y="760" class="row">Implied</text>
+
+  <!-- Row 38: AND Immediate -->
+  <text x="10" y="780" class="row">0x29</text>
+  <text x="100" y="780" class="row">AND</text>
+  <text x="250" y="780" class="row">Immediate</text>
+
+  <!-- Row 39: AND Zero Page -->
+  <text x="10" y="800" class="row">0x25</text>
+  <text x="100" y="800" class="row">AND</text>
+  <text x="250" y="800" class="row">Zero Page</text>
+
+  <!-- Row 40: AND Absolute -->
+  <text x="10" y="820" class="row">0x2D</text>
+  <text x="100" y="820" class="row">AND</text>
+  <text x="250" y="820" class="row">Absolute</text>
+
+  <!-- Row 41: ORA Immediate -->
+  <text x="10" y="840" class="row">0x09</text>
+  <text x="100" y="840" class="row">ORA</text>
+  <text x="250" y="840" class="row">Immediate</text>
+
+  <!-- Row 42: ORA Zero Page -->
+  <text x="10" y="860" class="row">0x05</text>
+  <text x="100" y="860" class="row">ORA</text>
+  <text x="250" y="860" class="row">Zero Page</text>
+
+  <!-- Row 43: ORA Absolute -->
+  <text x="10" y="880" class="row">0x0D</text>
+  <text x="100" y="880" class="row">ORA</text>
+  <text x="250" y="880" class="row">Absolute</text>
+
+  <!-- Row 44: EOR Immediate -->
+  <text x="10" y="900" class="row">0x49</text>
+  <text x="100" y="900" class="row">EOR</text>
+  <text x="250" y="900" class="row">Immediate</text>
+
+  <!-- Row 45: EOR Zero Page -->
+  <text x="10" y="920" class="row">0x45</text>
+  <text x="100" y="920" class="row">EOR</text>
+  <text x="250" y="920" class="row">Zero Page</text>
+
+  <!-- Row 46: EOR Absolute -->
+  <text x="10" y="940" class="row">0x4D</text>
+  <text x="100" y="940" class="row">EOR</text>
+  <text x="250" y="940" class="row">Absolute</text>
+
+  <!-- Row 47: BIT Zero Page -->
+  <text x="10" y="960" class="row">0x24</text>
+  <text x="100" y="960" class="row">BIT</text>
+  <text x="250" y="960" class="row">Zero Page</text>
+
+  <!-- Row 48: BIT Absolute -->
+  <text x="10" y="980" class="row">0x2C</text>
+  <text x="100" y="980" class="row">BIT</text>
+  <text x="250" y="980" class="row">Absolute</text>
+
+  <!-- Row 49: BCC (Branch if Carry Clear) -->
+  <text x="10" y="1000" class="row">0x90</text>
+  <text x="100" y="1000" class="row">BCC</text>
+  <text x="250" y="1000" class="row">Implied</text>
+
+  <!-- Row 50: BCS (Branch if Carry Set) -->
+  <text x="10" y="1020" class="row">0xB0</text>
+  <text x="100" y="1020" class="row">BCS</text>
+  <text x="250" y="1020" class="row">Implied</text>
+
+  <!-- Row 51: BEQ (Branch if Equal) -->
+  <text x="10" y="1040" class="row">0xF0</text>
+  <text x="100" y="1040" class="row">BEQ</text>
+  <text x="250" y="1040" class="row">Implied</text>
+
+  <!-- Row 52: BMI (Branch if Minus) -->
+  <text x="10" y="1060" class="row">0x30</text>
+  <text x="100" y="1060" class="row">BMI</text>
+  <text x="250" y="1060" class="row">Implied</text>
+
+  <!-- Row 53: BNE (Branch if Not Equal) -->
+  <text x="10" y="1080" class="row">0xD0</text>
+  <text x="100" y="1080" class="row">BNE</text>
+  <text x="250" y="1080" class="row">Implied</text>
+
+  <!-- Row 54: BPL (Branch if Plus) -->
+  <text x="10" y="1100" class="row">0x10</text>
+  <text x="100" y="1100" class="row">BPL</text>
+  <text x="250" y="1100" class="row">Implied</text>
+
+  <!-- Row 55: BVC (Branch if Overflow Clear) -->
+  <text x="10" y="1120" class="row">0x50</text>
+  <text x="100" y="1120" class="row">BVC</text>
+  <text x="250" y="1120" class="row">Implied</text>
+
+  <!-- Row 56: BVS (Branch if Overflow Set) -->
+  <text x="10" y="1140" class="row">0x70</text>
+  <text x="100" y="1140" class="row">BVS</text>
+  <text x="250" y="1140" class="row">Implied</text>
+
+  <!-- Row 57: PHP (Push Processor Status) -->
+  <text x="10" y="1160" class="row">0x08</text>
+  <text x="100" y="1160" class="row">PHP</text>
+  <text x="250" y="1160" class="row">Implied</text>
+
+  <!-- Row 58: PLP (Pull Processor Status) -->
+  <text x="10" y="1180" class="row">0x28</text>
+  <text x="100" y="1180" class="row">PLP</text>
+  <text x="250" y="1180" class="row">Implied</text>
+
+  <!-- Row 59: PHA (Push Accumulator) -->
+  <text x="10" y="1200" class="row">0x48</text>
+  <text x="100" y="1200" class="row">PHA</text>
+  <text x="250" y="1200" class="row">Implied</text>
+
+  <!-- Row 60: PLA (Pull Accumulator) -->
+  <text x="10" y="1220" class="row">0x68</text>
+  <text x="100" y="1220" class="row">PLA</text>
+  <text x="250" y="1220" class="row">Implied</text>
+
+  <!-- Row 61: RTS (Return from Subroutine) -->
+  <text x="10" y="1240" class="row">0x60</text>
+  <text x="100" y="1240" class="row">RTS</text>
+  <text x="250" y="1240" class="row">Implied</text>
+
+  <!-- Row 62: RTI (Return from Interrupt) -->
+  <text x="10" y="1260" class="row">0x40</text>
+  <text x="100" y="1260" class="row">RTI</text>
+  <text x="250" y="1260" class="row">Implied</text>
+
+  <!-- Row 63: ADC Immediate -->
+  <text x="10" y="1280" class="row">0x69</text>
+  <text x="100" y="1280" class="row">ADC</text>
+  <text x="250" y="1280" class="row">Immediate</text>
+
+  <!-- Row 64: SBC Immediate -->
+  <text x="10" y="1300" class="row">0xE9</text>
+  <text x="100" y="1300" class="row">SBC</text>
+  <text x="250" y="1300" class="row">Immediate</text>
+</svg>

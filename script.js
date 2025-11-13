@@ -36,35 +36,35 @@ const pageData = {
         title: 'remy the rat',
         year: '2025',
         tech: 'rust',
-        description: 'Remote access tool written in Rust with stealth mode, persistence, and live command streaming.'
+        description: ''
       },
       {
         image: 'images/6502-photo.png',
         title: '6502 emulator',
         year: '2024–2025',
         tech: 'rust + asm',
-        description: 'A rust based 6502 emulator with a simple assmebler'
+        description: 'a rust based 6502 emulator with a simple assmebler'
       },
       {
         image: 'images/lin-alg-photo.gif',
         title: 'terrible linear algebra + neural network',
         year: '2024',
         tech: 'java',
-        description: 'A java based linear algebra library I wrote in tandem with my linear algebra class.'
+        description: 'a java based linear algebra library I wrote in tandem with my linear algebra class.'
       },
       {
         image: 'images/mandelbrot-photo.png',
         title: 'mandelbrot visualization',
         year: '2024',
         tech: 'c + javascript',
-        description: 'Two mandelbrot set visualizers, one written in p5.js and one written in C. Guess which one is faster lol.'
+        description: 'two mandelbrot set visualizers, one written in p5.js and one written in C'
       },
       {
         image: 'images/podcast-photo.png',
         title: 'illegal Empire Podcast',
         year: '2023',
-        tech: 'Research + Audio Production',
-        description: 'Investigative podcast series examining how Latin American criminal networks infiltrate politics and industry. Featured conversations with leading academics on cartel economics, digital crime networks, and criminal governance.',
+        tech: 'research + audio production',
+        description: 'investigative podcast series examining how Latin American criminal networks infiltrate politics and industry. Featured conversations with leading academics on cartel economics, digital crime networks, and criminal governance.',
         link: 'https://maxwellisaacs.github.io/epd/index.html'
       },
       {
@@ -72,14 +72,14 @@ const pageData = {
         title: 'chessDL',
         year: '2023',
         tech: 'C++',
-        description: 'One of the ugliest (yet functional) versions of chess created using c++ & SDL'
+        description: 'one of the ugliest (yet functional) versions of chess created using c++ & SDL'
       },
       {
         image: 'images/project3.jpg',
         title: 'huffman encoding',
         year: '2022',
-        tech: 'Rust',
-        description: 'A compression algorithm implementation using Huffman coding techniques.'
+        tech: 'c',
+        description: 'a huffman compression implementation and visualization'
       }
     ]
   },

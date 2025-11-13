@@ -15,7 +15,7 @@ const workPageData = {
     {
       image: 'images/light-party.png',
       title: 'PartyPass',
-      year: '2023-2024',
+      year: '2025',
       tech: 'django + next.js',
       description: 'Full-stack event ticketing platform with Stripe Connect integration, QR validation, and real-time analytics.'
     }

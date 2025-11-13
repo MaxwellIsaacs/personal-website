@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>max's sudoku - Maxwell Isaacs</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Archivo:opsz,wght@8..144,400;8..144,500;8..144,600;8..144,700&family=Playfair+Display:wght@300;400;500;600;700&family=Georgia:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <script>
+        function goBackToPortfolio() {
+            const returnPage = localStorage.getItem('returnToPage') || 'projects';
+            console.log('Going back to page:', returnPage);
+            window.location.href = '../../index.html#projects';
+        }
+    </script>
+    
+    <!-- Hero Section -->
+    <section class="project-hero" id="project-hero" style="background: #2A2B3D; position: relative; overflow: hidden;">
+        <div class="project-hero-content" style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; max-width: 1400px; margin: 0 auto; padding: 100px 64px;">
+            <div>
+                <h1 class="project-hero-title" style="font-family: 'Playfair Display', 'Times New Roman', serif; font-weight: 400; letter-spacing: -0.02em; color: #E8E3D3; margin-bottom: 24px;">
+                    Max's Sudoku
+                </h1>
+                <p class="project-hero-subtitle" style="font-family: 'Georgia', serif; font-weight: 400; color: #C7BCA1; line-height: 1.6; max-width: 520px; font-size: 1.15rem; margin-bottom: 48px;">A Sudoku, rust game & <span style=\"color: #E8D5B7; font-style: italic;\">puzzle creation engine</span>, compiled to WebAssembly directly to your right. I built this in an effort to play 5 games a day and is optimized for <a url="">my setup</a> </p>
+                <div class="project-hero-meta" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 400px;">
+                    <div>
+                        <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">built</span>
+                        <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">2025</span>
+                    </div>
+                    <div style="position: relative;">
+                        <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">stack</span>
+                        <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400; cursor: pointer; transition: color 0.3s ease;" onmouseover="this.nextElementSibling.style.opacity='1'; this.nextElementSibling.style.visibility='visible'" onmouseout="this.nextElementSibling.style.opacity='0'; this.nextElementSibling.style.visibility='hidden'">rust</span>
+                        <div style="position: absolute; top: 100%; left: -20px; background: #2A2B3D; color: #E8E3D3; padding: 16px 20px; border-radius: 6px; font-family: 'Georgia', serif; font-size: 0.9rem; white-space: nowrap; opacity: 0; visibility: hidden; transition: all 0.3s ease; margin-top: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); z-index: 10; border: 1px solid #8B7D6B;">
+                            <div style="margin-bottom: 8px; color: #C7BCA1; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Tech Stack</div>
+                            <div style="line-height: 1.5;">
+                                <div style="margin-bottom: 4px;"><span style="color: #8B7D6B;">Core:</span> Rust + wasm-bindgen</div>
+                                <div style="margin-bottom: 4px;"><span style="color: #8B7D6B;">GUI:</span> egui (Immediate Mode)</div>
+                                <div style="margin-bottom: 4px;"><span style="color: #8B7D6B;">Graphics:</span> WebGL/OpenGL ES</div>
+                                <div><span style="color: #8B7D6B;">Build:</span> wasm-pack</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">type</span>
+                        <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">game</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Live Sudoku Game -->
+            <div style="position: relative; width: 100%; max-width: 520px;">
+                <div style="position: absolute; top: -24px; right: 0; color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.75rem; font-style: italic;">
+                    *generating hard puzzles may be slow in browser
+                </div>
+                <div class="game-container" style="position: relative; width: 100%; min-width: 420px; height: 560px; border-radius: 24px; overflow-x: auto; overflow-y: hidden; background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 80px rgba(100,150,255,0.15), inset 0 2px 0 rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.08);">
+                    <iframe 
+                        src="http://localhost:8000/.sudoku-wasm/preview.html" 
+                        style="width: 100%; height: 100%; border: none; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%); opacity: 0; transition: opacity 0.3s ease;"
+                        loading="eager"
+                        sandbox="allow-same-origin allow-scripts"
+                        title="Sudoku WASM Game"
+                        onload="this.style.opacity='1'"
+                        onerror="this.nextElementSibling.style.display='block'">
+                    </iframe>
+                    <div style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: #C7BCA1; font-family: 'Georgia', serif;">
+                        <div style="font-size: 1.2rem; margin-bottom: 8px;">🔢</div>
+                        <div style="font-size: 0.9rem;">Sudoku Game Loading...</div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Full Sudoku Content -->
+    <div class="project-content" id="project-content">
+        <!-- Overview -->
+        <section style="padding: 80px 64px; max-width: 1200px; margin: 0 auto;">
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 600; color: #2C2923; margin: 0 0 32px 0; line-height: 1.2;">Overview</h2>
+            <p style="font-family: 'Georgia', serif; font-size: 1.2rem; line-height: 1.8; color: #333; margin-bottom: 32px; max-width: 900px;">A fast Sudoku game built in Rust and compiled to WebAssembly for web deployment. The engine uses backtracking algorithms with constraint propagation to generate valid puzzles and provides real-time validation with an immediate-mode GUI.</p>
+            <p style="font-family: 'Georgia', serif; font-size: 1.1rem; line-height: 1.7; color: #444; max-width: 900px;">Built with egui for cross-platform compatibility - the same Rust codebase runs natively on desktop and in browsers via WASM. Features multiple difficulty levels, keyboard/mouse controls, and optimized rendering for smooth 60fps gameplay.</p>
+        </section>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav" id="bottomNav">
+        <a href="#projects" onclick="goBackToPortfolio(); return false;" class="nav-back-item">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Back to Portfolio
+        </a>
+    </nav>
+
+    <script>
+        function setupProjectScrollAnimation() {
+            const projectHero = document.getElementById('project-hero');
+            const projectContent = document.getElementById('project-content');
+            
+            if (!projectHero || !projectContent) return;
+            
+            let hasScrolled = false;
+            
+            function handleScroll() {
+                const scrollY = window.scrollY;
+                const heroHeight = projectHero.offsetHeight;
+                const heroTrigger = heroHeight * 0.4;
+                
+                // Once scrolled past trigger, keep header compressed
+                if (scrollY > heroTrigger && !hasScrolled) {
+                    projectHero.classList.add('scrolled');
+                    projectContent.classList.add('visible');
+                    hasScrolled = true;
+                }
+                
+                // Show/hide preview based on scroll position (only at very top)
+                if (scrollY <= 10) {
+                    projectHero.classList.remove('hide-preview');
+                } else {
+                    projectHero.classList.add('hide-preview');
+                }
+            }
+            
+            window.addEventListener('scroll', handleScroll);
+        }
+
+        document.addEventListener('DOMContentLoaded', setupProjectScrollAnimation);
+    </script>
+
+    <div class="footer-spacer"></div>
+</body>
+</html>

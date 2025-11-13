@@ -17,22 +17,22 @@
         }
     </script>
     <!-- Hero Section -->
-    <section class="project-hero" id="project-hero" style="background: linear-gradient(135deg, #8B4513 0%, #CD853F 100%);">
+    <section class="project-hero" id="project-hero" style="background: linear-gradient(135deg, #4A4458 0%, #2F3349 100%);">
         <div class="project-hero-content">
-            <h1 class="project-hero-title">Remy Conductor</h1>
-            <p class="project-hero-subtitle">A stealthy C2 framework that uses WASM with a standardized, custom ABI for fully modular payloads.</p>
-            <div class="project-hero-meta">
-                <div class="hero-meta-item">
-                    <span class="hero-meta-label">Built</span>
-                    <span class="hero-meta-value">2025</span>
+            <h1 class="project-hero-title" style="font-family: 'Playfair Display', 'Times New Roman', serif; font-weight: 400; letter-spacing: -0.02em;">Remy Conductor</h1>
+            <p class="project-hero-subtitle" style="font-family: 'Georgia', serif; font-weight: 400; line-height: 1.6; max-width: 520px; font-size: 1.15rem;">A stealthy C2 framework that uses WASM with a standardized, custom ABI for fully modular payloads.</p>
+            <div class="project-hero-meta" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin: 48px 0; max-width: 400px;">
+                <div>
+                    <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">Built</span>
+                    <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">2025</span>
                 </div>
-                <div class="hero-meta-item">
-                    <span class="hero-meta-label">Language</span>
-                    <span class="hero-meta-value">Rust + WASM</span>
+                <div>
+                    <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">Language</span>
+                    <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">rust + wasm</span>
                 </div>
-                <div class="hero-meta-item">
-                    <span class="hero-meta-label">Status</span>
-                    <span class="hero-meta-value">Development</span>
+                <div>
+                    <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">Status</span>
+                    <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">active development</span>
                 </div>
             </div>
         </div>
@@ -40,10 +40,552 @@
     
     <!-- Main Content -->
     <div class="project-content" id="project-content">
-        <!-- Overview Section -->
-        <section class="content-section">
-            <h2 class="section-title">Project Overview</h2>
-            <p class="section-subtitle">Detailed project information and implementation details will be added here.</p>
+        <div style="display: grid; grid-template-columns: 1fr; gap: 64px; align-items: start;">
+            <div>
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 600; color: #2C2923; margin: 0 0 24px 0; line-height: 1.2;">Security Disclaimer</h2>
+                <p style="font-family: 'Georgia', serif; font-size: 1.1rem; line-height: 1.7; color: #444;"> This is solely and completely an educational tool, designed to be used only within my <a href="#">OCR</a> for proper isolation and auditability.</p>
+            </div>
+        </div>
+        <!-- Problem & Solution -->
+        <section style="padding: 80px 64px; max-width: 1200px; margin: 0 auto;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;">
+                <div>
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 600; color: #2C2923; margin: 0 0 24px 0; line-height: 1.2;">Project Goals</h2>
+                <p style="font-family: 'Georgia', serif; font-size: 1.1rem; line-height: 1.7; color: #444;"> Initially, I didn't set out to make a full command and control framework, capable of managing multiple implants at once and modularly loading new payloads. At first, I just wanted to make a rust based RAT, or backdoor, since I couldn't find any quality open source options. However, what started as a small backdoor spiraled into a full C2 apparatus. My only true goal with this project is to make a unique and creative C2 framework. I chose WASM due to its portability and isolated runtime environment, making it perfect for an implant system.</p>
+            </div>
+            <div>
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 600; color: #2C2923; margin: 0 0 24px 0; line-height: 1.2;">Bird's Eye View</h2>
+                <p style="font-family: 'Georgia', serif; font-size: 1.1rem; line-height: 1.7; color: #444; margin-bottom: 24px;"> This entire page goes into depth about most design decisions, but the TL;DR would be:</p>
+                <ol style="font-family: 'Georgia', serif; font-size: 1.1rem; line-height: 1.8; color: #444; padding-left: 24px; margin: 0;">
+                    <li style="margin-bottom: 12px;">The initial implant is loaded onto target system</li>
+                    <li style="margin-bottom: 12px;">Rust binary is executed, WASM runtime environment is initialized</li>
+                    <li style="margin-bottom: 12px;">WASM runtime listens for server over encrypted UDP channel, server sends sharded WASM binaries that are in accordance with the ABI</li>
+                    <li style="margin-bottom: 12px;">Payloads are run using minimal system resources and no footprint. Everything is fully in memory, avoiding disk writes and persistent artifacts</li>
+                    <li style="margin-bottom: 0;">Sends sharded data back over UDP channel using jitters and randomized timing</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+
+ 
+        <!-- Tech Stack Emacs Buffer -->
+        <section style="padding: 80px 64px; max-width: 1200px; margin: 0 auto;">
+            <div style="background: #1d2021; font-family: 'Monaco', 'Menlo', monospace; font-size: 0.85rem; overflow: hidden; border: 1px solid #3c3836;">
+                <div style="background: #3c3836; color: #ebdbb2; padding: 4px 12px; font-size: 0.8rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #504945;">
+                    <span style="color: #fabd2f;">emacsclient</span>
+                    <span style="color: #83a598;">remy_conductor.rs</span>
+                </div>
+                <div style="padding: 20px; background: #1d2021; color: #ebdbb2; line-height: 1.7;">
+                    <div style="color: #928374; margin-bottom: 24px;">
+                        <div style="margin-bottom: 4px;">"""</div>
+                        <div style="margin-bottom: 4px;">================================================================</div>
+                        <div style="margin-bottom: 4px;">                        Remy Conductor</div>
+                        <div style="margin-bottom: 4px;">                 Infra and Architecture Breakdown</div>
+                        <div style="margin-bottom: 4px;">================================================================</div>
+                        <div>"""</div>
+                    </div>
+                    <div style="margin-bottom: 24px;">
+                        <span style="color: #fb4934;">use</span><span style="color: #ebdbb2;"> wasmer::{Store, Module, Instance};</span>
+                        <div style="margin-left: 0px; margin-top: 8px;">
+                            <div><span style="color: #fb4934;">use</span><span style="color: #ebdbb2;"> tokio::net::{</span><span style="color: #8ec07c;">UdpSocket</span><span style="color: #ebdbb2;">};</span></div>
+                            <div><span style="color: #fb4934;">use</span><span style="color: #ebdbb2;"> serde::{</span><span style="color: #8ec07c;">Serialize, Deserialize</span><span style="color: #ebdbb2;">};</span></div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 24px;">
+                        <span style="color: #fb4934;">struct</span><span style="color: #ebdbb2;"> </span><span style="color: #fabd2f;">C2Framework</span><span style="color: #ebdbb2;"> {</span>
+                        <div style="margin-left: 20px;">
+                            <div><span style="color: #8ec07c;">wasm_store</span><span style="color: #ebdbb2;">: </span><span style="color: #fabd2f;">Store</span><span style="color: #ebdbb2;">,</span></div>
+                            <div><span style="color: #8ec07c;">active_modules</span><span style="color: #ebdbb2;">: Vec<</span><span style="color: #fabd2f;">Instance</span><span style="color: #ebdbb2;">>,</span></div>
+                            <div><span style="color: #8ec07c;">udp_socket</span><span style="color: #ebdbb2;">: </span><span style="color: #fabd2f;">UdpSocket</span><span style="color: #ebdbb2;">,</span></div>
+                            <div><span style="color: #8ec07c;">encryption_key</span><span style="color: #ebdbb2;">: [</span><span style="color: #d79921;">u8</span><span style="color: #ebdbb2;">; </span><span style="color: #d3869b;">32</span><span style="color: #ebdbb2;">]</span></div>
+                        </div>
+                        <span style="color: #ebdbb2;">}</span>
+                    </div>
+                    <div style="color: #928374; margin-bottom: 20px;">
+                        <span style="color: #928374;">//</span><span style="color: #928374;"> Modular payload execution via WASM runtime</span>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <span style="color: #fb4934;">impl</span><span style="color: #ebdbb2;"> </span><span style="color: #fabd2f;">C2Framework</span><span style="color: #ebdbb2;"> {</span>
+                        <div style="margin-left: 20px;">
+                            <div><span style="color: #fb4934;">async fn</span><span style="color: #ebdbb2;"> </span><span style="color: #b8bb26;">execute_payload</span><span style="color: #ebdbb2;">(&</span><span style="color: #fb4934;">mut</span><span style="color: #ebdbb2;"> </span><span style="color: #83a598;">self</span><span style="color: #ebdbb2;">, wasm_bytes: &[</span><span style="color: #d79921;">u8</span><span style="color: #ebdbb2;">]) { ... }</span></div>
+                        </div>
+                        <span style="color: #ebdbb2;">}</span>
+                    </div>
+                </div>
+                <div style="background: #3c3836; color: #ebdbb2; padding: 4px 12px; font-size: 0.7rem; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #504945;">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <span style="color: #ebdbb2;">**-</span>
+                        <span style="background: #458588; color: #1d2021; padding: 2px 8px; font-weight: bold;">N</span>
+                        <span style="color: #ebdbb2;">3.2k</span>
+                        <span style="color: #ebdbb2;">c2_framework.rs</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="color: #ebdbb2;">42:1</span>
+                        <span style="color: #ebdbb2;">100%</span>
+                        <span style="color: #fabd2f; font-weight: bold;">RUST</span>
+                        <span style="color: #83a598;">⎇ main</span>
+                        <span style="background: #b8bb26; color: #1d2021; padding: 2px 6px;">✓</span>
+                        <span style="background: #458588; color: #ebdbb2; padding: 2px 6px;">LSP</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Architecture Diagram -->
+        <section style="padding: 80px 64px; max-width: 1400px; margin: 0 auto;">
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 600; color: #2C2923; margin: 0 0 48px 0; line-height: 1.2; text-align: center;">Remy Conductor Architecture</h2>
+            
+            <div class="architecture-layout" style="display: grid; grid-template-columns: 1fr 400px; gap: 24px; align-items: start;">
+                <style>
+                    @media (max-width: 1000px) {
+                        .architecture-layout {
+                            grid-template-columns: 1fr !important;
+                            gap: 32px !important;
+                        }
+                        
+                        #info-panel {
+                            position: relative !important;
+                            top: 0 !important;
+                        }
+                    }
+                </style>
+            
+            <style>
+                .architecture-container {
+                    background: #fafafa;
+                    border: 1px solid #e5e5e5;
+                    border-radius: 8px;
+                    padding: 48px;
+                    position: relative;
+                }
+                
+                .c2-server {
+                    background: white;
+                    border: 2px solid #333;
+                    color: #333;
+                    padding: 20px 32px;
+                    border-radius: 4px;
+                    text-align: center;
+                    margin: 0 auto 32px;
+                    max-width: 280px;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                }
+                
+                .c2-server:hover {
+                    border-color: #666;
+                    background: #f9f9f9;
+                }
+                
+                .c2-server-title {
+                    font-family: 'Inter', sans-serif;
+                    font-weight: 600;
+                    font-size: 0.9rem;
+                    letter-spacing: 0.03em;
+                    margin-bottom: 4px;
+                }
+                
+                .c2-server-subtitle {
+                    font-family: 'Inter', sans-serif;
+                    font-size: 0.75rem;
+                    color: #666;
+                    font-weight: 400;
+                }
+                
+                .connection-flow {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    margin: 24px 0;
+                }
+                
+                .flow-arrow {
+                    width: 1px;
+                    height: 40px;
+                    background: #333;
+                    margin: 8px 0;
+                    position: relative;
+                }
+                
+                .flow-arrow::after {
+                    content: '';
+                    position: absolute;
+                    bottom: -4px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 0;
+                    height: 0;
+                    border-left: 4px solid transparent;
+                    border-right: 4px solid transparent;
+                    border-top: 6px solid #333;
+                }
+                
+                .flow-label {
+                    background: white;
+                    color: #555;
+                    padding: 6px 12px;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    font-family: 'Inter', sans-serif;
+                    font-size: 0.7rem;
+                    font-weight: 500;
+                }
+                
+                .target-system {
+                    background: white;
+                    border: 2px solid #333;
+                    border-radius: 4px;
+                    padding: 32px;
+                    position: relative;
+                    transition: all 0.2s ease;
+                }
+                
+                .target-system:hover {
+                    border-color: #666;
+                }
+                
+                .system-title {
+                    color: #333;
+                    font-family: 'Inter', sans-serif;
+                    font-weight: 600;
+                    font-size: 0.9rem;
+                    text-align: center;
+                    margin-bottom: 24px;
+                    letter-spacing: 0.03em;
+                }
+                
+                .wasm-runtime {
+                    background: #f8f9fa;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    padding: 24px;
+                    margin-bottom: 20px;
+                    position: relative;
+                    transition: all 0.2s ease;
+                    cursor: pointer;
+                }
+                
+                .wasm-runtime:hover {
+                    border-color: #999;
+                    background: #f5f5f5;
+                }
+                
+                .wasm-title {
+                    color: #333;
+                    font-family: 'Inter', sans-serif;
+                    font-weight: 600;
+                    font-size: 0.8rem;
+                    margin-bottom: 16px;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                }
+                
+                .memory-indicator {
+                    color: #666;
+                    font-size: 0.65rem;
+                    font-weight: 400;
+                    margin-left: auto;
+                    font-style: italic;
+                }
+                
+                .payload-modules {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                    gap: 10px;
+                    margin-bottom: 16px;
+                }
+                
+                .module {
+                    background: white;
+                    border: 1px solid #ddd;
+                    border-radius: 3px;
+                    padding: 12px 8px;
+                    text-align: center;
+                    transition: all 0.2s ease;
+                    cursor: pointer;
+                }
+                
+                .module:hover {
+                    border-color: #999;
+                    background: #fafafa;
+                }
+                
+                .module-name {
+                    color: #333;
+                    font-family: 'Inter', sans-serif;
+                    font-size: 0.7rem;
+                    font-weight: 500;
+                    margin-bottom: 2px;
+                }
+                
+                .module-type {
+                    color: #666;
+                    font-family: 'Inter', sans-serif;
+                    font-size: 0.6rem;
+                    font-weight: 400;
+                }
+                
+                .abi-interface {
+                    background: #f0f0f0;
+                    border: 1px solid #ccc;
+                    border-radius: 3px;
+                    padding: 12px;
+                    text-align: center;
+                    transition: all 0.2s ease;
+                    cursor: pointer;
+                }
+                
+                .abi-interface:hover {
+                    border-color: #999;
+                    background: #eaeaea;
+                }
+                
+                .abi-title {
+                    color: #333;
+                    font-family: 'Inter', sans-serif;
+                    font-size: 0.7rem;
+                    font-weight: 600;
+                }
+                
+                .system-resources {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                    gap: 12px;
+                    margin-top: 20px;
+                }
+                
+                .resource {
+                    background: white;
+                    border: 1px solid #ddd;
+                    border-radius: 3px;
+                    padding: 12px;
+                    text-align: center;
+                    transition: all 0.2s ease;
+                    cursor: pointer;
+                }
+                
+                .resource:hover {
+                    border-color: #999;
+                    background: #fafafa;
+                }
+                
+                .resource-icon {
+                    width: 24px;
+                    height: 24px;
+                    background: #e5e5e5;
+                    border-radius: 3px;
+                    margin: 0 auto 8px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 0.8rem;
+                    transition: all 0.2s ease;
+                }
+                
+                .resource:hover .resource-icon {
+                    background: #ddd;
+                }
+                
+                .resource-label {
+                    color: #555;
+                    font-family: 'Inter', sans-serif;
+                    font-size: 0.6rem;
+                    font-weight: 500;
+                }
+                
+                .data-flow-indicators {
+                    display: flex;
+                    justify-content: center;
+                    gap: 24px;
+                    margin-top: 20px;
+                    padding-top: 16px;
+                    border-top: 1px solid #e5e5e5;
+                }
+                
+                .flow-indicator {
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    color: #888;
+                    font-family: 'Inter', sans-serif;
+                    font-size: 0.7rem;
+                    font-weight: 400;
+                    opacity: 0.8;
+                }
+            </style>
+            
+            <div class="architecture-container">
+                <!-- C2 Server -->
+                <div class="c2-server pulse" onclick="highlightComponent('c2-server')">
+                    <div class="c2-server-title">REMY CONDUCTOR C2</div>
+                    <div class="c2-server-subtitle">Command & Control Server</div>
+                </div>
+                
+                <!-- Connection Flow -->
+                <div class="connection-flow">
+                    <div class="flow-label">Encrypted UDP • ChaCha20-Poly1305</div>
+                    <div class="flow-arrow"></div>
+                </div>
+                
+                <!-- Target System -->
+                <div class="target-system" onclick="highlightComponent('target-system')">
+                    <div class="system-title">TARGET SYSTEM</div>
+                    
+                    <!-- WASM Runtime -->
+                    <div class="wasm-runtime" onclick="event.stopPropagation(); highlightComponent('wasm-runtime')">
+                        <div class="wasm-title">
+                            WASMER RUNTIME ENVIRONMENT
+                            <div class="memory-indicator">in-memory execution</div>
+                        </div>
+                        
+                        <!-- Payload Modules -->
+                        <div class="payload-modules">
+                            <div class="module" onclick="event.stopPropagation(); showModuleInfo('reconnaissance')">
+                                <div class="module-name">RECONNAISSANCE</div>
+                                <div class="module-type">system.wasm</div>
+                            </div>
+                            <div class="module" onclick="event.stopPropagation(); showModuleInfo('persistence')">
+                                <div class="module-name">PERSISTENCE</div>
+                                <div class="module-type">persist.wasm</div>
+                            </div>
+                            <div class="module" onclick="event.stopPropagation(); showModuleInfo('exfiltration')">
+                                <div class="module-name">EXFILTRATION</div>
+                                <div class="module-type">exfil.wasm</div>
+                            </div>
+                            <div class="module" onclick="event.stopPropagation(); showModuleInfo('lateral')">
+                                <div class="module-name">LATERAL MOVEMENT</div>
+                                <div class="module-type">lateral.wasm</div>
+                            </div>
+                        </div>
+                        
+                        <!-- ABI Interface -->
+                        <div class="abi-interface" onclick="event.stopPropagation(); showABIInfo()">
+                            <div class="abi-title">CUSTOM ABI INTERFACE</div>
+                        </div>
+                    </div>
+                    
+                    <!-- System Resources -->
+                    <div class="system-resources">
+                        <div class="resource" onclick="event.stopPropagation(); showResourceInfo('filesystem')">
+                            <div class="resource-icon">📁</div>
+                            <div class="resource-label">FILE SYSTEM</div>
+                        </div>
+                        <div class="resource" onclick="event.stopPropagation(); showResourceInfo('network')">
+                            <div class="resource-icon">🌐</div>
+                            <div class="resource-label">NETWORK</div>
+                        </div>
+                        <div class="resource" onclick="event.stopPropagation(); showResourceInfo('processes')">
+                            <div class="resource-icon">⚡</div>
+                            <div class="resource-label">PROCESSES</div>
+                        </div>
+                        <div class="resource" onclick="event.stopPropagation(); showResourceInfo('registry')">
+                            <div class="resource-icon">🗂️</div>
+                            <div class="resource-label">REGISTRY</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Data Flow Indicators -->
+                <div class="data-flow-indicators">
+                    <div class="flow-indicator">
+                        <span class="flow-arrow-icon">↓</span>
+                        <span>Payload Delivery</span>
+                    </div>
+                    <div class="flow-indicator">
+                        <span class="flow-arrow-icon">↑</span>
+                        <span>Data Exfiltration</span>
+                    </div>
+                    <div class="flow-indicator">
+                        <span class="flow-arrow-icon">⟳</span>
+                        <span>Session Management</span>
+                    </div>
+                </div>
+            </div>
+                
+                <!-- Info Panel -->
+                <div id="info-panel" style="background: white; border: 1px solid #ddd; border-radius: 4px; padding: 20px; position: sticky; top: 100px; transition: all 0.3s ease;">
+                    <div id="info-content" style="color: #333; font-family: 'Inter', sans-serif; font-size: 0.85rem; line-height: 1.5;">
+                        Select any component to view technical details.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Future Enhancements -->
+        <section style="padding: 80px 64px; max-width: 1200px; margin: 0 auto;">
+            <div style="display: grid; grid-template-columns: 1fr; gap: 64px; align-items: start;">
+                <div>
+                    <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 600; color: #2C2923; margin: 0 0 24px 0; line-height: 1.2;">Future Enhancements</h2>
+                    <p style="font-family: 'Georgia', serif; font-size: 1.1rem; line-height: 1.7; color: #444; margin-bottom: 32px;">To make Remy Conductor truly field-ready and cutting-edge, several advanced capabilities are planned for future iterations:</p>
+                    
+                    <!-- Carousel Container -->
+                    <div id="future-carousel" style="position: relative; background: white; border-top: 1px solid #000; border-bottom: 1px solid #000; margin: 0 auto; max-width: 1000px; height: 400px; overflow: hidden;">
+                        <!-- Current Slide Counter -->
+                        <div id="slide-counter" style="position: absolute; top: 20px; right: 24px; font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 600; color: #999; letter-spacing: 0.1em; z-index: 10;">01 / 05</div>
+                        
+                        <!-- Carousel Slides -->
+                        <div id="carousel-track" style="display: flex; transition: transform 0.5s ease; height: 100%;">
+                            <!-- Slide 1 -->
+                            <div class="carousel-slide" style="min-width: 100%; box-sizing: border-box; padding: 60px 80px; display: flex; flex-direction: column; justify-content: center; text-align: left;">
+                                <div style="border-left: 3px solid #000; padding-left: 32px; max-width: 600px;">
+                                    <h3 style="font-family: 'Inter', sans-serif; font-size: 2.25rem; font-weight: 800; color: #000; margin: 0 0 20px 0; letter-spacing: -0.03em; line-height: 1.1;">Dead Drop Communications</h3>
+                                    <p style="font-family: 'Inter', sans-serif; font-size: 1.1rem; line-height: 1.4; color: #555; margin: 0 0 16px 0; font-weight: 400;">Replace direct server communication with asynchronous dead drops using cloud storage APIs. Implants check predefined locations at randomized intervals, eliminating persistent C2 infrastructure.</p>
+                                    <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.3; color: #888; margin: 0; font-style: italic;">Implementation would include modular connectors for GitHub Gists, Pastebin Pro, and AWS S3 with encrypted payload caching and randomized check intervals.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Slide 2 -->
+                            <div class="carousel-slide" style="min-width: 100%; box-sizing: border-box; padding: 60px 80px; display: flex; flex-direction: column; justify-content: center; text-align: left;">
+                                <div style="border-left: 3px solid #000; padding-left: 32px; max-width: 600px;">
+                                    <h3 style="font-family: 'Inter', sans-serif; font-size: 2.25rem; font-weight: 800; color: #000; margin: 0 0 20px 0; letter-spacing: -0.03em; line-height: 1.1;">Adaptive Protocol Selection</h3>
+                                    <p style="font-family: 'Inter', sans-serif; font-size: 1.1rem; line-height: 1.4; color: #555; margin: 0 0 16px 0; font-weight: 400;">Intelligent protocol switching based on network conditions and detection evasion. Dynamically choose between UDP, TCP, HTTP/HTTPS, DNS tunneling, or WebSocket connections.</p>
+                                    <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.3; color: #888; margin: 0; font-style: italic;">Would feature a network profiling engine that automatically selects optimal protocols based on firewall rules, traffic patterns, and available services detected on the target network.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Slide 3 -->
+                            <div class="carousel-slide" style="min-width: 100%; box-sizing: border-box; padding: 60px 80px; display: flex; flex-direction: column; justify-content: center; text-align: left;">
+                                <div style="border-left: 3px solid #000; padding-left: 32px; max-width: 600px;">
+                                    <h3 style="font-family: 'Inter', sans-serif; font-size: 2.25rem; font-weight: 800; color: #000; margin: 0 0 20px 0; letter-spacing: -0.03em; line-height: 1.1;">Domain Fronting & CDN Abuse</h3>
+                                    <p style="font-family: 'Inter', sans-serif; font-size: 1.1rem; line-height: 1.4; color: #555; margin: 0 0 16px 0; font-weight: 400;">Leverage legitimate CDN services for command delivery. Traffic appears to contact trusted domains while routing to C2 infrastructure, making blocking nearly impossible.</p>
+                                    <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.3; color: #888; margin: 0; font-style: italic;">Integration with CloudFlare Workers, AWS CloudFront, and Azure CDN APIs to route commands through legitimate infrastructure that can't be blocked without breaking critical services.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Slide 4 -->
+                            <div class="carousel-slide" style="min-width: 100%; box-sizing: border-box; padding: 60px 80px; display: flex; flex-direction: column; justify-content: center; text-align: left;">
+                                <div style="border-left: 3px solid #000; padding-left: 32px; max-width: 600px;">
+                                    <h3 style="font-family: 'Inter', sans-serif; font-size: 2.25rem; font-weight: 800; color: #000; margin: 0 0 20px 0; letter-spacing: -0.03em; line-height: 1.1;">Mesh Networking</h3>
+                                    <p style="font-family: 'Inter', sans-serif; font-size: 1.1rem; line-height: 1.4; color: #555; margin: 0 0 16px 0; font-weight: 400;">Enable peer-to-peer communication between implants for redundant command relay. Creates a resilient mesh network topology when direct C2 connection is lost.</p>
+                                    <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.3; color: #888; margin: 0; font-style: italic;">Distributed command routing system with encrypted peer discovery, automatic failover protocols, and mesh topology mapping for resilient multi-hop communication paths.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Slide 5 -->
+                            <div class="carousel-slide" style="min-width: 100%; box-sizing: border-box; padding: 60px 80px; display: flex; flex-direction: column; justify-content: center; text-align: left;">
+                                <div style="border-left: 3px solid #000; padding-left: 32px; max-width: 600px;">
+                                    <h3 style="font-family: 'Inter', sans-serif; font-size: 2.25rem; font-weight: 800; color: #000; margin: 0 0 20px 0; letter-spacing: -0.03em; line-height: 1.1;">Steganographic Channels</h3>
+                                    <p style="font-family: 'Inter', sans-serif; font-size: 1.1rem; line-height: 1.4; color: #555; margin: 0 0 16px 0; font-weight: 400;">Embed command data within legitimate traffic like social media posts, image metadata, or blockchain transactions. Commands hidden in plain sight using advanced steganographic techniques.</p>
+                                    <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.3; color: #888; margin: 0; font-style: italic;">Custom encoding modules for Twitter API, Instagram image EXIF data, Bitcoin transaction metadata, and DNS TXT records with automated content generation to maintain plausible cover traffic.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Navigation Controls -->
+                        <div style="position: absolute; bottom: 20px; left: 24px; display: flex; gap: 16px; align-items: center;">
+                            <button id="prev-btn" style="background: rgba(0,0,0,0.7); border: none; width: 36px; height: 36px; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; transition: all 0.3s ease; backdrop-filter: blur(4px);">‹</button>
+                            <button id="next-btn" style="background: rgba(0,0,0,0.7); border: none; width: 36px; height: 36px; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; transition: all 0.3s ease; backdrop-filter: blur(4px);">›</button>
+                        </div>
+                        
+                        <!-- Progress Bar -->
+                        <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: rgba(0,0,0,0.1);">
+                            <div id="progress-bar" style="height: 100%; background: #000; width: 20%; transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
 
@@ -56,5 +598,330 @@
             Back to Portfolio
         </a>
     </nav>
+
+    <script>
+        function setupProjectScrollAnimation() {
+            const projectHero = document.getElementById('project-hero');
+            const projectContent = document.getElementById('project-content');
+            
+            if (!projectHero || !projectContent) return;
+            
+            let hasScrolled = false;
+            
+            function handleScroll() {
+                const scrollY = window.scrollY;
+                const heroHeight = projectHero.offsetHeight;
+                const heroTrigger = heroHeight * 0.4;
+                
+                // Once scrolled past trigger, keep header compressed
+                if (scrollY > heroTrigger && !hasScrolled) {
+                    projectHero.classList.add('scrolled');
+                    projectContent.classList.add('visible');
+                    hasScrolled = true;
+                }
+                
+                // Show/hide preview based on scroll position (only at very top)
+                if (scrollY <= 10) {
+                    projectHero.classList.remove('hide-preview');
+                } else {
+                    projectHero.classList.add('hide-preview');
+                }
+            }
+            
+            window.addEventListener('scroll', handleScroll);
+        }
+
+        document.addEventListener('DOMContentLoaded', setupProjectScrollAnimation);
+
+        // Carousel functionality
+        function setupCarousel() {
+            const track = document.getElementById('carousel-track');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const slideCounter = document.getElementById('slide-counter');
+            const progressBar = document.getElementById('progress-bar');
+            
+            let currentSlide = 0;
+            const totalSlides = 5;
+            
+            function updateCarousel() {
+                const translateX = -(currentSlide * 100); // 100% per slide
+                track.style.transform = `translateX(${translateX}%)`;
+                
+                // Update slide counter
+                const slideNumber = (currentSlide + 1).toString().padStart(2, '0');
+                slideCounter.textContent = `${slideNumber} / 05`;
+                
+                // Update progress bar
+                const progressWidth = ((currentSlide + 1) / totalSlides) * 100;
+                progressBar.style.width = `${progressWidth}%`;
+            }
+            
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                updateCarousel();
+            }
+            
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+                updateCarousel();
+            }
+            
+            // Event listeners
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+            
+            // Button hover effects
+            prevBtn.addEventListener('mouseenter', () => {
+                prevBtn.style.background = '#333';
+                prevBtn.style.transform = 'scale(1.1)';
+            });
+            prevBtn.addEventListener('mouseleave', () => {
+                prevBtn.style.background = '#000';
+                prevBtn.style.transform = 'scale(1)';
+            });
+            
+            nextBtn.addEventListener('mouseenter', () => {
+                nextBtn.style.background = '#333';
+                nextBtn.style.transform = 'scale(1.1)';
+            });
+            nextBtn.addEventListener('mouseleave', () => {
+                nextBtn.style.background = '#000';
+                nextBtn.style.transform = 'scale(1)';
+            });
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') prevSlide();
+                if (e.key === 'ArrowRight') nextSlide();
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', setupCarousel);
+
+        // Interactive Architecture Diagram Functions
+        function highlightComponent(componentType) {
+            const infoPanel = document.getElementById('info-panel');
+            const infoContent = document.getElementById('info-content');
+            
+            let title, description, details;
+            
+            switch(componentType) {
+                case 'c2-server':
+                    title = 'Command & Control Server';
+                    description = 'Rust-based server managing implant communications and payload distribution.';
+                    details = `
+                        <div style="margin-top: 16px;">
+                            <div style="font-weight: 600; margin-bottom: 8px; color: #666;">Implementation:</div>
+                            <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 0.8rem;">
+                                <li>Tokio async runtime for concurrent session handling</li>
+                                <li>ChaCha20-Poly1305 authenticated encryption</li>
+                                <li>UDP with configurable jitter and sleep intervals</li>
+                                <li>WASM module compilation and distribution</li>
+                                <li>Session management with heartbeat monitoring</li>
+                            </ul>
+                        </div>
+                    `;
+                    break;
+                case 'target-system':
+                    title = 'Target Environment';
+                    description = 'Compromised host running the implant with embedded WASM runtime.';
+                    details = `
+                        <div style="margin-top: 16px;">
+                            <div style="font-weight: 600; margin-bottom: 8px; color: #666;">Characteristics:</div>
+                            <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 0.8rem;">
+                                <li>Single ~2MB Rust binary</li>
+                                <li>Memory-only execution, no disk persistence</li>
+                                <li>Cross-platform compatibility (Windows/Linux/macOS)</li>
+                                <li>Process injection and hollowing resistance</li>
+                                <li>Anti-analysis and debugging evasion</li>
+                            </ul>
+                        </div>
+                    `;
+                    break;
+                case 'wasm-runtime':
+                    title = 'WebAssembly Runtime';
+                    description = 'Wasmer-based execution environment providing sandboxed module execution.';
+                    details = `
+                        <div style="margin-top: 16px;">
+                            <div style="font-weight: 600; margin-bottom: 8px; color: #666;">Features:</div>
+                            <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 0.8rem;">
+                                <li>JIT compilation with native performance</li>
+                                <li>Memory isolation between modules</li>
+                                <li>Dynamic module loading from C2</li>
+                                <li>Custom ABI for controlled system access</li>
+                                <li>Platform-independent bytecode execution</li>
+                            </ul>
+                        </div>
+                    `;
+                    break;
+                default:
+                    title = 'Architecture Overview';
+                    description = 'Select components to view implementation details.';
+                    details = '';
+            }
+            
+            infoContent.innerHTML = `
+                <div style="font-size: 1rem; font-weight: 600; margin-bottom: 8px; color: #333;">${title}</div>
+                <div style="font-size: 0.85rem; line-height: 1.5; color: #666; margin-bottom: 8px;">${description}</div>
+                ${details}
+            `;
+            
+            // Fixed layout - no dynamic resizing
+        }
+        
+        function showModuleInfo(moduleType) {
+            const infoPanel = document.getElementById('info-panel');
+            const infoContent = document.getElementById('info-content');
+            
+            const moduleData = {
+                reconnaissance: {
+                    title: 'Reconnaissance',
+                    description: 'System enumeration and environment discovery.',
+                    capabilities: [
+                        'Network interface and route enumeration',
+                        'Process and service discovery', 
+                        'User account privilege mapping',
+                        'Security product detection',
+                        'Active Directory reconnaissance'
+                    ]
+                },
+                persistence: {
+                    title: 'Persistence', 
+                    description: 'Maintains access through system persistence mechanisms.',
+                    capabilities: [
+                        'Registry key manipulation',
+                        'Scheduled task installation',
+                        'Service creation and modification',
+                        'WMI event subscriptions',
+                        'Startup folder entries'
+                    ]
+                },
+                exfiltration: {
+                    title: 'Exfiltration',
+                    description: 'Data collection and secure transmission.',
+                    capabilities: [
+                        'File system crawling',
+                        'Keylogging and clipboard capture',
+                        'Screenshot collection',
+                        'Browser credential extraction',
+                        'Document parsing and indexing'
+                    ]
+                },
+                lateral: {
+                    title: 'Lateral Movement',
+                    description: 'Network propagation and host compromise.',
+                    capabilities: [
+                        'SMB and WMI remote execution',
+                        'Credential dumping techniques',
+                        'Pass-the-hash authentication',
+                        'Remote PowerShell sessions',
+                        'Network share enumeration'
+                    ]
+                }
+            };
+            
+            const module = moduleData[moduleType];
+            
+            infoContent.innerHTML = `
+                <div style="font-size: 1rem; font-weight: 600; margin-bottom: 8px; color: #333;">${module.title}</div>
+                <div style="font-size: 0.85rem; line-height: 1.5; color: #666; margin-bottom: 12px;">${module.description}</div>
+                <div style="font-weight: 600; margin-bottom: 6px; color: #666; font-size: 0.8rem;">Capabilities:</div>
+                <ul style="margin: 0; padding-left: 16px; line-height: 1.5; font-size: 0.8rem;">
+                    ${module.capabilities.map(cap => `<li style="margin-bottom: 2px;">${cap}</li>`).join('')}
+                </ul>
+            `;
+            
+            // Fixed layout - no dynamic resizing
+        }
+        
+        function showABIInfo() {
+            const infoPanel = document.getElementById('info-panel');
+            const infoContent = document.getElementById('info-content');
+            
+            infoContent.innerHTML = `
+                <div style="font-size: 1rem; font-weight: 600; margin-bottom: 8px; color: #333;">Custom ABI Interface</div>
+                <div style="font-size: 0.85rem; line-height: 1.5; color: #666; margin-bottom: 12px;">Standardized interface providing controlled system access for WASM modules.</div>
+                <div style="font-weight: 600; margin-bottom: 6px; color: #666; font-size: 0.8rem;">Core Functions:</div>
+                <ul style="margin: 0; padding-left: 16px; line-height: 1.5; font-size: 0.8rem;">
+                    <li style="margin-bottom: 2px;"><code style="background: #f5f5f5; padding: 1px 3px;">sys_exec(cmd, args)</code> - Process execution</li>
+                    <li style="margin-bottom: 2px;"><code style="background: #f5f5f5; padding: 1px 3px;">fs_read(path, offset, size)</code> - File operations</li>
+                    <li style="margin-bottom: 2px;"><code style="background: #f5f5f5; padding: 1px 3px;">net_connect(host, port)</code> - Network access</li>
+                    <li style="margin-bottom: 2px;"><code style="background: #f5f5f5; padding: 1px 3px;">mem_alloc(size)</code> - Memory management</li>
+                    <li style="margin-bottom: 2px;"><code style="background: #f5f5f5; padding: 1px 3px;">crypto_encrypt(data, key)</code> - Cryptographic ops</li>
+                </ul>
+            `;
+            
+            // Fixed layout - no dynamic resizing
+        }
+        
+        function showResourceInfo(resourceType) {
+            const infoPanel = document.getElementById('info-panel');
+            const infoContent = document.getElementById('info-content');
+            
+            const resources = {
+                filesystem: {
+                    title: 'File System',
+                    description: 'File operations through controlled ABI access.',
+                    details: [
+                        'Read/write with path validation',
+                        'Directory traversal and enumeration',
+                        'Metadata and permission inspection', 
+                        'Temporary file management',
+                        'Archive extraction and compression'
+                    ]
+                },
+                network: {
+                    title: 'Network',
+                    description: 'Network communication for modules.',
+                    details: [
+                        'HTTP/HTTPS client operations',
+                        'Raw socket manipulation',
+                        'DNS resolution and queries',
+                        'Traffic tunneling and proxying',
+                        'Protocol-specific communication'
+                    ]
+                },
+                processes: {
+                    title: 'Process Management',
+                    description: 'Process creation and monitoring.',
+                    details: [
+                        'Process creation and execution',
+                        'Memory injection techniques',
+                        'Thread enumeration',
+                        'Handle inspection',
+                        'Debug and hook operations'
+                    ]
+                },
+                registry: {
+                    title: 'Registry',
+                    description: 'Windows registry manipulation.',
+                    details: [
+                        'Key and value enumeration',
+                        'Registry modification',
+                        'Change monitoring',
+                        'Permission manipulation',
+                        'Configuration persistence'
+                    ]
+                }
+            };
+            
+            const resource = resources[resourceType];
+            
+            infoContent.innerHTML = `
+                <div style="font-size: 1rem; font-weight: 600; margin-bottom: 8px; color: #333;">${resource.title}</div>
+                <div style="font-size: 0.85rem; line-height: 1.5; color: #666; margin-bottom: 12px;">${resource.description}</div>
+                <div style="font-weight: 600; margin-bottom: 6px; color: #666; font-size: 0.8rem;">Operations:</div>
+                <ul style="margin: 0; padding-left: 16px; line-height: 1.5; font-size: 0.8rem;">
+                    ${resource.details.map(detail => `<li style="margin-bottom: 2px;">${detail}</li>`).join('')}
+                </ul>
+            `;
+            
+            // Fixed layout - no dynamic resizing
+        }
+    </script>
+
+    <div class="footer-spacer"></div>
+
 </body>
 </html>

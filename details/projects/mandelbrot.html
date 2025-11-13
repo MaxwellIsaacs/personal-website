@@ -3,47 +3,292 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mandelbrot Visualization - Maxwell Isaacs</title>
+    <title>Max's Mandelbrot Explorer - Maxwell Isaacs</title>
     <link rel="stylesheet" href="../../style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Archivo:opsz,wght@8..144,400;8..144,500;8..144,600;8..144,700&family=Playfair+Display:wght@300;400;500;600;700&family=Georgia:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+    <style>
+        /* Interactive Emacs Terminal Styles */
+        .emulator-container {
+            margin: 40px auto;
+            background: #282828;
+            color: #ebdbb2;
+            border: 1px solid #3c3836;
+            font-family: 'Monaco', monospace;
+            font-size: 0.8rem;
+            width: 100%;
+            max-width: 900px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .terminal-header {
+            background: #3c3836;
+            padding: 4px 12px;
+            border-bottom: 1px solid #504945;
+            font-size: 0.7rem;
+            display: flex;
+            justify-content: space-between;
+            color: #a89984;
+        }
+        
+        .wasm-indicator {
+            color: #d79921;
+        }
+        
+        .program-selector {
+            padding: 8px 12px;
+            border-bottom: 1px solid #504945;
+            font-size: 0.75rem;
+        }
+        
+        .program-list {
+            margin: 6px 0;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .program-btn {
+            background: none;
+            border: none;
+            color: #83a598;
+            padding: 2px 6px;
+            font-family: 'Monaco', monospace;
+            font-size: 0.75rem;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+        
+        .program-btn:hover {
+            background: #3c3836;
+            color: #d5c4a1;
+        }
+        
+        .program-btn.active {
+            background: #458588;
+            color: #282828;
+        }
+        
+        .lang-btn {
+            background: none;
+            border: none;
+            color: #83a598;
+            padding: 2px 6px;
+            font-family: 'Monaco', monospace;
+            font-size: 0.75rem;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+        
+        .lang-btn:hover {
+            background: #3c3836;
+            color: #d5c4a1;
+        }
+        
+        .lang-btn.active {
+            background: #458588;
+            color: #282828;
+        }
+        
+        .execution-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 400px;
+            border-bottom: 1px solid #504945;
+        }
+        
+        .code-display {
+            padding: 8px 12px;
+            border-right: 1px solid #504945;
+            height: 400px;
+            font-size: 0.75rem;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            overflow-y: auto;
+            background: #282828;
+        }
+        
+        .execution-output {
+            padding: 8px 12px;
+            height: 400px;
+            overflow-y: auto;
+            font-size: 0.7rem;
+            background: #1d2021;
+        }
+        
+        .output-line {
+            color: #ebdbb2;
+            margin: 1px 0;
+            line-height: 1.3;
+        }
+        
+        .output-line.info {
+            color: #83a598;
+        }
+        
+        .output-line.warning {
+            color: #d79921;
+        }
+        
+        .output-line.error {
+            color: #cc241d;
+        }
+        
+        .controls {
+            padding: 6px 12px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            background: #32302f;
+            font-size: 0.7rem;
+        }
+        
+        .status {
+            color: #d79921;
+            font-size: 0.7rem;
+        }
+        
+        /* Old-school blinking cursor */
+        .cursor::after {
+            content: '_';
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        /* Syntax highlighting */
+        .keyword { color: #fb4934; }
+        .function { color: #8ec07c; }
+        .variable { color: #fabd2f; }
+        .comment { color: #928374; }
+        .number { color: #d3869b; }
+        .string { color: #b8bb26; }
+    </style>
 </head>
 <body>
     <script>
         function goBackToPortfolio() {
-            const returnPage = localStorage.getItem('returnToPage') || 'work';
+            const returnPage = localStorage.getItem('returnToPage') || 'projects';
             window.location.href = '../../index.html#projects';
         }
     </script>
+    
     <!-- Hero Section -->
-    <section class="project-hero" id="project-hero" style="background: linear-gradient(135deg, #FF6347 0%, #FF8C00 100%);">
-        <div class="project-hero-content">
-            <h1 class="project-hero-title">Mandelbrot Visualization</h1>
-            <p class="project-hero-subtitle">Two mandelbrot set explorers, one written in p5.js and one written in C. Guess which one is faster lol.</p>
-            <div class="project-hero-meta">
-                <div class="hero-meta-item">
-                    <span class="hero-meta-label">Built</span>
-                    <span class="hero-meta-value">2024</span>
+    <section class="project-hero" id="project-hero" style="background: #2C2A26; position: relative; overflow: hidden;">
+        <div class="project-hero-content" style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; max-width: 1400px; margin: 0 auto; padding: 100px 64px;">
+            <div>
+                <h1 class="project-hero-title" style="font-family: 'Playfair Display', 'Times New Roman', serif; font-weight: 400; letter-spacing: -0.02em; color: #E8E3D3; margin-bottom: 24px;">
+                    Max's Mandelbrot Explorer
+                </h1>
+                <p class="project-hero-subtitle" style="font-family: 'Georgia', serif; font-weight: 400; color: #C7BCA1; line-height: 1.6; max-width: 520px; font-size: 1.15rem; margin-bottom: 48px;">Interactive fractal visualization built with p5.js and pixel buffer algorithms. Real-time zooming and panning through infinite mathematical beauty with optimized rendering for smooth exploration.</p>
+                <div class="project-hero-meta" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 400px;">
+                    <div>
+                        <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">built</span>
+                        <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">2024</span>
+                    </div>
+                    <div>
+                        <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">language</span>
+                        <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">js + c</span>
+                    </div>
+                    <div>
+                        <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">type</span>
+                        <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">visualization</span>
+                    </div>
                 </div>
-                <div class="hero-meta-item">
-                    <span class="hero-meta-label">Language</span>
-                    <span class="hero-meta-value">C + JavaScript</span>
+            </div>
+            
+            <!-- Interactive Demo -->
+            <div class="demo-container" style="width: 100%; max-width: 600px;">
+                <div id="mandelbrot-container" style="display: flex; justify-content: center; margin-bottom: 12px;">
+                    <!-- p5.js canvas will be inserted here -->
                 </div>
-                <div class="hero-meta-item">
-                    <span class="hero-meta-label">Type</span>
-                    <span class="hero-meta-value">Visualization</span>
+                <div style="color: #C7BCA1; font-family: 'Georgia', serif; font-size: 0.9rem; text-align: center;">
+                    Mouse wheel to zoom • Click and drag to pan
                 </div>
             </div>
         </div>
     </section>
     
-    <!-- Main Content -->
+    <!-- Project Content -->
     <div class="project-content" id="project-content">
-        <!-- Overview Section -->
-        <section class="content-section">
-            <h2 class="section-title">Project Overview</h2>
-            <p class="section-subtitle">Performance comparison between C and p5.js implementations of fractal visualization.</p>
+        <!-- Algorithm Overview -->
+        <section style="padding: 80px 64px; max-width: 1200px; margin: 0 auto;">
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 600; color: #2C2923; margin: 0 0 32px 0; line-height: 1.2;">Implementation</h2>
+            <p style="font-family: 'Georgia', serif; font-size: 1.2rem; line-height: 1.8; color: #333; margin-bottom: 32px; max-width: 900px;">Built an interactive Mandelbrot set explorer using the escape-time algorithm. Each pixel represents a complex number c, iterating z² + c until z escapes the bounds (|z| > 2) or reaches the maximum iteration count. Points that never escape form the fractal boundary, while escape velocity determines color mapping.</p>
+            <p style="font-family: 'Georgia', serif; font-size: 1.1rem; line-height: 1.7; color: #444; max-width: 900px;">Optimized for real-time interaction through direct pixel buffer manipulation instead of individual drawing calls. This approach eliminates graphics API overhead and enables smooth zooming and panning through the fractal's infinite detail.</p>
+        </section>
+        
+        
+
+        <!-- Interactive Code Terminal -->
+        <section style="padding: 80px 64px; max-width: 1200px; margin: 0 auto;">
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 600; color: #2C2923; margin: 0 0 32px 0; line-height: 1.2;">Interactive Code Explorer</h2>
+            <p style="font-family: 'Georgia', serif; font-size: 1.1rem; line-height: 1.7; color: #444; max-width: 900px; margin-bottom: 40px;">Explore the implementation details of Max's Mandelbrot Explorer through an interactive terminal interface.</p>
+            
+            <div class="emulator-container">
+                <div class="terminal-header">
+                    <span>*max-mandelbrot-explorer.js*</span>
+                    <span class="wasm-indicator">javascript</span>
+                </div>
+                
+                <div class="program-selector">
+                    <div style="color: #a89984; margin-bottom: 4px;">components:</div>
+                    <div class="program-list">
+                        <button class="program-btn active" data-program="0">algorithm</button>
+                        <button class="program-btn" data-program="1">rendering</button>
+                        <button class="program-btn" data-program="2">controls</button>
+                        <button class="program-btn" data-program="3">optimization</button>
+                    </div>
+                    <div id="programDescription" style="color: #928374; font-size: 0.7rem; margin-top: 4px;">core mandelbrot calculation function</div>
+                </div>
+                
+                <div class="execution-area">
+                    <div class="code-display">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #504945;">
+                            <div style="display: flex; gap: 8px;">
+                                <button class="lang-btn active" id="js-tab" data-lang="js">js</button>
+                                <button class="lang-btn" id="c-tab" data-lang="c">c</button>
+                            </div>
+                            <div style="color: #928374; font-size: 0.7rem;" id="currentLangIndicator">javascript</div>
+                        </div>
+                        <div id="currentCode">
+                            // Loading component...
+                        </div>
+                    </div>
+                    
+                    <div class="execution-output" id="consoleOutput">
+                        <div class="output-line info">mandelbrot explorer loaded</div>
+                        <div class="output-line">pixel buffer algorithm ready</div>
+                        <div class="output-line">select component to view implementation</div>
+                        <div class="output-line cursor">waiting for input</div>
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <span class="status">max's mandelbrot explorer v1.0</span>
+                </div>
+            </div>
+        </section>
+        
+        
+        <!-- Mathematical Beauty -->
+        <section style="padding: 80px 64px; max-width: 1200px; margin: 0 auto;">
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 600; color: #2C2923; margin: 0 0 48px 0;">Mathematical Beauty</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;">
+                <div>
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #2C2923; margin: 0 0 16px; font-weight: 500;">Infinite Detail</h3>
+                    <p style="font-family: 'Georgia', serif; font-size: 1.1rem; color: #444; line-height: 1.7;">The Mandelbrot set exhibits self-similar patterns at every scale. No matter how far you zoom in, new intricate structures emerge along the boundary, revealing infinite complexity within a simple mathematical formula.</p>
+                </div>
+                <div>
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #2C2923; margin: 0 0 16px; font-weight: 500;">Complex Dynamics</h3>
+                    <p style="font-family: 'Georgia', serif; font-size: 1.1rem; color: #444; line-height: 1.7;">Each point represents the behavior of the iteration z² + c. Points that remain bounded form the connected black set, while escaping points create the colorful boundary patterns that reveal the chaotic dynamics.</p>
+                </div>
+            </div>
         </section>
     </div>
 
@@ -56,5 +301,435 @@
             Back to Portfolio
         </a>
     </nav>
+
+    <script>
+        function setupProjectScrollAnimation() {
+            const projectHero = document.getElementById('project-hero');
+            const projectContent = document.getElementById('project-content');
+            
+            if (!projectHero || !projectContent) return;
+            
+            let hasScrolled = false;
+            
+            function handleScroll() {
+                const scrollY = window.scrollY;
+                const heroHeight = projectHero.offsetHeight;
+                const heroTrigger = heroHeight * 0.4;
+                
+                if (scrollY > heroTrigger && !hasScrolled) {
+                    projectHero.classList.add('scrolled');
+                    projectContent.classList.add('visible');
+                    hasScrolled = true;
+                }
+                
+                if (scrollY <= 10) {
+                    projectHero.classList.remove('hide-preview');
+                } else {
+                    projectHero.classList.add('hide-preview');
+                }
+            }
+            
+            window.addEventListener('scroll', handleScroll);
+        }
+
+        // Mandelbrot p5.js implementation
+        let zoom = 1;
+        let offsetX = -0.5;  // Center the interesting part of the set
+        let offsetY = 0;
+        let isDragging = false;
+        let lastMouseX, lastMouseY;
+
+        function setup() {
+            let canvas = createCanvas(560, 520);
+            canvas.parent('mandelbrot-container');
+            canvas.style('border-radius', '0 0 12px 12px');
+            pixelDensity(1);
+            noLoop();
+            draw();
+        }
+
+        function draw() {
+            loadPixels();
+            
+            const maxIterations = 100;
+            const w = 4 / zoom;
+            const h = (w * height) / width;
+            const xMin = -w / 2 + offsetX;
+            const yMin = -h / 2 + offsetY;
+
+            for (let x = 0; x < width; x++) {
+                for (let y = 0; y < height; y++) {
+                    let a = map(x, 0, width, xMin, xMin + w);
+                    let b = map(y, 0, height, yMin, yMin + h);
+                    const ca = a;
+                    const cb = b;
+                    let n = 0;
+
+                    while (n < maxIterations) {
+                        const aa = a * a - b * b;
+                        const bb = 2 * a * b;
+                        a = aa + ca;
+                        b = bb + cb;
+                        if (abs(a + b) > 16) {
+                            break;
+                        }
+                        n++;
+                    }
+
+                    let bright = map(n, 0, maxIterations, 0, 255);
+                    if (n === maxIterations) {
+                        bright = 0;
+                    }
+
+                    const pix = (x + y * width) * 4;
+                    pixels[pix + 0] = bright;
+                    pixels[pix + 1] = bright;
+                    pixels[pix + 2] = bright;
+                    pixels[pix + 3] = 255;
+                }
+            }
+            updatePixels();
+        }
+
+        function mouseWheel(event) {
+            // Only handle scroll when mouse is over the canvas
+            if (mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height) {
+                zoom *= event.delta < 0 ? 1.1 : 0.9;
+                redraw();
+                return false; // Prevent page scroll
+            }
+            return true; // Allow page scroll when not over canvas
+        }
+
+        function mousePressed() {
+            isDragging = true;
+            lastMouseX = mouseX;
+            lastMouseY = mouseY;
+        }
+
+        function mouseDragged() {
+            if (isDragging) {
+                const w = 4 / zoom;
+                const h = (w * height) / width;
+                offsetX -= (mouseX - lastMouseX) * w / width;
+                offsetY -= (mouseY - lastMouseY) * h / height;
+                lastMouseX = mouseX;
+                lastMouseY = mouseY;
+                redraw();
+            }
+        }
+
+        function mouseReleased() {
+            isDragging = false;
+        }
+
+        // Interactive Terminal Components Database with unified language support
+        const components = [
+            {
+                name: "ALGORITHM",
+                description: "core mandelbrot calculation function",
+                js: {
+                    code: `<span class="keyword">function</span> <span class="function">mandelbrot</span>(<span class="variable">x</span>, <span class="variable">y</span>) {
+  <span class="keyword">let</span> <span class="variable">a</span> = <span class="variable">x</span>, <span class="variable">b</span> = <span class="variable">y</span>;
+  <span class="keyword">for</span> (<span class="keyword">let</span> <span class="variable">i</span> = <span class="number">0</span>; <span class="variable">i</span> &lt; <span class="variable">MAX_ITER</span>; <span class="variable">i</span>++) {
+    <span class="keyword">let</span> <span class="variable">aa</span> = <span class="variable">a</span> * <span class="variable">a</span> - <span class="variable">b</span> * <span class="variable">b</span> + <span class="variable">x</span>;
+    <span class="variable">b</span> = <span class="number">2</span> * <span class="variable">a</span> * <span class="variable">b</span> + <span class="variable">y</span>;
+    <span class="variable">a</span> = <span class="variable">aa</span>;
+    <span class="keyword">if</span> (<span class="variable">a</span> * <span class="variable">a</span> + <span class="variable">b</span> * <span class="variable">b</span> > <span class="number">16</span>) <span class="keyword">return</span> <span class="variable">i</span>;
+  }
+  <span class="keyword">return</span> <span class="variable">MAX_ITER</span>;
+}
+
+<span class="comment">// Classic escape-time algorithm
+// z² + c iteration with bailout at |z| > 4</span>`,
+                    info: [
+                        "implementing classic mandelbrot algorithm",
+                        "using escape-time iteration method",
+                        "z² + c complex number iteration",
+                        "bailout condition: |z| > 4 (squared: 16)",
+                        "returns iteration count for coloring"
+                    ]
+                },
+                c: {
+                    code: `<span class="keyword">int</span> <span class="function">mandelbrot</span>(<span class="keyword">double</span> <span class="variable">x0</span>, <span class="keyword">double</span> <span class="variable">y0</span>) {
+    <span class="keyword">double</span> <span class="variable">x</span> = <span class="number">0.0</span>, <span class="variable">y</span> = <span class="number">0.0</span>;
+    <span class="keyword">int</span> <span class="variable">iteration</span> = <span class="number">0</span>;
+    
+    <span class="keyword">while</span> (<span class="variable">x</span>*<span class="variable">x</span> + <span class="variable">y</span>*<span class="variable">y</span> &lt;= <span class="number">4.0</span> && <span class="variable">iteration</span> &lt; <span class="variable">MAX_ITER</span>) {
+        <span class="keyword">double</span> <span class="variable">xtemp</span> = <span class="variable">x</span>*<span class="variable">x</span> - <span class="variable">y</span>*<span class="variable">y</span> + <span class="variable">x0</span>;
+        <span class="variable">y</span> = <span class="number">2.0</span>*<span class="variable">x</span>*<span class="variable">y</span> + <span class="variable">y0</span>;
+        <span class="variable">x</span> = <span class="variable">xtemp</span>;
+        <span class="variable">iteration</span>++;
+    }
+    
+    <span class="keyword">return</span> <span class="variable">iteration</span>;
+}
+
+<span class="comment">// Native C implementation with double precision
+// Direct complex number arithmetic</span>`,
+                    info: [
+                        "native c implementation for performance",
+                        "double precision floating point",
+                        "direct complex number operations",
+                        "memory-efficient iteration counting",
+                        "compiled machine code execution"
+                    ]
+                }
+            },
+            {
+                name: "RENDERING", 
+                description: "pixel buffer manipulation and display",
+                js: {
+                    code: `<span class="keyword">function</span> <span class="function">draw</span>() {
+  <span class="function">loadPixels</span>();
+  
+  <span class="keyword">const</span> <span class="variable">maxIterations</span> = <span class="number">100</span>;
+  <span class="keyword">const</span> <span class="variable">w</span> = <span class="number">4</span> / <span class="variable">zoom</span>;
+  <span class="keyword">const</span> <span class="variable">h</span> = (<span class="variable">w</span> * <span class="variable">height</span>) / <span class="variable">width</span>;
+  <span class="keyword">const</span> <span class="variable">xMin</span> = -<span class="variable">w</span> / <span class="number">2</span> + <span class="variable">offsetX</span>;
+  <span class="keyword">const</span> <span class="variable">yMin</span> = -<span class="variable">h</span> / <span class="number">2</span> + <span class="variable">offsetY</span>;
+
+  <span class="keyword">for</span> (<span class="keyword">let</span> <span class="variable">x</span> = <span class="number">0</span>; <span class="variable">x</span> &lt; <span class="variable">width</span>; <span class="variable">x</span>++) {
+    <span class="keyword">for</span> (<span class="keyword">let</span> <span class="variable">y</span> = <span class="number">0</span>; <span class="variable">y</span> &lt; <span class="variable">height</span>; <span class="variable">y</span>++) {
+      <span class="keyword">let</span> <span class="variable">a</span> = <span class="function">map</span>(<span class="variable">x</span>, <span class="number">0</span>, <span class="variable">width</span>, <span class="variable">xMin</span>, <span class="variable">xMin</span> + <span class="variable">w</span>);
+      <span class="keyword">let</span> <span class="variable">b</span> = <span class="function">map</span>(<span class="variable">y</span>, <span class="number">0</span>, <span class="variable">height</span>, <span class="variable">yMin</span>, <span class="variable">yMin</span> + <span class="variable">h</span>);
+      
+      <span class="keyword">let</span> <span class="variable">bright</span> = <span class="function">mandelbrot</span>(<span class="variable">a</span>, <span class="variable">b</span>);
+      <span class="keyword">const</span> <span class="variable">pix</span> = (<span class="variable">x</span> + <span class="variable">y</span> * <span class="variable">width</span>) * <span class="number">4</span>;
+      <span class="variable">pixels</span>[<span class="variable">pix</span>] = <span class="variable">bright</span>; <span class="comment">// R</span>
+      <span class="variable">pixels</span>[<span class="variable">pix</span> + <span class="number">1</span>] = <span class="variable">bright</span>; <span class="comment">// G</span>
+      <span class="variable">pixels</span>[<span class="variable">pix</span> + <span class="number">2</span>] = <span class="variable">bright</span>; <span class="comment">// B</span>
+      <span class="variable">pixels</span>[<span class="variable">pix</span> + <span class="number">3</span>] = <span class="number">255</span>; <span class="comment">// A</span>
+    }
+  }
+  <span class="function">updatePixels</span>();
+}`,
+                    info: [
+                        "direct pixel buffer manipulation",
+                        "coordinate mapping to complex plane", 
+                        "nested loop over canvas pixels",
+                        "rgba color assignment per pixel",
+                        "p5.js loadpixels/updatepixels api"
+                    ]
+                },
+                c: {
+                    code: `<span class="keyword">void</span> <span class="function">drawMandelbrot</span>(<span class="variable">SDL_Renderer</span> *<span class="variable">renderer</span>, <span class="variable">SDL_Texture</span> *<span class="variable">texture</span>) {
+    <span class="variable">Uint32</span> *<span class="variable">buffer</span> = (<span class="variable">Uint32</span> *)<span class="function">malloc</span>(<span class="variable">WIDTH</span> * <span class="variable">HEIGHT</span> * <span class="keyword">sizeof</span>(<span class="variable">Uint32</span>));
+    
+    <span class="keyword">for</span> (<span class="keyword">int</span> <span class="variable">px</span> = <span class="number">0</span>; <span class="variable">px</span> &lt; <span class="variable">WIDTH</span>; <span class="variable">px</span>++) {
+        <span class="keyword">for</span> (<span class="keyword">int</span> <span class="variable">py</span> = <span class="number">0</span>; <span class="variable">py</span> &lt; <span class="variable">HEIGHT</span>; <span class="variable">py</span>++) {
+            <span class="keyword">double</span> <span class="variable">x0</span> = ((<span class="keyword">double</span>)<span class="variable">px</span> / <span class="variable">WIDTH</span>) * (<span class="number">4.0</span> / <span class="variable">zoom</span>) - (<span class="number">2.0</span> / <span class="variable">zoom</span>) + <span class="variable">offsetX</span>;
+            <span class="keyword">double</span> <span class="variable">y0</span> = ((<span class="keyword">double</span>)<span class="variable">py</span> / <span class="variable">HEIGHT</span>) * (<span class="number">2.0</span> / <span class="variable">zoom</span>) - (<span class="number">1.0</span> / <span class="variable">zoom</span>) + <span class="variable">offsetY</span>;
+
+            <span class="keyword">int</span> <span class="variable">iteration</span> = <span class="function">mandelbrot</span>(<span class="variable">x0</span>, <span class="variable">y0</span>);
+            <span class="variable">buffer</span>[(<span class="variable">py</span> * <span class="variable">WIDTH</span>) + <span class="variable">px</span>] = <span class="variable">iteration</span> == <span class="variable">maxIterations</span> ? <span class="number">0</span> : <span class="number">0xFFFFFFFF</span>;
+        }
+    }
+    
+    <span class="function">SDL_UpdateTexture</span>(<span class="variable">texture</span>, <span class="variable">NULL</span>, <span class="variable">buffer</span>, <span class="variable">WIDTH</span> * <span class="keyword">sizeof</span>(<span class="variable">Uint32</span>));
+    <span class="function">free</span>(<span class="variable">buffer</span>);
+}`,
+                    info: [
+                        "native sdl2 texture rendering",
+                        "direct memory buffer allocation", 
+                        "uint32 pixel format manipulation",
+                        "hardware-accelerated texture updates",
+                        "manual memory management with malloc/free"
+                    ]
+                }
+            },
+            {
+                name: "CONTROLS",
+                description: "zoom and pan interaction handling",
+                js: {
+                    code: `<span class="keyword">function</span> <span class="function">mouseWheel</span>(<span class="variable">event</span>) {
+  <span class="keyword">if</span> (<span class="variable">mouseX</span> >= <span class="number">0</span> && <span class="variable">mouseX</span> <= <span class="variable">width</span> && 
+      <span class="variable">mouseY</span> >= <span class="number">0</span> && <span class="variable">mouseY</span> <= <span class="variable">height</span>) {
+    <span class="variable">zoom</span> *= <span class="variable">event</span>.<span class="variable">delta</span> &lt; <span class="number">0</span> ? <span class="number">1.1</span> : <span class="number">0.9</span>;
+    <span class="function">redraw</span>();
+    <span class="keyword">return</span> <span class="keyword">false</span>;
+  }
+  <span class="keyword">return</span> <span class="keyword">true</span>;
+}
+
+<span class="keyword">function</span> <span class="function">mouseDragged</span>() {
+  <span class="keyword">if</span> (<span class="variable">isDragging</span>) {
+    <span class="keyword">const</span> <span class="variable">w</span> = <span class="number">4</span> / <span class="variable">zoom</span>;
+    <span class="keyword">const</span> <span class="variable">h</span> = (<span class="variable">w</span> * <span class="variable">height</span>) / <span class="variable">width</span>;
+    <span class="variable">offsetX</span> -= (<span class="variable">mouseX</span> - <span class="variable">lastMouseX</span>) * <span class="variable">w</span> / <span class="variable">width</span>;
+    <span class="variable">offsetY</span> -= (<span class="variable">mouseY</span> - <span class="variable">lastMouseY</span>) * <span class="variable">h</span> / <span class="variable">height</span>;
+    <span class="function">redraw</span>();
+  }
+}`,
+                    info: [
+                        "mouse wheel zoom with bounds checking",
+                        "drag-to-pan coordinate translation", 
+                        "canvas-relative mouse positioning",
+                        "proportional zoom scaling (1.1x/0.9x)",
+                        "real-time viewport transformation"
+                    ]
+                },
+                c: {
+                    code: `<span class="keyword">void</span> <span class="function">handleInput</span>(<span class="variable">SDL_Event</span> *<span class="variable">event</span>) {
+    <span class="keyword">switch</span> (<span class="variable">event</span>-><span class="variable">type</span>) {
+        <span class="keyword">case</span> <span class="variable">SDL_KEYDOWN</span>:
+            <span class="keyword">switch</span> (<span class="variable">event</span>-><span class="variable">key</span>.<span class="variable">keysym</span>.<span class="variable">sym</span>) {
+                <span class="keyword">case</span> <span class="variable">SDLK_q</span>: <span class="variable">zoom</span> *= <span class="number">1.1</span>; <span class="keyword">break</span>;
+                <span class="keyword">case</span> <span class="variable">SDLK_z</span>: <span class="variable">zoom</span> /= <span class="number">1.1</span>; <span class="keyword">break</span>;
+                <span class="keyword">case</span> <span class="variable">SDLK_w</span>: <span class="variable">offsetY</span> -= <span class="number">0.1</span> / <span class="variable">zoom</span>; <span class="keyword">break</span>;
+                <span class="keyword">case</span> <span class="variable">SDLK_s</span>: <span class="variable">offsetY</span> += <span class="number">0.1</span> / <span class="variable">zoom</span>; <span class="keyword">break</span>;
+                <span class="keyword">case</span> <span class="variable">SDLK_a</span>: <span class="variable">offsetX</span> -= <span class="number">0.1</span> / <span class="variable">zoom</span>; <span class="keyword">break</span>;
+                <span class="keyword">case</span> <span class="variable">SDLK_d</span>: <span class="variable">offsetX</span> += <span class="number">0.1</span> / <span class="variable">zoom</span>; <span class="keyword">break</span>;
+            }
+            <span class="keyword">break</span>;
+    }
+}`,
+                    info: [
+                        "keyboard controls for navigation",
+                        "q/z keys for zoom in/out", 
+                        "wasd keys for directional panning",
+                        "proportional movement based on zoom level",
+                        "sdl2 event handling system"
+                    ]
+                }
+            },
+            {
+                name: "OPTIMIZATION",
+                description: "performance and rendering optimizations",
+                js: {
+                    code: `<span class="comment">// Performance optimizations</span>
+<span class="function">pixelDensity</span>(<span class="number">1</span>); <span class="comment">// Handle high-res displays</span>
+<span class="function">noLoop</span>(); <span class="comment">// Static render, no animation loop</span>
+
+<span class="keyword">const</span> <span class="variable">maxIterations</span> = <span class="number">100</span>; <span class="comment">// Balanced quality/speed</span>
+
+<span class="comment">// Efficient bailout condition</span>
+<span class="keyword">if</span> (<span class="function">abs</span>(<span class="variable">a</span> + <span class="variable">b</span>) > <span class="number">16</span>) <span class="keyword">break</span>; 
+
+<span class="comment">// Color mapping optimization</span>
+<span class="keyword">let</span> <span class="variable">bright</span> = <span class="function">map</span>(<span class="variable">n</span>, <span class="number">0</span>, <span class="variable">maxIterations</span>, <span class="number">0</span>, <span class="number">255</span>);
+<span class="keyword">if</span> (<span class="variable">n</span> === <span class="variable">maxIterations</span>) <span class="variable">bright</span> = <span class="number">0</span>;
+
+<span class="comment">// Manual pixel array manipulation
+// Bypasses p5.js drawing overhead</span>
+<span class="keyword">const</span> <span class="variable">pix</span> = (<span class="variable">x</span> + <span class="variable">y</span> * <span class="variable">width</span>) * <span class="number">4</span>;`,
+                    info: [
+                        "pixel density optimization for retina displays",
+                        "static rendering with noloop()",
+                        "balanced iteration limit (100)",
+                        "early bailout for performance", 
+                        "direct pixel buffer access",
+                        "grayscale rendering for speed"
+                    ]
+                },
+                c: {
+                    code: `<span class="comment">// Native C optimizations</span>
+<span class="keyword">const</span> <span class="keyword">int</span> <span class="variable">maxIterations</span> = <span class="number">1000</span>; <span class="comment">// Higher precision</span>
+
+<span class="comment">// Compiler optimizations</span>
+<span class="keyword">#pragma</span> <span class="variable">GCC</span> <span class="variable">optimize</span>(<span class="string">"O3"</span>)
+<span class="keyword">#pragma</span> <span class="variable">GCC</span> <span class="variable">target</span>(<span class="string">"native"</span>)
+
+<span class="comment">// SIMD vectorization potential</span>
+<span class="keyword">double</span> <span class="variable">x_squared</span> = <span class="variable">x</span> * <span class="variable">x</span>;
+<span class="keyword">double</span> <span class="variable">y_squared</span> = <span class="variable">y</span> * <span class="variable">y</span>;
+<span class="keyword">if</span> (<span class="variable">x_squared</span> + <span class="variable">y_squared</span> > <span class="number">4.0</span>) <span class="keyword">break</span>;
+
+<span class="comment">// Stack allocation for speed</span>
+<span class="variable">Uint32</span> <span class="variable">buffer</span>[<span class="variable">WIDTH</span> * <span class="variable">HEIGHT</span>];
+
+<span class="comment">// Cache-friendly memory access patterns</span>
+<span class="keyword">for</span> (<span class="keyword">int</span> <span class="variable">y</span> = <span class="number">0</span>; <span class="variable">y</span> &lt; <span class="variable">HEIGHT</span>; <span class="variable">y</span>++)
+    <span class="keyword">for</span> (<span class="keyword">int</span> <span class="variable">x</span> = <span class="number">0</span>; <span class="variable">x</span> &lt; <span class="variable">WIDTH</span>; <span class="variable">x</span>++)`,
+                    info: [
+                        "higher iteration count for precision (1000)",
+                        "gcc optimization flags (-o3, native)",
+                        "simd vectorization opportunities",
+                        "stack allocation for better cache performance", 
+                        "cache-friendly memory access patterns",
+                        "compiled machine code performance"
+                    ]
+                }
+            }
+        ];
+
+        let currentComponent = 0;
+        let currentLanguage = 'js';
+
+        function updateComponent(index) {
+            currentComponent = index;
+            const component = components[index];
+            
+            // Update code display based on current language
+            const codeView = document.getElementById('currentCode');
+            codeView.innerHTML = component[currentLanguage].code;
+            
+            // Update component buttons
+            document.querySelectorAll('.program-btn').forEach((btn, i) => {
+                btn.classList.toggle('active', i === index);
+            });
+            
+            // Update description
+            document.getElementById('programDescription').textContent = component.description;
+            
+            // Update info panel
+            updateInfoPanel(component);
+        }
+
+        function updateInfoPanel(component) {
+            const console = document.getElementById('consoleOutput');
+            console.innerHTML = `
+                <div class="output-line info">viewing: ${component.name.toLowerCase()}</div>
+                <div class="output-line">${component.description}</div>
+                <div class="output-line"></div>
+            `;
+            
+            component[currentLanguage].info.forEach(info => {
+                const infoLine = document.createElement('div');
+                infoLine.className = 'output-line';
+                infoLine.textContent = '• ' + info;
+                console.appendChild(infoLine);
+            });
+            
+            const cursorLine = document.createElement('div');
+            cursorLine.className = 'output-line cursor';
+            cursorLine.textContent = 'ready';
+            console.appendChild(cursorLine);
+        }
+
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update language tabs
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+            
+            // Update language indicator
+            const indicator = document.getElementById('currentLangIndicator');
+            indicator.textContent = lang === 'js' ? 'javascript' : 'c';
+            
+            // Refresh current component with new language
+            updateComponent(currentComponent);
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            setupProjectScrollAnimation();
+            
+            // Initialize interactive terminal
+            updateComponent(0);
+            
+            // Setup terminal event listeners
+            document.querySelectorAll('.program-btn').forEach((btn, index) => {
+                btn.addEventListener('click', () => updateComponent(index));
+            });
+            
+            // Setup language switching event listeners
+            document.querySelectorAll('.lang-btn').forEach((btn) => {
+                btn.addEventListener('click', () => switchLanguage(btn.dataset.lang));
+            });
+        });
+    </script>
 </body>
 </html>

@@ -8,31 +8,259 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Archivo:opsz,wght@8..144,400;8..144,500;8..144,600;8..144,700&family=Playfair+Display:wght@300;400;500;600;700&family=Georgia:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .chess-hero {
+            background: linear-gradient(135deg, #8B4513 0%, #654321 100%);
+            position: relative;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin: 48px 0;
+        }
+        
+        .feature-card {
+            background: #f8f8f8;
+            border-radius: 8px;
+            padding: 24px;
+            border-left: 4px solid #8B4513;
+        }
+        
+        .code-block {
+            background: #282828;
+            border-radius: 8px;
+            padding: 24px;
+            border: 1px solid rgba(0,0,0,0.1);
+            margin: 32px 0;
+            overflow-x: auto;
+        }
+        
+        .code-title {
+            font-family: 'Georgia', serif;
+            font-size: 0.9rem;
+            color: #928374;
+            margin-bottom: 12px;
+        }
+        
+        .code {
+            font-family: 'Monaco', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #ebdbb2;
+        }
+        
+        .keyword { color: #fb4934; }
+        .type { color: #fabd2f; }
+        .function { color: #8ec07c; }
+        .variable { color: #83a598; }
+        .comment { color: #928374; }
+        .string { color: #b8bb26; }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin: 48px 0;
+            text-align: center;
+        }
+        
+        .stat-item {
+            background: #f8f8f8;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: #8B4513;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-family: 'Georgia', serif;
+            font-size: 0.85rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .section-variant {
+            margin: 64px 0;
+            padding: 32px;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+        
+        .variant-label {
+            font-family: 'Georgia', serif;
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+        
+        /* Interactive Code Explorer Styles */
+        .emulator-container {
+            margin: 40px auto;
+            background: #282828;
+            color: #ebdbb2;
+            border: 1px solid #3c3836;
+            font-family: 'Monaco', monospace;
+            font-size: 0.8rem;
+            width: 100%;
+            max-width: 1000px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .terminal-header {
+            background: #3c3836;
+            padding: 4px 12px;
+            border-bottom: 1px solid #504945;
+            font-size: 0.7rem;
+            display: flex;
+            justify-content: space-between;
+            color: #a89984;
+        }
+        
+        .wasm-indicator {
+            color: #d79921;
+        }
+        
+        .program-selector {
+            padding: 8px 12px;
+            border-bottom: 1px solid #504945;
+            font-size: 0.75rem;
+        }
+        
+        .program-list {
+            margin: 6px 0;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .program-btn {
+            background: none;
+            border: none;
+            color: #83a598;
+            padding: 2px 6px;
+            font-family: 'Monaco', monospace;
+            font-size: 0.75rem;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+        
+        .program-btn:hover {
+            background: #3c3836;
+            color: #d5c4a1;
+        }
+        
+        .program-btn.active {
+            background: #458588;
+            color: #282828;
+        }
+        
+        .execution-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 400px;
+            border-bottom: 1px solid #504945;
+        }
+        
+        .code-display {
+            padding: 8px 12px;
+            border-right: 1px solid #504945;
+            height: 400px;
+            font-size: 0.75rem;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            overflow-y: auto;
+            background: #282828;
+        }
+        
+        .execution-output {
+            padding: 8px 12px;
+            height: 400px;
+            overflow-y: auto;
+            font-size: 0.7rem;
+            background: #1d2021;
+        }
+        
+        .output-line {
+            color: #ebdbb2;
+            margin: 1px 0;
+            line-height: 1.3;
+        }
+        
+        .output-line.info {
+            color: #83a598;
+        }
+        
+        .output-line.warning {
+            color: #d79921;
+        }
+        
+        .output-line.error {
+            color: #cc241d;
+        }
+        
+        .controls {
+            padding: 6px 12px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            background: #32302f;
+            font-size: 0.7rem;
+        }
+        
+        .status {
+            color: #d79921;
+            font-size: 0.7rem;
+        }
+        
+        /* Old-school blinking cursor */
+        .cursor::after {
+            content: '_';
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+    </style>
 </head>
 <body>
     <script>
         function goBackToPortfolio() {
-            const returnPage = localStorage.getItem('returnToPage') || 'work';
+            const returnPage = localStorage.getItem('returnToPage') || 'projects';
             window.location.href = '../../index.html#projects';
         }
     </script>
+    
     <!-- Hero Section -->
-    <section class="project-hero" id="project-hero" style="background: linear-gradient(135deg, #2F4F4F 0%, #708090 100%);">
+    <section class="project-hero chess-hero" id="project-hero">
         <div class="project-hero-content">
-            <h1 class="project-hero-title">ChessDL</h1>
-            <p class="project-hero-subtitle">One of the ugliest (yet functional) versions of chess created using c++ & SDL</p>
-            <div class="project-hero-meta">
-                <div class="hero-meta-item">
-                    <span class="hero-meta-label">Built</span>
-                    <span class="hero-meta-value">2023</span>
+            <h1 class="project-hero-title" style="font-family: 'Playfair Display', 'Times New Roman', serif; font-weight: 400; letter-spacing: -0.02em;">ChessDL</h1>
+            <p class="project-hero-subtitle" style="font-family: 'Georgia', serif; font-weight: 400; line-height: 1.6; max-width: 520px; font-size: 1.15rem;">One of the ugliest (yet functional) versions of chess created using c++ & SDL</p>
+            <div class="project-hero-meta" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin: 48px 0; max-width: 400px;">
+                <div>
+                    <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">Built</span>
+                    <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">2022</span>
                 </div>
-                <div class="hero-meta-item">
-                    <span class="hero-meta-label">Language</span>
-                    <span class="hero-meta-value">C++</span>
+                <div>
+                    <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">Language</span>
+                    <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">C++</span>
                 </div>
-                <div class="hero-meta-item">
-                    <span class="hero-meta-label">Framework</span>
-                    <span class="hero-meta-value">SDL</span>
+                <div>
+                    <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">Type</span>
+                    <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">Game</span>
                 </div>
             </div>
         </div>
@@ -40,11 +268,55 @@
     
     <!-- Main Content -->
     <div class="project-content" id="project-content">
-        <!-- Overview Section -->
+        
         <section class="content-section">
-            <h2 class="section-title">Project Overview</h2>
-            <p class="section-subtitle">Complete chess implementation with game logic, piece movement validation, and graphical interface.</p>
+            <h2 class="section-title" style="font-family: 'Playfair Display', serif; font-weight: 400; letter-spacing: -0.02em;">ChessDL</h2>
+            <p style="font-family: 'Georgia', serif; font-size: 1.1rem; line-height: 1.7; color: #333; margin-bottom: 48px; max-width: 900px;">A functional chess implementation built during my exploration of game development and graphics programming. While admittedly ugly in visual design, this project demonstrates solid understanding of <span style="color: #8B4513; font-weight: 500;">object-oriented principles</span>, <span style="color: #8B4513; font-weight: 500;">complex rule validation</span>, and <span style="color: #8B4513; font-weight: 500;">real-time graphics rendering</span>. The implementation taught me fundamental concepts about state management, event handling, and modular code architecture that have influenced my programming approach ever since.</p>
         </section>
+        
+        <section style="padding: 80px 64px; max-width: 1200px; margin: 0 auto;">
+            
+            <div class="emulator-container">
+                <div class="terminal-header">
+                    <span>*chessdl-implementation*</span>
+                    <span class="wasm-indicator">c++</span>
+                </div>
+                
+                <div class="program-selector">
+                    <div style="color: #a89984; margin-bottom: 4px;">modules:</div>
+                    <div class="program-list">
+                        <button class="program-btn active" data-program="0">main.cpp</button>
+                        <button class="program-btn" data-program="1">board.h</button>
+                        <button class="program-btn" data-program="2">move.cpp</button>
+                        <button class="program-btn" data-program="3">window.h</button>
+                    </div>
+                    <div id="programDescription" style="color: #928374; font-size: 0.7rem; margin-top: 4px;">main game loop with mouse input handling</div>
+                </div>
+                
+                <div class="execution-area">
+                    <div class="code-display">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #504945;">
+                            <div style="color: #928374; font-size: 0.7rem;" id="currentFile">main.cpp</div>
+                        </div>
+                        <div id="currentCode">
+                            // Loading module...
+                        </div>
+                    </div>
+                    
+                    <div class="execution-output" id="consoleOutput">
+                        <div class="output-line info">chess implementation loaded</div>
+                        <div class="output-line">object-oriented c++ design</div>
+                        <div class="output-line">select module to view implementation</div>
+                        <div class="output-line cursor">waiting for input</div>
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <span class="status">chessdl v1.0 - early programming project</span>
+                </div>
+            </div>
+        </section>
+        
     </div>
 
     <!-- Bottom Navigation -->
@@ -56,5 +328,279 @@
             Back to Portfolio
         </a>
     </nav>
+
+    <script>
+        // Chess Code Modules Database
+        const codeModules = [
+            {
+                name: "main.cpp",
+                description: "main game loop with mouse input handling",
+                code: `<span class="keyword">#include</span> <span class="string">&lt;SDL.h&gt;</span>
+<span class="keyword">#include</span> <span class="string">"board.h"</span>
+<span class="keyword">#include</span> <span class="string">"move.h"</span>
+
+<span class="keyword">#define</span> <span class="variable">SCREEN_SIZE</span> <span class="number">600</span>
+
+<span class="type">int</span> <span class="function">main</span>() {
+    <span class="type">Board</span> <span class="variable">board</span>;
+    <span class="variable">board</span>.<span class="function">setBoard</span>(<span class="variable">renderer</span>);
+    
+    <span class="type">bool</span> <span class="variable">pieceSelected</span> = <span class="keyword">false</span>;
+    <span class="type">int</span> <span class="variable">selectedX</span> = <span class="number">0</span>, <span class="variable">selectedY</span> = <span class="number">0</span>;
+    
+    <span class="keyword">while</span> (!<span class="variable">quit</span>) {
+        <span class="keyword">while</span> (<span class="function">SDL_PollEvent</span>(&<span class="variable">e</span>) != <span class="number">0</span>) {
+            <span class="keyword">if</span> (<span class="variable">e</span>.<span class="variable">type</span> == <span class="variable">SDL_MOUSEBUTTONDOWN</span>) {
+                <span class="type">int</span> <span class="variable">boardX</span> = <span class="variable">mouseX</span> / (<span class="variable">SCREEN_SIZE</span> / <span class="number">8</span>);
+                <span class="type">int</span> <span class="variable">boardY</span> = <span class="variable">mouseY</span> / (<span class="variable">SCREEN_SIZE</span> / <span class="number">8</span>);
+                
+                <span class="keyword">if</span> (!<span class="variable">pieceSelected</span>) {
+                    <span class="variable">board</span>.<span class="function">toggleHighlight</span>(<span class="variable">boardX</span>, <span class="variable">boardY</span>);
+                    <span class="variable">pieceSelected</span> = <span class="keyword">true</span>;
+                } <span class="keyword">else</span> {
+                    <span class="comment">// Validate and execute move</span>
+                    <span class="type">Move</span> <span class="variable">move</span>(<span class="variable">from</span>, <span class="variable">to</span>, <span class="variable">piece</span>, <span class="variable">board</span>);
+                    <span class="keyword">if</span> (<span class="variable">move</span>.<span class="function">checkMove</span>()) {
+                        <span class="variable">board</span>.<span class="function">movePiece</span>(<span class="variable">from</span>, <span class="variable">to</span>);
+                    }
+                    <span class="variable">pieceSelected</span> = <span class="keyword">false</span>;
+                }
+            }
+        }
+        
+        <span class="comment">// Render board and pieces</span>
+        <span class="variable">win</span>.<span class="function">drawBoard</span>(<span class="variable">board</span>);
+        <span class="variable">win</span>.<span class="function">display</span>();
+    }
+}`,
+                info: [
+                    "600x600 pixel game window",
+                    "mouse click coordinate mapping to 8x8 board",
+                    "two-click piece selection system",
+                    "sdl2 event polling and rendering loop",
+                    "piece highlighting visual feedback"
+                ]
+            },
+            {
+                name: "board.h",
+                description: "board state and piece definitions",
+                code: `<span class="keyword">enum</span> <span class="type">Piece</span> {
+    <span class="variable">EMPTY</span>,
+    <span class="variable">KNIGHT</span>,
+    <span class="variable">KING</span>,
+    <span class="variable">BISHOP</span>,
+    <span class="variable">PAWN</span>,
+    <span class="variable">QUEEN</span>,
+    <span class="variable">ROOK</span>,
+    <span class="variable">CASTLE_ROOK</span>,   <span class="comment">// Special castle state</span>
+    <span class="variable">CASTLE_KING</span>,   <span class="comment">// Special castle state</span>
+    <span class="variable">EN_PASSENT</span>     <span class="comment">// En passant target</span>
+};
+
+<span class="keyword">struct</span> <span class="type">Square</span> {
+    <span class="type">Piece</span> <span class="variable">piece</span>;
+    <span class="type">bool</span> <span class="variable">color</span>;        <span class="comment">// true = white, false = black</span>
+    <span class="type">bool</span> <span class="variable">highlighted</span>;  <span class="comment">// Visual selection state</span>
+    <span class="type">SDL_Color</span> <span class="variable">color</span>;   <span class="comment">// Square color (light/dark)</span>
+    <span class="type">SDL_Rect</span> <span class="variable">r</span>;        <span class="comment">// Screen position rectangle</span>
+};
+
+<span class="keyword">using</span> <span class="type">gameBoard</span> = <span class="type">std::vector</span>&lt;<span class="type">std::vector</span>&lt;<span class="type">Square</span>&gt;&gt;;
+
+<span class="keyword">class</span> <span class="type">Board</span> {
+    <span class="keyword">private</span>:
+        <span class="type">gameBoard</span> <span class="variable">board</span>;
+        
+    <span class="keyword">public</span>:
+        <span class="type">void</span> <span class="function">setBoard</span>(<span class="type">SDL_Renderer</span>* <span class="variable">renderer</span>);
+        <span class="type">void</span> <span class="function">movePiece</span>(<span class="type">loc</span> <span class="variable">from</span>, <span class="type">loc</span> <span class="variable">to</span>);
+        <span class="type">void</span> <span class="function">toggleHighlight</span>(<span class="type">int</span> <span class="variable">x</span>, <span class="type">int</span> <span class="variable">y</span>);
+        <span class="type">gameBoard</span> <span class="function">getBoard</span>() <span class="keyword">const</span>;
+};`,
+                info: [
+                    "enum for all piece types including special states",
+                    "square struct holds piece, color, highlight state",
+                    "sdl_rect for screen coordinate mapping",
+                    "2d vector represents 8x8 chess board",
+                    "methods for piece movement and highlighting"
+                ]
+            },
+            {
+                name: "move.cpp",
+                description: "chess rule validation and move logic",
+                code: `<span class="keyword">class</span> <span class="type">Move</span> {
+    <span class="keyword">private</span>:
+        <span class="type">loc</span> <span class="variable">first</span>, <span class="variable">second</span>;
+        <span class="type">bool</span> <span class="variable">isWhite</span>;
+        <span class="type">gameBoard</span> <span class="variable">board</span>;
+        <span class="type">Piece</span> <span class="variable">piece</span>;
+        
+    <span class="keyword">public</span>:
+        <span class="type">Move</span>(<span class="type">loc</span> <span class="variable">f</span>, <span class="type">loc</span> <span class="variable">s</span>, <span class="type">bool</span> <span class="variable">color</span>, 
+             <span class="keyword">const</span> <span class="type">gameBoard</span>& <span class="variable">b</span>, <span class="type">Piece</span> <span class="variable">p</span>);
+        
+        <span class="type">bool</span> <span class="function">checkMove</span>() {
+            <span class="keyword">switch</span> (<span class="variable">piece</span>) {
+                <span class="keyword">case</span> <span class="variable">PAWN</span>:
+                    <span class="keyword">return</span> <span class="function">checkPawnMove</span>();
+                <span class="keyword">case</span> <span class="variable">ROOK</span>:
+                    <span class="keyword">return</span> <span class="function">checkRookMove</span>();
+                <span class="keyword">case</span> <span class="variable">KNIGHT</span>:
+                    <span class="keyword">return</span> <span class="function">checkKnightMove</span>();
+                <span class="keyword">case</span> <span class="variable">BISHOP</span>:
+                    <span class="keyword">return</span> <span class="function">checkBishopMove</span>();
+                <span class="keyword">case</span> <span class="variable">QUEEN</span>:
+                    <span class="keyword">return</span> <span class="function">checkQueenMove</span>();
+                <span class="keyword">case</span> <span class="variable">KING</span>:
+                    <span class="keyword">return</span> <span class="function">checkKingMove</span>();
+                <span class="keyword">default</span>:
+                    <span class="keyword">return</span> <span class="keyword">false</span>;
+            }
+        }
+        
+    <span class="keyword">private</span>:
+        <span class="type">bool</span> <span class="function">checkPawnMove</span>();
+        <span class="type">bool</span> <span class="function">checkRookMove</span>();
+        <span class="type">bool</span> <span class="function">checkKnightMove</span>();
+        <span class="comment">// ... other piece validation methods</span>
+};`,
+                info: [
+                    "separate validation method for each piece type",
+                    "move constructor takes from/to coordinates",
+                    "switch statement dispatches to correct validator",
+                    "validates moves against chess rules",
+                    "returns boolean for legal/illegal moves"
+                ]
+            },
+            {
+                name: "window.h",
+                description: "sdl2 graphics and rendering interface",
+                code: `<span class="keyword">class</span> <span class="type">Window</span> {
+    <span class="keyword">private</span>:
+        <span class="type">SDL_Window</span>* <span class="variable">window</span>;
+        <span class="type">SDL_Renderer</span>* <span class="variable">renderer</span>;
+        <span class="type">int</span> <span class="variable">width</span>, <span class="variable">height</span>;
+        
+    <span class="keyword">public</span>:
+        <span class="type">Window</span>(<span class="keyword">const</span> <span class="type">char</span>* <span class="variable">title</span>, <span class="type">int</span> <span class="variable">w</span>, <span class="type">int</span> <span class="variable">h</span>);
+        
+        <span class="type">bool</span> <span class="function">init</span>() {
+            <span class="keyword">if</span> (<span class="function">SDL_Init</span>(<span class="variable">SDL_INIT_VIDEO</span>) &lt; <span class="number">0</span>) {
+                <span class="keyword">return</span> <span class="keyword">false</span>;
+            }
+            
+            <span class="variable">window</span> = <span class="function">SDL_CreateWindow</span>(<span class="variable">title</span>,
+                <span class="variable">SDL_WINDOWPOS_UNDEFINED</span>, <span class="variable">SDL_WINDOWPOS_UNDEFINED</span>,
+                <span class="variable">width</span>, <span class="variable">height</span>, <span class="variable">SDL_WINDOW_SHOWN</span>);
+                
+            <span class="variable">renderer</span> = <span class="function">SDL_CreateRenderer</span>(<span class="variable">window</span>, -<span class="number">1</span>, 
+                <span class="variable">SDL_RENDERER_ACCELERATED</span>);
+                
+            <span class="keyword">return</span> <span class="variable">window</span> && <span class="variable">renderer</span>;
+        }
+        
+        <span class="type">void</span> <span class="function">clear</span>();
+        <span class="type">void</span> <span class="function">display</span>();
+        <span class="type">void</span> <span class="function">drawRect</span>(<span class="keyword">const</span> <span class="type">SDL_Rect</span>& <span class="variable">rect</span>);
+        <span class="type">void</span> <span class="function">drawPiece</span>(<span class="keyword">const</span> <span class="type">Square</span>& <span class="variable">square</span>);
+        <span class="type">void</span> <span class="function">setDrawColor</span>(<span class="keyword">const</span> <span class="type">SDL_Color</span>& <span class="variable">color</span>);
+        
+        <span class="type">SDL_Renderer</span>* <span class="function">getRenderer</span>() { <span class="keyword">return</span> <span class="variable">renderer</span>; }
+};`,
+                info: [
+                    "sdl2 window and renderer initialization",
+                    "hardware-accelerated graphics rendering",
+                    "methods for drawing squares and pieces",
+                    "color management for board squares",
+                    "wrapper around sdl2 graphics api"
+                ]
+            }
+        ];
+
+        let currentModule = 0;
+
+        function updateModule(index) {
+            currentModule = index;
+            const module = codeModules[index];
+            
+            // Update code display
+            const codeView = document.getElementById('currentCode');
+            codeView.innerHTML = module.code;
+            
+            // Update module buttons
+            document.querySelectorAll('.program-btn').forEach((btn, i) => {
+                btn.classList.toggle('active', i === index);
+            });
+            
+            // Update description and file name
+            document.getElementById('programDescription').textContent = module.description;
+            document.getElementById('currentFile').textContent = module.name;
+            
+            // Update info panel
+            updateInfoPanel(module);
+        }
+
+        function updateInfoPanel(module) {
+            const console = document.getElementById('consoleOutput');
+            console.innerHTML = `
+                <div class="output-line info">viewing: ${module.name}</div>
+                <div class="output-line">${module.description}</div>
+                <div class="output-line"></div>
+            `;
+            
+            module.info.forEach(info => {
+                const infoLine = document.createElement('div');
+                infoLine.className = 'output-line';
+                infoLine.textContent = '• ' + info;
+                console.appendChild(infoLine);
+            });
+            
+            const cursorLine = document.createElement('div');
+            cursorLine.className = 'output-line cursor';
+            cursorLine.textContent = 'ready';
+            console.appendChild(cursorLine);
+        }
+
+        function setupProjectScrollAnimation() {
+            const projectHero = document.getElementById('project-hero');
+            const projectContent = document.getElementById('project-content');
+            
+            if (!projectHero || !projectContent) return;
+            
+            let hasScrolled = false;
+            
+            function handleScroll() {
+                const scrollY = window.scrollY;
+                const heroHeight = projectHero.offsetHeight;
+                const heroTrigger = heroHeight * 0.4;
+                
+                if (scrollY > heroTrigger && !hasScrolled) {
+                    projectHero.classList.add('scrolled');
+                    projectContent.classList.add('visible');
+                    hasScrolled = true;
+                }
+                
+                if (scrollY <= 10) {
+                    projectHero.classList.remove('hide-preview');
+                } else {
+                    projectHero.classList.add('hide-preview');
+                }
+            }
+            
+            window.addEventListener('scroll', handleScroll);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            setupProjectScrollAnimation();
+            
+            // Initialize code explorer
+            updateModule(0);
+            
+            // Setup event listeners for code modules
+            document.querySelectorAll('.program-btn').forEach((btn, index) => {
+                btn.addEventListener('click', () => updateModule(index));
+            });
+        });
+    </script>
 </body>
 </html>

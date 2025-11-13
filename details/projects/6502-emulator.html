@@ -8,32 +8,391 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Archivo:opsz,wght@8..144,400;8..144,500;8..144,600;8..144,700&family=Playfair+Display:wght@300;400;500;600;700&family=Georgia:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .emulator-hero {
+            background: linear-gradient(135deg, #3C3836 0%, #282828 100%);
+            position: relative;
+        }
+        .code-block {
+            background: #282828;
+            border-radius: 8px;
+            padding: 24px;
+            border: 1px solid rgba(0,0,0,0.1);
+            margin-bottom: 32px;
+        }
+        .code-title {
+            font-family: 'Georgia', serif;
+            font-size: 0.9rem;
+            color: #928374;
+            margin-bottom: 12px;
+        }
+        .assembly-code {
+            font-family: 'Monaco', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .instruction { color: #fb4934; }
+        .immediate { color: #b8bb26; }
+        .address { color: #fabd2f; }
+        .comment { color: #928374; }
+        .label { color: #fe8019; margin: 8px 0; }
+        .indented { margin-left: 16px; }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin: 48px 0;
+        }
+        
+        .feature-card {
+            background: #f8f8f8;
+            border-radius: 8px;
+            padding: 24px;
+            border-left: 4px solid #3C3836;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin: 48px 0;
+            text-align: center;
+        }
+        
+        .stat-item {
+            background: #f8f8f8;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: #3C3836;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-family: 'Georgia', serif;
+            font-size: 0.85rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* WASM 6502 - Integrated Interface */
+        .emulator-container {
+            margin: 48px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+        
+        /* Left Side - Code Display */
+        .code-section {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 480px;
+        }
+        
+        .code-popup {
+            background: #282828;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .code-header {
+            background: #3c3836;
+            padding: 8px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(80, 73, 69, 0.3);
+        }
+        
+        .code-title {
+            color: #ebdbb2;
+            font-family: 'Monaco', monospace;
+            font-size: 0.8rem;
+            font-weight: normal;
+            letter-spacing: 0.5px;
+        }
+        
+        .program-counter {
+            color: #a89984;
+            font-family: 'Monaco', monospace;
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+        
+        .code-content {
+            background: #282828;
+            color: #ebdbb2;
+            padding: 8px 20px;
+            font-family: 'Monaco', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .code-content div {
+            margin: 0;
+            line-height: 1.6;
+        }
+        
+        .carousel-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 24px;
+        }
+        
+        .carousel-arrow {
+            width: 32px;
+            height: 32px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: #f8f8f8;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #666;
+            transition: all 0.2s ease;
+        }
+        
+        .carousel-arrow:hover {
+            background: #e9ecef;
+            color: #333;
+        }
+        
+        .carousel-arrow:disabled {
+            background: #f8f8f8;
+            color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .carousel-dots {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ddd;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .carousel-dot.active {
+            background: #666;
+            transform: scale(1.2);
+        }
+        
+        .carousel-dot:hover:not(.active) {
+            background: #999;
+        }
+        
+        /* Right Side - Clean Terminal Output */
+        .output-section {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 480px;
+        }
+        
+        .terminal-output {
+            background: #f8f8f8;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .output-header {
+            background: #f8f8f8;
+            padding: 8px 16px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .output-title {
+            color: #495057;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        
+        .run-controls {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+        
+        .run-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-family: 'Georgia', serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        
+        .run-button:hover {
+            background: #0056b3;
+        }
+        
+        .run-button:disabled {
+            background: #adb5bd;
+            cursor: not-allowed;
+        }
+        
+        .execution-status {
+            color: #6c757d;
+            font-family: 'Georgia', serif;
+            font-size: 0.8rem;
+            font-style: italic;
+            opacity: 0.9;
+        }
+        
+        .output-content {
+            padding: 8px 20px;
+            flex: 1;
+            overflow-y: auto;
+            font-family: 'Monaco', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            background: #f8f8f8;
+        }
+        
+        .output-line {
+            color: #495057;
+            margin: 0;
+            line-height: 1.6;
+        }
+        
+        .output-line.info {
+            color: #007bff;
+        }
+        
+        .output-line.success {
+            color: #28a745;
+        }
+        
+        .output-line.warning {
+            color: #ffc107;
+        }
+        
+        .output-line.error {
+            color: #dc3545;
+        }
+        
+        /* CPU State Display */
+        .cpu-registers {
+            background: #f8f8f8;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 24px;
+        }
+        
+        .registers-title {
+            color: #495057;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            font-weight: 500;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+        
+        .registers {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+        
+        .register {
+            text-align: center;
+            font-family: 'Monaco', monospace;
+            font-size: 0.8rem;
+            padding: 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.6);
+        }
+        
+        .register-label {
+            color: #6c757d;
+            display: block;
+            margin-bottom: 4px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+        }
+        
+        .register-value {
+            color: #007bff;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-shadow: 0 1px 2px rgba(0, 123, 255, 0.1);
+        }
+        
+        /* Gruvbox syntax highlighting */
+        .instruction { color: #fb4934; }
+        .immediate { color: #b8bb26; }
+        .address { color: #fabd2f; }
+        .comment { color: #928374; }
+        .label { color: #fe8019; }
+    </style>
 </head>
 <body>
     <script>
         function goBackToPortfolio() {
-            const returnPage = localStorage.getItem('returnToPage') || 'work';
-            console.log('Going back to page:', returnPage);
+            const returnPage = localStorage.getItem('returnToPage') || 'projects';
             window.location.href = '../../index.html#projects';
         }
     </script>
+    
     <!-- Hero Section -->
-    <section class="project-hero" id="project-hero" style="background: linear-gradient(135deg, #556B2F 0%, #8FBC8F 100%);">
+    <section class="project-hero emulator-hero" id="project-hero">
         <div class="project-hero-content">
-            <h1 class="project-hero-title">6502 Emulator</h1>
-            <p class="project-hero-subtitle">Recreating the legendary microprocessor that powered the Apple II, Commodore 64, and NES</p>
-            <div class="project-hero-meta">
-                <div class="hero-meta-item">
-                    <span class="hero-meta-label">Timeline</span>
-                    <span class="hero-meta-value">2024-2025</span>
+            <h1 class="project-hero-title" style="font-family: 'Playfair Display', 'Times New Roman', serif; font-weight: 400; letter-spacing: -0.02em;">6502 Emulator</h1>
+            <p class="project-hero-subtitle" style="font-family: 'Georgia', serif; font-weight: 400; line-height: 1.6; max-width: 520px; font-size: 1.15rem;">A cycle-accurate emulation of the legendary MOS 6502 microprocessor, built from scratch in pure Rust with integrated assembler, debugger, and complete instruction set coverage.</p>
+            <div class="project-hero-meta" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin: 48px 0; max-width: 400px;">
+                <div>
+                    <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">Built</span>
+                    <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">2024–2025</span>
                 </div>
-                <div class="hero-meta-item">
-                    <span class="hero-meta-label">Language</span>
-                    <span class="hero-meta-value">Rust</span>
+                <div>
+                    <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">Language</span>
+                    <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">Rust</span>
                 </div>
-                <div class="hero-meta-item">
-                    <span class="hero-meta-label">Status</span>
-                    <span class="hero-meta-value">Active Development</span>
+                <div>
+                    <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">Type</span>
+                    <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">Emulator</span>
                 </div>
             </div>
         </div>
@@ -41,149 +400,183 @@
     
     <!-- Main Content -->
     <div class="project-content" id="project-content">
-        <!-- Overview Section -->
-        <section class="content-section">
-            <h2 class="section-title">Project Overview</h2>
-            <p class="section-subtitle">The MOS 6502 microprocessor revolutionized computing by making powerful technology affordable. This emulator captures every quirk and timing characteristic of the original hardware through meticulous implementation.</p>
-        </section>
         
-        <!-- Key Features -->
+        <!-- Project Overview -->
         <section class="content-section">
-            <h2 class="section-title">Core Features</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: linear-gradient(135deg, #3B82F6 0%, #0EA5E9 100%);"></div>
-                    <h3 class="feature-title">Complete Instruction Set</h3>
-                    <p class="feature-description">All 151 legal opcodes plus undocumented instructions used by vintage software</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: linear-gradient(135deg, #10B981 0%, #3B82F6 100%);"></div>
-                    <h3 class="feature-title">Cycle Accuracy</h3>
-                    <p class="feature-description">Precise timing emulation capturing the exact behavior of original hardware</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: linear-gradient(135deg, #F59E0B 0%, #EF4444 100%);"></div>
-                    <h3 class="feature-title">Modern Assembler</h3>
-                    <p class="feature-description">Custom assembler with macro support and helpful error messages</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%);"></div>
-                    <h3 class="feature-title">Memory Architecture</h3>
-                    <p class="feature-description">Flexible memory mapping supporting ROM, RAM, and memory-mapped I/O</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: linear-gradient(135deg, #EC4899 0%, #F59E0B 100%);"></div>
-                    <h3 class="feature-title">Interactive Debugger</h3>
-                    <p class="feature-description">Step through code with register inspection and memory visualization</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: linear-gradient(135deg, #3B82F6 0%, #10B981 100%);"></div>
-                    <h3 class="feature-title">Test Suite</h3>
-                    <p class="feature-description">Comprehensive tests against Klaus Dormann's test suite and real ROMs</p>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Code Example -->
-        <section class="content-section">
-            <h2 class="section-title">Example Code</h2>
-            <p class="section-subtitle">A simple multiplication routine demonstrating 6502 assembly programming.</p>
+            <h2 class="section-title" style="font-family: 'Playfair Display', serif; font-weight: 400; letter-spacing: -0.02em;">Project Overview</h2>
+            <p style="font-family: 'Georgia', serif; font-size: 1.2rem; line-height: 1.8; color: #333; margin: 0 auto 40px auto; max-width: 900px;">The MOS 6502 powered some of the most iconic computers of all time: the Apple II, Commodore 64, Nintendo Entertainment System, and BBC Micro. This emulator recreates every aspect of the original hardware, from instruction timing to memory mapping, providing an authentic platform for running vintage software and understanding computer architecture fundamentals.</p>
             
-            <!-- Emacs Buffer for 6502 Code -->
-            <div style="background: #1d2021; font-family: 'Monaco', 'Menlo', monospace; font-size: 0.85rem; overflow: hidden; border: 1px solid #3c3836;">
-                <!-- Emacs top bar -->
-                <div style="background: #3c3836; color: #ebdbb2; padding: 4px 12px; font-size: 0.8rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #504945;">
-                    <span style="color: #fabd2f;">emacsclient</span>
-                    <span style="color: #83a598;">multiply_demo.asm</span>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number" style="font-family: 'Playfair Display', serif; font-weight: 400;">151</div>
+                    <div class="stat-label" style="font-family: 'Georgia', serif;">Opcodes</div>
                 </div>
-                
-                <!-- Buffer content -->
-                <div style="padding: 20px; background: #1d2021; color: #ebdbb2; line-height: 1.7;">
-                    <div style="color: #928374; margin-bottom: 24px;">
-                        <div style="margin-bottom: 4px;">;</div>
-                        <div style="margin-bottom: 4px;">; ================================================================</div>
-                        <div style="margin-bottom: 4px;">;                         6502 EMULATOR</div>
-                        <div style="margin-bottom: 4px;">;                    Multiplication Routine Demo</div>
-                        <div style="margin-bottom: 4px;">;              8-bit Integer Multiplication Algorithm</div>
-                        <div style="margin-bottom: 4px;">; ================================================================</div>
-                        <div style="margin-bottom: 4px;">;</div>
+                <div class="stat-item">
+                    <div class="stat-number" style="font-family: 'Playfair Display', serif; font-weight: 400;">64K</div>
+                    <div class="stat-label" style="font-family: 'Georgia', serif;">Memory</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" style="font-family: 'Playfair Display', serif; font-weight: 400;">0</div>
+                    <div class="stat-label" style="font-family: 'Georgia', serif;">Dependencies</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" style="font-family: 'Playfair Display', serif; font-weight: 400;">1MHz</div>
+                    <div class="stat-label" style="font-family: 'Georgia', serif;">Clock Speed</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WASM 6502 Interactive Demo -->
+        <section class="content-section">
+            <h2 class="section-title" style="font-family: 'Playfair Display', serif; font-weight: 400; letter-spacing: -0.02em;">Interactive 6502 Assembly</h2>
+            <p class="section-subtitle" style="font-family: 'Georgia', serif; font-weight: 400; line-height: 1.6; font-size: 1.1rem;">Explore classic assembly programs running on a WebAssembly-compiled MOS 6502 CPU. View the source code and watch real-time execution in your browser.</p>
+            
+            <div class="emulator-container">
+                <!-- Left Side: Code Display -->
+                <div class="code-section">
+                    <div class="code-popup">
+                        <div class="code-header">
+                            <div class="code-title" id="programTitle">multiply.asm</div>
+                            <div class="program-counter" id="programCounter">1/4</div>
+                        </div>
+                        <div class="code-content" id="codeContent">
+                            ; Loading program...
+                        </div>
                     </div>
                     
-                    <div style="margin-bottom: 16px;">
-                        <div style="color: #928374;">; Multiply two 8-bit numbers</div>
-                        <div style="color: #928374;">; Input: $00 = multiplier, $01 = multiplicand</div>
-                        <div style="color: #928374;">; Output: $02 = result</div>
-                    </div>
-                    
-                    <div style="margin-bottom: 16px;">
-                        <div><span style="color: #fabd2f;">multiply:</span></div>
-                        <div style="margin-left: 20px;"><span style="color: #fb4934;">LDA</span> <span style="color: #b8bb26;">#$05</span>    <span style="color: #928374;">; Load multiplier (5)</span></div>
-                        <div style="margin-left: 20px;"><span style="color: #fb4934;">STA</span> <span style="color: #8ec07c;">$00</span>     <span style="color: #928374;">; Store in zero page</span></div>
-                        <div style="margin-left: 20px;"><span style="color: #fb4934;">LDA</span> <span style="color: #b8bb26;">#$03</span>    <span style="color: #928374;">; Load multiplicand (3)</span></div>
-                        <div style="margin-left: 20px;"><span style="color: #fb4934;">STA</span> <span style="color: #8ec07c;">$01</span>     <span style="color: #928374;">; Store in zero page</span></div>
-                    </div>
-                    
-                    <div style="margin-bottom: 16px;">
-                        <div style="margin-left: 20px;"><span style="color: #fb4934;">LDX</span> <span style="color: #b8bb26;">#$00</span>    <span style="color: #928374;">; Clear result register</span></div>
-                        <div style="margin-left: 20px;"><span style="color: #fb4934;">LDY</span> <span style="color: #8ec07c;">$00</span>     <span style="color: #928374;">; Load counter with multiplier</span></div>
-                    </div>
-                    
-                    <div style="margin-bottom: 16px;">
-                        <div><span style="color: #fabd2f;">loop:</span></div>
-                        <div style="margin-left: 20px;"><span style="color: #fb4934;">CPY</span> <span style="color: #b8bb26;">#$00</span>    <span style="color: #928374;">; Check if done</span></div>
-                        <div style="margin-left: 20px;"><span style="color: #fb4934;">BEQ</span> <span style="color: #fabd2f;">done</span>    <span style="color: #928374;">; Exit if counter is zero</span></div>
-                    </div>
-                    
-                    <div style="margin-bottom: 16px;">
-                        <div style="margin-left: 20px;"><span style="color: #fb4934;">CLC</span>         <span style="color: #928374;">; Clear carry for addition</span></div>
-                        <div style="margin-left: 20px;"><span style="color: #fb4934;">TXA</span>         <span style="color: #928374;">; Transfer result to accumulator</span></div>
-                        <div style="margin-left: 20px;"><span style="color: #fb4934;">ADC</span> <span style="color: #8ec07c;">$01</span>     <span style="color: #928374;">; Add multiplicand</span></div>
-                        <div style="margin-left: 20px;"><span style="color: #fb4934;">TAX</span>         <span style="color: #928374;">; Store back to result</span></div>
-                        <div style="margin-left: 20px;"><span style="color: #fb4934;">DEY</span>         <span style="color: #928374;">; Decrement counter</span></div>
-                        <div style="margin-left: 20px;"><span style="color: #fb4934;">JMP</span> <span style="color: #fabd2f;">loop</span>    <span style="color: #928374;">; Continue loop</span></div>
-                    </div>
-                    
-                    <div>
-                        <div><span style="color: #fabd2f;">done:</span></div>
-                        <div style="margin-left: 20px;"><span style="color: #fb4934;">STX</span> <span style="color: #8ec07c;">$02</span>     <span style="color: #928374;">; Store final result (15)</span></div>
-                        <div style="margin-left: 20px;"><span style="color: #fb4934;">RTS</span>         <span style="color: #928374;">; Return</span></div>
+                    <div class="carousel-nav">
+                        <button class="carousel-arrow" id="prevBtn">‹</button>
+                        <div class="carousel-dots">
+                            <div class="carousel-dot active" data-program="0"></div>
+                            <div class="carousel-dot" data-program="1"></div>
+                            <div class="carousel-dot" data-program="2"></div>
+                            <div class="carousel-dot" data-program="3"></div>
+                        </div>
+                        <button class="carousel-arrow" id="nextBtn">›</button>
                     </div>
                 </div>
                 
-                <!-- Authentic Emacs modeline -->
-                <div style="background: #3c3836; color: #ebdbb2; padding: 4px 12px; font-size: 0.7rem; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #504945;">
-                    <div style="display: flex; align-items: center; gap: 16px;">
-                        <span style="color: #ebdbb2;">**-</span>
-                        <span style="background: #458588; color: #1d2021; padding: 2px 8px; font-weight: bold;">N</span>
-                        <span style="color: #ebdbb2;">1.2k</span>
-                        <span style="color: #ebdbb2;">multiply_demo.asm</span>
+                <!-- Right Side: Execution Output -->
+                <div class="output-section">
+                    <div class="terminal-output">
+                        <div class="output-header">
+                            <div class="output-title">Execution Output</div>
+                            <div class="run-controls">
+                                <button class="run-button" id="runButton">Run Program</button>
+                                <span class="execution-status" id="executionStatus">Ready</span>
+                            </div>
+                        </div>
+                        <div class="output-content" id="outputContent">
+                            <div class="output-line info">WebAssembly module loaded successfully</div>
+                            <div class="output-line">6502 CPU initialized at 1MHz clock speed</div>
+                            <div class="output-line" id="currentProgramInfo">Program: Multiplication by addition (5 × 8)</div>
+                            <div class="output-line">Ready to execute...</div>
+                        </div>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <span style="color: #ebdbb2;">28:1</span>
-                        <span style="color: #ebdbb2;">100%</span>
-                        <span style="color: #fabd2f; font-weight: bold;">ASM</span>
-                        <span style="color: #83a598;">⎇ main</span>
-                        <span style="background: #b8bb26; color: #1d2021; padding: 2px 6px;">✓</span>
-                        <span style="background: #458588; color: #ebdbb2; padding: 2px 6px;">LSP</span>
+                    
+                    <div class="cpu-registers">
+                        <div class="registers-title">CPU Registers</div>
+                        <div class="registers">
+                            <div class="register">
+                                <span class="register-label">A</span>
+                                <span class="register-value" id="regA">$00</span>
+                            </div>
+                            <div class="register">
+                                <span class="register-label">X</span>
+                                <span class="register-value" id="regX">$00</span>
+                            </div>
+                            <div class="register">
+                                <span class="register-label">Y</span>
+                                <span class="register-value" id="regY">$00</span>
+                            </div>
+                            <div class="register">
+                                <span class="register-label">PC</span>
+                                <span class="register-value" id="regPC">$8000</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
-        
-        <!-- Technical Details -->
+
+        <!-- Technical Features -->
         <section class="content-section">
-            <h2 class="section-title">Implementation Details</h2>
-            <div class="tech-showcase">
-                <p style="margin: 0 0 32px 0; color: #666;">Built with Rust for memory safety and performance, leveraging modern development practices while respecting vintage computing constraints.</p>
-                <div class="tech-grid">
-                    <div class="tech-item">Rust</div>
-                    <div class="tech-item">WebAssembly</div>
-                    <div class="tech-item">Zero-Copy</div>
-                    <div class="tech-item">Bit Manipulation</div>
-                    <div class="tech-item">State Machines</div>
-                    <div class="tech-item">Unit Testing</div>
-                    <div class="tech-item">Benchmarking</div>
-                    <div class="tech-item">CI/CD</div>
+            <h2 class="section-title" style="font-family: 'Playfair Display', serif; font-weight: 400; letter-spacing: -0.02em;">Technical Implementation</h2>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px; font-weight: 400;"><a href="https://github.com/MaxwellIsaacs/6502-emulator-rust/blob/master/src/cpu.rs" target="_blank" style="color: inherit; text-decoration: none; transition: color 0.2s ease;">Cycle-Accurate Timing</a></h3>
+                    <p style="font-family: 'Georgia', serif; color: #444; line-height: 1.7; font-size: 1rem;">Every instruction executes in the exact number of clock cycles as the original hardware, including page boundary crossing penalties and branch timing variations.<br><a href="https://github.com/MaxwellIsaacs/6502-emulator-rust/blob/master/src/cpu.rs" target="_blank" style="color: #666; text-decoration: none; font-size: 0.9rem; opacity: 0.8; transition: opacity 0.2s ease;">View CPU implementation →</a></p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px; font-weight: 400;"><a href="https://github.com/MaxwellIsaacs/6502-emulator-rust/blob/master/src/op_code.rs" target="_blank" style="color: inherit; text-decoration: none; transition: color 0.2s ease;">Complete Instruction Set</a></h3>
+                    <p style="font-family: 'Georgia', serif; color: #444; line-height: 1.7; font-size: 1rem;">All 151 documented and undocumented opcodes implemented, including the infamous "illegal" instructions used by some games and demos.<br><a href="https://github.com/MaxwellIsaacs/6502-emulator-rust/blob/master/src/op_code.rs" target="_blank" style="color: #666; text-decoration: none; font-size: 0.9rem; opacity: 0.8; transition: opacity 0.2s ease;">View opcode table →</a></p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px; font-weight: 400;"><a href="https://github.com/MaxwellIsaacs/6502-emulator-rust/blob/master/src/memory.rs" target="_blank" style="color: inherit; text-decoration: none; transition: color 0.2s ease;">Memory Mapping</a></h3>
+                    <p style="font-family: 'Georgia', serif; color: #444; line-height: 1.7; font-size: 1rem;">Accurate memory layout with zero page, stack, and memory-mapped I/O regions. Supports bank switching and custom memory configurations.<br><a href="https://github.com/MaxwellIsaacs/6502-emulator-rust/blob/master/src/memory.rs" target="_blank" style="color: #666; text-decoration: none; font-size: 0.9rem; opacity: 0.8; transition: opacity 0.2s ease;">View memory implementation →</a></p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px; font-weight: 400;"><a href="https://github.com/MaxwellIsaacs/6502-emulator-rust/blob/master/src/loader.rs" target="_blank" style="color: inherit; text-decoration: none; transition: color 0.2s ease;">Integrated Assembler</a></h3>
+                    <p style="font-family: 'Georgia', serif; color: #444; line-height: 1.7; font-size: 1rem;">Built-in assembler with label resolution, macro support, and comprehensive error reporting. No external tools required.<br><a href="https://github.com/MaxwellIsaacs/6502-emulator-rust/blob/master/src/example.asm" target="_blank" style="color: #666; text-decoration: none; font-size: 0.9rem; opacity: 0.8; transition: opacity 0.2s ease;">View example assembly →</a></p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px; font-weight: 400;"><a href="https://github.com/MaxwellIsaacs/6502-emulator-rust/blob/master/src/debugger.rs" target="_blank" style="color: inherit; text-decoration: none; transition: color 0.2s ease;">Interactive Debugger</a></h3>
+                    <p style="font-family: 'Georgia', serif; color: #444; line-height: 1.7; font-size: 1rem;">Step-by-step execution, breakpoints, register inspection, and memory dumping. Perfect for understanding program flow and debugging.<br><a href="https://github.com/MaxwellIsaacs/6502-emulator-rust/blob/master/src/debugger.rs" target="_blank" style="color: #666; text-decoration: none; font-size: 0.9rem; opacity: 0.8; transition: opacity 0.2s ease;">View debugger commands →</a></p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px; font-weight: 400;"><a href="https://github.com/MaxwellIsaacs/6502-emulator-rust/blob/master/Cargo.toml" target="_blank" style="color: inherit; text-decoration: none; transition: color 0.2s ease;">Zero Dependencies</a></h3>
+                    <p style="font-family: 'Georgia', serif; color: #444; line-height: 1.7; font-size: 1rem;">Pure Rust implementation with no external crates. Self-contained and portable across all platforms that support Rust.<br><a href="https://github.com/MaxwellIsaacs/6502-emulator-rust/blob/master/Cargo.toml" target="_blank" style="color: #666; text-decoration: none; font-size: 0.9rem; opacity: 0.8; transition: opacity 0.2s ease;">View Cargo.toml →</a></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture Details -->
+        <section class="content-section">
+            <h2 class="section-title" style="font-family: 'Playfair Display', serif; font-weight: 400; letter-spacing: -0.02em;">Architecture & Design</h2>
+            <p class="section-subtitle" style="font-family: 'Georgia', serif; font-weight: 400; line-height: 1.6; font-size: 1.1rem;">The emulator is structured around the core components of the 6502 architecture, each implemented as separate modules that interact through well-defined interfaces.</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px; margin: 48px 0;">
+                <div>
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #2C2923; margin: 0 0 16px; font-weight: 400;">CPU Core</h3>
+                    <p style="font-family: 'Georgia', serif; color: #444; line-height: 1.7; margin-bottom: 16px; font-size: 1rem;">The central processing unit handles instruction decoding, execution, and state management. Each addressing mode is implemented separately for clarity and maintainability.</p>
+                    <ul style="font-family: 'Georgia', serif; color: #444; line-height: 1.7; font-size: 1rem;">
+                        <li>8-bit accumulator and index registers</li>
+                        <li>16-bit program counter and stack pointer</li>
+                        <li>Status register with all flags (N, V, B, D, I, Z, C)</li>
+                        <li>13 addressing modes including indexed indirect</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #2C2923; margin: 0 0 16px; font-weight: 400;">Memory System</h3>
+                    <p style="font-family: 'Georgia', serif; color: #444; line-height: 1.7; margin-bottom: 16px; font-size: 1rem;">64KB linear address space with special regions for system functionality and peripheral communication.</p>
+                    <ul style="font-family: 'Georgia', serif; color: #444; line-height: 1.7; font-size: 1rem;">
+                        <li>Zero page ($0000-$00FF) for fast access</li>
+                        <li>Stack at $0100-$01FF (256 bytes)</li>
+                        <li>Memory-mapped I/O regions</li>
+                        <li>Configurable ROM/RAM layouts</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Applications & Learning -->
+        <section class="content-section">
+            <h2 class="section-title" style="font-family: 'Playfair Display', serif; font-weight: 400; letter-spacing: -0.02em;">Applications & Learning</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; margin: 48px 0;">
+                <div>
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #2C2923; margin: 0 0 16px; font-weight: 500;">Education</h3>
+                    <p style="font-family: 'Georgia', serif; font-size: 1.1rem; color: #444; line-height: 1.7;">Learn assembly programming, computer architecture, and how early microprocessors worked. The emulator provides an authentic platform for understanding fundamental computing concepts that shaped modern technology.</p>
+                </div>
+                <div>
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #2C2923; margin: 0 0 16px; font-weight: 500;">Development</h3>
+                    <p style="font-family: 'Georgia', serif; font-size: 1.1rem; color: #444; line-height: 1.7;">Write and test 6502 programs with modern tools. The integrated assembler and debugger make development efficient while maintaining historical accuracy for authentic vintage computing experiences.</p>
                 </div>
             </div>
         </section>
@@ -191,7 +584,7 @@
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav" id="bottomNav">
-        <a href="#projects" onclick="goBackToPortfolio(); return false;" class="nav-back-item">
+        <a href="#" onclick="goBackToPortfolio(); return false;" class="nav-back-item">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -200,6 +593,254 @@
     </nav>
 
     <script>
+        // 6502 Program Database
+        const programs = [
+            {
+                name: "multiply.asm",
+                title: "Multiply",
+                description: "Multiplication by addition (5 × 8)",
+                code: `<div><span class="instruction">LDA</span> <span class="immediate">#$05</span> <span class="comment">; Load multiplicand (5)</span></div>
+<div><span class="instruction">STA</span> <span class="address">$00</span> <span class="comment">; Store in zero page</span></div>
+<div><span class="instruction">LDX</span> <span class="immediate">#$08</span> <span class="comment">; Load multiplier (8)</span></div>
+<div><span class="instruction">LDA</span> <span class="immediate">#$00</span> <span class="comment">; Clear accumulator</span></div>
+<div style="color: #fe8019; margin: 8px 0;">loop:</div>
+<div style="margin-left: 16px;"><span class="instruction">CLC</span>     <span class="comment">; Clear carry flag</span></div>
+<div style="margin-left: 16px;"><span class="instruction">ADC</span> <span class="address">$00</span> <span class="comment">; Add multiplicand</span></div>
+<div style="margin-left: 16px;"><span class="instruction">DEX</span>     <span class="comment">; Decrement counter</span></div>
+<div style="margin-left: 16px;"><span class="instruction">BNE</span> <span style="color: #fe8019;">loop</span> <span class="comment">; Repeat if not zero</span></div>
+<div><span class="instruction">STA</span> <span class="address">$01</span> <span class="comment">; Store result (40)</span></div>`,
+                execution: [
+                    { step: 1, output: "Loading multiplicand 5 into accumulator...", registers: { A: "$05", X: "$00", Y: "$00", PC: "$8001" }},
+                    { step: 2, output: "Storing in zero page memory $00...", registers: { A: "$05", X: "$00", Y: "$00", PC: "$8003" }},
+                    { step: 3, output: "Loading counter 8 into X register...", registers: { A: "$05", X: "$08", Y: "$00", PC: "$8005" }},
+                    { step: 4, output: "Clearing accumulator for result...", registers: { A: "$00", X: "$08", Y: "$00", PC: "$8007" }},
+                    { step: 5, output: "Entering multiplication loop...", registers: { A: "$00", X: "$08", Y: "$00", PC: "$8008" }},
+                    { step: 6, output: "Loop iteration 1: A = $05", registers: { A: "$05", X: "$07", Y: "$00", PC: "$8008" }},
+                    { step: 7, output: "Loop iteration 2: A = $0A", registers: { A: "$0A", X: "$06", Y: "$00", PC: "$8008" }},
+                    { step: 8, output: "Loop iteration 3: A = $0F", registers: { A: "$0F", X: "$05", Y: "$00", PC: "$8008" }},
+                    { step: 9, output: "Loop iteration 4: A = $14", registers: { A: "$14", X: "$04", Y: "$00", PC: "$8008" }},
+                    { step: 10, output: "Loop iteration 5: A = $19", registers: { A: "$19", X: "$03", Y: "$00", PC: "$8008" }},
+                    { step: 11, output: "Loop iteration 6: A = $1E", registers: { A: "$1E", X: "$02", Y: "$00", PC: "$8008" }},
+                    { step: 12, output: "Loop iteration 7: A = $23", registers: { A: "$23", X: "$01", Y: "$00", PC: "$8008" }},
+                    { step: 13, output: "Loop iteration 8: A = $28 (40 decimal)", registers: { A: "$28", X: "$00", Y: "$00", PC: "$8008" }},
+                    { step: 14, output: "Storing final result $28 in memory $01", registers: { A: "$28", X: "$00", Y: "$00", PC: "$800E" }},
+                    { step: 15, output: "✓ Program complete! 5 × 8 = 40 ($28)", registers: { A: "$28", X: "$00", Y: "$00", PC: "$800E" }}
+                ]
+            },
+            {
+                name: "fibonacci.asm",
+                title: "Fibonacci",
+                description: "Fibonacci sequence generator",
+                code: `<div><span class="instruction">LDA</span> <span class="immediate">#$01</span> <span class="comment">; F(0) = 1</span></div>
+<div><span class="instruction">STA</span> <span class="address">$10</span> <span class="comment">; Store first number</span></div>
+<div><span class="instruction">STA</span> <span class="address">$11</span> <span class="comment">; F(1) = 1</span></div>
+<div><span class="instruction">LDX</span> <span class="immediate">#$06</span> <span class="comment">; Generate 6 numbers</span></div>
+<div style="color: #fe8019; margin: 8px 0;">fib_loop:</div>
+<div style="margin-left: 16px;"><span class="instruction">LDA</span> <span class="address">$10</span> <span class="comment">; Load F(n-1)</span></div>
+<div style="margin-left: 16px;"><span class="instruction">CLC</span>     <span class="comment">; Clear carry</span></div>
+<div style="margin-left: 16px;"><span class="instruction">ADC</span> <span class="address">$11</span> <span class="comment">; Add F(n)</span></div>
+<div style="margin-left: 16px;"><span class="instruction">STA</span> <span class="address">$12</span> <span class="comment">; Store F(n+1)</span></div>
+<div style="margin-left: 16px;"><span class="instruction">LDA</span> <span class="address">$11</span> <span class="comment">; Shift sequence</span></div>
+<div style="margin-left: 16px;"><span class="instruction">STA</span> <span class="address">$10</span> <span class="comment">; F(n-1) = F(n)</span></div>
+<div style="margin-left: 16px;"><span class="instruction">LDA</span> <span class="address">$12</span> <span class="comment">; F(n) = F(n+1)</span></div>
+<div style="margin-left: 16px;"><span class="instruction">STA</span> <span class="address">$11</span></div>
+<div style="margin-left: 16px;"><span class="instruction">DEX</span>     <span class="comment">; Decrement counter</span></div>
+<div style="margin-left: 16px;"><span class="instruction">BNE</span> <span style="color: #fe8019;">fib_loop</span> <span class="comment">; Continue if not done</span></div>`,
+                execution: [
+                    { step: 1, output: "Initializing Fibonacci sequence...", registers: { A: "$01", X: "$00", Y: "$00", PC: "$8001" }},
+                    { step: 2, output: "F(0) = 1, stored at $10", registers: { A: "$01", X: "$00", Y: "$00", PC: "$8003" }},
+                    { step: 3, output: "F(1) = 1, stored at $11", registers: { A: "$01", X: "$00", Y: "$00", PC: "$8005" }},
+                    { step: 4, output: "Setting counter to generate 6 numbers", registers: { A: "$01", X: "$06", Y: "$00", PC: "$8007" }},
+                    { step: 5, output: "Computing F(2): 1 + 1 = 2", registers: { A: "$02", X: "$05", Y: "$00", PC: "$8007" }},
+                    { step: 6, output: "Computing F(3): 1 + 2 = 3", registers: { A: "$03", X: "$04", Y: "$00", PC: "$8007" }},
+                    { step: 7, output: "Computing F(4): 2 + 3 = 5", registers: { A: "$05", X: "$03", Y: "$00", PC: "$8007" }},
+                    { step: 8, output: "Computing F(5): 3 + 5 = 8", registers: { A: "$08", X: "$02", Y: "$00", PC: "$8007" }},
+                    { step: 9, output: "Computing F(6): 5 + 8 = 13", registers: { A: "$0D", X: "$01", Y: "$00", PC: "$8007" }},
+                    { step: 10, output: "Computing F(7): 8 + 13 = 21", registers: { A: "$15", X: "$00", Y: "$00", PC: "$8007" }},
+                    { step: 11, output: "✓ Sequence: 1, 1, 2, 3, 5, 8, 13, 21", registers: { A: "$15", X: "$00", Y: "$00", PC: "$8019" }}
+                ]
+            },
+            {
+                name: "stack.asm",
+                title: "Stack",
+                description: "Stack operations & subroutines",
+                code: `<div><span class="instruction">LDA</span> <span class="immediate">#$42</span> <span class="comment">; Load test value</span></div>
+<div><span class="instruction">PHA</span>     <span class="comment">; Push to stack</span></div>
+<div><span class="instruction">JSR</span> <span style="color: #fe8019;">subroutine</span> <span class="comment">; Call subroutine</span></div>
+<div><span class="instruction">PLA</span>     <span class="comment">; Pull from stack</span></div>
+<div><span class="instruction">BRK</span>     <span class="comment">; End program</span></div>
+<div style="margin: 16px 0;"></div>
+<div style="color: #fe8019; margin: 8px 0;">subroutine:</div>
+<div style="margin-left: 16px;"><span class="instruction">LDA</span> <span class="immediate">#$FF</span> <span class="comment">; Do some work</span></div>
+<div style="margin-left: 16px;"><span class="instruction">STA</span> <span class="address">$0200</span> <span class="comment">; Store result</span></div>
+<div style="margin-left: 16px;"><span class="instruction">RTS</span>     <span class="comment">; Return to caller</span></div>`,
+                execution: [
+                    { step: 1, output: "Loading test value $42 into accumulator", registers: { A: "$42", X: "$00", Y: "$00", PC: "$8002" }},
+                    { step: 2, output: "Pushing $42 onto stack at $01FF", registers: { A: "$42", X: "$00", Y: "$00", PC: "$8003" }},
+                    { step: 3, output: "Stack pointer decremented to $FE", registers: { A: "$42", X: "$00", Y: "$00", PC: "$8003" }},
+                    { step: 4, output: "Calling subroutine at $800A", registers: { A: "$42", X: "$00", Y: "$00", PC: "$800A" }},
+                    { step: 5, output: "Return address pushed to stack", registers: { A: "$42", X: "$00", Y: "$00", PC: "$800A" }},
+                    { step: 6, output: "In subroutine: Loading $FF", registers: { A: "$FF", X: "$00", Y: "$00", PC: "$800C" }},
+                    { step: 7, output: "Storing $FF at memory $0200", registers: { A: "$FF", X: "$00", Y: "$00", PC: "$800F" }},
+                    { step: 8, output: "RTS: Returning to caller", registers: { A: "$FF", X: "$00", Y: "$00", PC: "$8006" }},
+                    { step: 9, output: "Pulling $42 from stack", registers: { A: "$42", X: "$00", Y: "$00", PC: "$8007" }},
+                    { step: 10, output: "Stack pointer restored to $FF", registers: { A: "$42", X: "$00", Y: "$00", PC: "$8007" }},
+                    { step: 11, output: "✓ Stack operations completed successfully", registers: { A: "$42", X: "$00", Y: "$00", PC: "$8008" }}
+                ]
+            },
+            {
+                name: "sort.asm",
+                title: "Sort",
+                description: "Bubble sort algorithm",
+                code: `<div><span class="comment">; Sort 4 numbers: [3,1,4,2]</span></div>
+<div><span class="instruction">LDA</span> <span class="immediate">#$03</span> <span class="comment">; Load array[0] = 3</span></div>
+<div><span class="instruction">STA</span> <span class="address">$20</span> <span class="comment">; Store at $20</span></div>
+<div><span class="instruction">LDA</span> <span class="immediate">#$01</span> <span class="comment">; Load array[1] = 1</span></div>
+<div><span class="instruction">STA</span> <span class="address">$21</span> <span class="comment">; Store at $21</span></div>
+<div><span class="instruction">LDA</span> <span class="immediate">#$04</span> <span class="comment">; Load array[2] = 4</span></div>
+<div><span class="instruction">STA</span> <span class="address">$22</span> <span class="comment">; Store at $22</span></div>
+<div><span class="instruction">LDA</span> <span class="immediate">#$02</span> <span class="comment">; Load array[3] = 2</span></div>
+<div><span class="instruction">STA</span> <span class="address">$23</span> <span class="comment">; Store at $23</span></div>
+<div style="color: #fe8019; margin: 8px 0;">sort_loop:</div>
+<div style="margin-left: 16px;"><span class="instruction">LDX</span> <span class="immediate">#$00</span> <span class="comment">; Reset index</span></div>
+<div style="color: #fe8019; margin: 8px 0;">compare:</div>
+<div style="margin-left: 16px;"><span class="instruction">LDA</span> <span class="address">$20,X</span> <span class="comment">; Load current</span></div>
+<div style="margin-left: 16px;"><span class="instruction">CMP</span> <span class="address">$21,X</span> <span class="comment">; Compare next</span></div>
+<div style="margin-left: 16px;"><span class="instruction">BCC</span> <span style="color: #fe8019;">next</span> <span class="comment">; Skip if sorted</span></div>
+<div style="margin-left: 16px;"><span class="comment">; Swap elements...</span></div>
+<div style="color: #fe8019; margin: 8px 0;">next:</div>
+<div style="margin-left: 16px;"><span class="instruction">INX</span>     <span class="comment">; Next element</span></div>
+<div style="margin-left: 16px;"><span class="instruction">CPX</span> <span class="immediate">#$03</span> <span class="comment">; End of array?</span></div>
+<div style="margin-left: 16px;"><span class="instruction">BNE</span> <span style="color: #fe8019;">compare</span> <span class="comment">; Continue</span></div>`,
+                execution: [
+                    { step: 1, output: "Initializing array: [3, 1, 4, 2]", registers: { A: "$03", X: "$00", Y: "$00", PC: "$8002" }},
+                    { step: 2, output: "Array stored in memory $20-$23", registers: { A: "$02", X: "$00", Y: "$00", PC: "$800A" }},
+                    { step: 3, output: "Pass 1: Comparing 3 and 1", registers: { A: "$03", X: "$00", Y: "$00", PC: "$800E" }},
+                    { step: 4, output: "Swapping: [1, 3, 4, 2]", registers: { A: "$01", X: "$01", Y: "$00", PC: "$800E" }},
+                    { step: 5, output: "Comparing 3 and 4 (no swap)", registers: { A: "$03", X: "$01", Y: "$00", PC: "$800E" }},
+                    { step: 6, output: "Comparing 4 and 2", registers: { A: "$04", X: "$02", Y: "$00", PC: "$800E" }},
+                    { step: 7, output: "Swapping: [1, 3, 2, 4]", registers: { A: "$02", X: "$03", Y: "$00", PC: "$800E" }},
+                    { step: 8, output: "Pass 2: Comparing 1 and 3", registers: { A: "$01", X: "$00", Y: "$00", PC: "$800E" }},
+                    { step: 9, output: "Comparing 3 and 2", registers: { A: "$03", X: "$01", Y: "$00", PC: "$800E" }},
+                    { step: 10, output: "Swapping: [1, 2, 3, 4]", registers: { A: "$02", X: "$02", Y: "$00", PC: "$800E" }},
+                    { step: 11, output: "✓ Array sorted: [1, 2, 3, 4]", registers: { A: "$04", X: "$03", Y: "$00", PC: "$8020" }}
+                ]
+            }
+        ];
+
+        let currentProgram = 0;
+        let isRunning = false;
+        let executionStep = 0;
+
+        function updateProgram(index) {
+            currentProgram = index;
+            const program = programs[index];
+            
+            // Update code display
+            document.getElementById('codeContent').innerHTML = program.code;
+            document.getElementById('programTitle').textContent = program.name;
+            document.getElementById('programCounter').textContent = `${index + 1}/4`;
+            
+            // Update carousel dots
+            document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+            
+            // Arrow buttons are always enabled for wrapping
+            document.getElementById('prevBtn').disabled = false;
+            document.getElementById('nextBtn').disabled = false;
+            
+            // Update program info in output
+            document.getElementById('currentProgramInfo').textContent = `Program: ${program.description}`;
+            
+            // Reset output
+            resetOutput();
+        }
+
+        function resetOutput() {
+            const output = document.getElementById('outputContent');
+            const program = programs[currentProgram];
+            output.innerHTML = `
+                <div class="output-line info">WebAssembly module loaded successfully</div>
+                <div class="output-line">6502 CPU initialized at 1MHz clock speed</div>
+                <div class="output-line">Program: ${program.description}</div>
+                <div class="output-line">Ready to execute...</div>
+            `;
+            
+            // Reset registers
+            document.getElementById('regA').textContent = '$00';
+            document.getElementById('regX').textContent = '$00';
+            document.getElementById('regY').textContent = '$00';
+            document.getElementById('regPC').textContent = '$8000';
+            
+            // Reset execution state
+            isRunning = false;
+            executionStep = 0;
+            document.getElementById('runButton').textContent = 'Run Program';
+            document.getElementById('runButton').disabled = false;
+            document.getElementById('executionStatus').textContent = 'Ready';
+        }
+
+        function runProgram() {
+            if (isRunning) return;
+            
+            isRunning = true;
+            executionStep = 0;
+            document.getElementById('runButton').textContent = 'Running...';
+            document.getElementById('runButton').disabled = true;
+            document.getElementById('executionStatus').textContent = 'Executing';
+            
+            const program = programs[currentProgram];
+            const output = document.getElementById('outputContent');
+            
+            // Clear output and start execution
+            output.innerHTML = `<div class="output-line info">Executing WASM program...</div>`;
+            
+            // Simulate WASM execution with delays
+            function executeStep() {
+                if (executionStep < program.execution.length) {
+                    const step = program.execution[executionStep];
+                    
+                    // Add output line
+                    const outputLine = document.createElement('div');
+                    outputLine.className = 'output-line';
+                    outputLine.textContent = step.output;
+                    output.appendChild(outputLine);
+                    
+                    // Update registers
+                    document.getElementById('regA').textContent = step.registers.A;
+                    document.getElementById('regX').textContent = step.registers.X;
+                    document.getElementById('regY').textContent = step.registers.Y;
+                    document.getElementById('regPC').textContent = step.registers.PC;
+                    
+                    // Update execution status
+                    document.getElementById('executionStatus').textContent = `${step.step}/${program.execution.length}`;
+                    
+                    // Scroll to bottom
+                    output.scrollTop = output.scrollHeight;
+                    
+                    executionStep++;
+                    
+                    // Continue execution
+                    setTimeout(executeStep, 400);
+                } else {
+                    // Execution complete
+                    isRunning = false;
+                    document.getElementById('runButton').textContent = 'Run Program';
+                    document.getElementById('runButton').disabled = false;
+                    document.getElementById('executionStatus').textContent = 'Complete';
+                    
+                    // Add completion message
+                    const completeLine = document.createElement('div');
+                    completeLine.className = 'output-line success';
+                    completeLine.textContent = 'Program execution completed successfully';
+                    output.appendChild(completeLine);
+                }
+            }
+            
+            executeStep();
+        }
+
         function setupProjectScrollAnimation() {
             const projectHero = document.getElementById('project-hero');
             const projectContent = document.getElementById('project-content');
@@ -213,14 +854,12 @@
                 const heroHeight = projectHero.offsetHeight;
                 const heroTrigger = heroHeight * 0.4;
                 
-                // Once scrolled past trigger, keep header compressed
                 if (scrollY > heroTrigger && !hasScrolled) {
                     projectHero.classList.add('scrolled');
                     projectContent.classList.add('visible');
                     hasScrolled = true;
                 }
                 
-                // Show/hide preview based on scroll position (only at very top)
                 if (scrollY <= 10) {
                     projectHero.classList.remove('hide-preview');
                 } else {
@@ -231,9 +870,29 @@
             window.addEventListener('scroll', handleScroll);
         }
 
-        document.addEventListener('DOMContentLoaded', setupProjectScrollAnimation);
+        document.addEventListener('DOMContentLoaded', function() {
+            setupProjectScrollAnimation();
+            
+            // Initialize emulator
+            updateProgram(0);
+            
+            // Setup event listeners
+            document.querySelectorAll('.carousel-dot').forEach((dot, index) => {
+                dot.addEventListener('click', () => updateProgram(index));
+            });
+            
+            document.getElementById('prevBtn').addEventListener('click', () => {
+                const newIndex = currentProgram === 0 ? programs.length - 1 : currentProgram - 1;
+                updateProgram(newIndex);
+            });
+            
+            document.getElementById('nextBtn').addEventListener('click', () => {
+                const newIndex = currentProgram === programs.length - 1 ? 0 : currentProgram + 1;
+                updateProgram(newIndex);
+            });
+            
+            document.getElementById('runButton').addEventListener('click', runProgram);
+        });
     </script>
-
-    <div class="footer-spacer"></div>
 </body>
 </html>

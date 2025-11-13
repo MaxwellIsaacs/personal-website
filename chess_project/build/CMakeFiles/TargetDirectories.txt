@@ -1,0 +1,3 @@
+/Users/maxwellisaacs/Desktop/C Projects/chess/build/CMakeFiles/chess_game.dir
+/Users/maxwellisaacs/Desktop/C Projects/chess/build/CMakeFiles/edit_cache.dir
+/Users/maxwellisaacs/Desktop/C Projects/chess/build/CMakeFiles/rebuild_cache.dir

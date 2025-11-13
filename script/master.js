@@ -59,6 +59,9 @@ function transitionToPage(newPage) {
   isTransitioning = true;
   document.body.classList.add('page-transitioning');
   
+  // Scroll to top when switching tabs
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  
   const introContent = document.getElementById('intro-content');
   const projectGrid = document.getElementById('project-grid');
   const existingCards = document.querySelectorAll('.project-card-wrapper');
@@ -66,9 +69,11 @@ function transitionToPage(newPage) {
   // Start text fade out
   introContent.classList.add('text-experimental-out');
   
-  // Start card exit animation based on current option
+  // Start card exit animation based on current option (skip for dotfiles)
   existingCards.forEach((cardWrapper, index) => {
-    cardWrapper.classList.add(`card-${currentAnimation}-exit`);
+    if (newPage !== 'dotfiles') {
+      cardWrapper.classList.add(`card-${currentAnimation}-exit`);
+    }
   });
   
   // Update navigation
@@ -92,13 +97,15 @@ function transitionToPage(newPage) {
       document.getElementById('dynamic-content').style.display = 'none';
     } else {
       document.getElementById('dynamic-content').style.display = '';
-      // Add new cards with entrance animation
+      // Add new cards with entrance animation (skip for dotfiles)
       pageData[newPage].cards.forEach((card, index) => {
         setTimeout(() => {
           const cardElement = document.createElement('div');
           cardElement.innerHTML = createCardHTML(card);
           const cardWrapper = cardElement.firstElementChild;
-          cardWrapper.classList.add(`card-${currentAnimation}-enter`);
+          if (newPage !== 'dotfiles') {
+            cardWrapper.classList.add(`card-${currentAnimation}-enter`);
+          }
           projectGrid.appendChild(cardWrapper);
         }, index * 50);
       });
@@ -143,7 +150,7 @@ function setupCardHoverEffects() {
       const title = cardWrapper.querySelector('.caption-left')?.textContent;
       
       // Open project detail for specific projects
-      if (title && (title.toLowerCase().includes('6502') || title.toLowerCase().includes('partypass') || title.toLowerCase().includes('podcast') || title.toLowerCase().includes('remy') || title.toLowerCase().includes('linear algebra') || title.toLowerCase().includes('mandelbrot') || title.toLowerCase().includes('chess') || title.toLowerCase().includes('huffman'))) {
+      if (title && (title.toLowerCase().includes('6502') || title.toLowerCase().includes('partypass') || title.toLowerCase().includes('podcast') || title.toLowerCase().includes('remy') || title.toLowerCase().includes('linear algebra') || title.toLowerCase().includes('mandelbrot') || title.toLowerCase().includes('chess') || title.toLowerCase().includes('huffman') || title.toLowerCase().includes('sudoku') || title.toLowerCase().includes('nix') || title.toLowerCase().includes('hyprland') || title.toLowerCase().includes('emacs') || title.toLowerCase().includes('shell'))) {
         openProjectDetail(title);
       }
     });
@@ -161,25 +168,16 @@ function setupCardHoverEffects() {
       }, 500);
     }
     
-    newCard.addEventListener('mousemove', e => {
-      const rect = newCard.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-
-      const rotateX = -(y - centerY) / 400;
-      const rotateY = (x - centerX) / 400;
-
-      newCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    newCard.addEventListener('mouseenter', () => {
+      newCard.style.transform = 'scale(1.01)';
     });
 
     newCard.addEventListener('mouseleave', () => {
-      newCard.style.transform = 'rotateX(0deg) rotateY(0deg)';
+      newCard.style.transform = 'scale(1)';
     });
     
     // Add cursor pointer for clickable cards
-    if (title && (title.toLowerCase().includes('6502') || title.toLowerCase().includes('partypass') || title.toLowerCase().includes('podcast') || title.toLowerCase().includes('remy') || title.toLowerCase().includes('linear algebra') || title.toLowerCase().includes('mandelbrot') || title.toLowerCase().includes('chess') || title.toLowerCase().includes('huffman'))) {
+    if (title && (title.toLowerCase().includes('6502') || title.toLowerCase().includes('partypass') || title.toLowerCase().includes('podcast') || title.toLowerCase().includes('remy') || title.toLowerCase().includes('linear algebra') || title.toLowerCase().includes('mandelbrot') || title.toLowerCase().includes('chess') || title.toLowerCase().includes('huffman') || title.toLowerCase().includes('sudoku') || title.toLowerCase().includes('nix') || title.toLowerCase().includes('hyprland') || title.toLowerCase().includes('emacs') || title.toLowerCase().includes('shell'))) {
       newCard.style.cursor = 'pointer';
     }
   });
@@ -195,13 +193,14 @@ function openProjectDetail(projectTitle) {
     'partypass': 'details/work/partypass.html',
     'podcast': 'details/projects/podcast.html',
     'remy': 'details/projects/remy-conductor.html',
-    'linear algebra': 'details/projects/linear-algebra.html',
+    'linear algebra': 'details/projects/java-linear-algebra.html',
     'mandelbrot': 'details/projects/mandelbrot.html',
     'chess': 'details/projects/chessdl.html',
     'huffman': 'details/projects/huffman.html',
-    'arch linux': 'details/dotfiles/arch-setup.html',
-    'sway': 'details/dotfiles/sway-waybar.html',
-    'emacs': 'details/dotfiles/emacs-config.html',
+    'sudoku': 'details/projects/sudoku.html',
+    'nix': 'details/dotfiles/nix-config.html',
+    'hyprland': 'details/dotfiles/hyprland.html',
+    'emacs': 'details/dotfiles/emacs.html',
     'shell': 'details/dotfiles/shell-environment.html'
   };
   
