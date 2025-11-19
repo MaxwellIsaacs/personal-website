@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decentralized Social Media - Maxwell Isaacs</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../images/favicon.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="../../images/favicon.png" />
+    <link rel="shortcut icon" href="../../images/favicon.png" />
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Archivo:opsz,wght@8..144,400;8..144,500;8..144,600;8..144,700&family=Playfair+Display:wght@300;400;500;600;700&family=Georgia:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .social-hero {
+            background: linear-gradient(135deg, #1B1B2F 0%, #0F0F1A 100%);
+            position: relative;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin: 48px 0;
+        }
+        
+        .feature-card {
+            background: #f8f8f8;
+            border-radius: 8px;
+            padding: 24px;
+            border-left: 4px solid #1B1B2F;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin: 48px 0;
+            text-align: center;
+        }
+        
+        .stat-item {
+            background: #f8f8f8;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: #1B1B2F;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-family: 'Georgia', serif;
+            font-size: 0.85rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Network Animation Styles */
+        .network-demo {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 40px;
+            margin: 48px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .network-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .node {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1B1B2F 0%, #2C2C54 100%);
+            border: 3px solid #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'Monaco', monospace;
+            font-size: 0.7rem;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(27, 27, 47, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .node:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(27, 27, 47, 0.4);
+        }
+        
+        .connection {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, #1B1B2F 0%, #40407a 50%, #1B1B2F 100%);
+            transform-origin: left center;
+            opacity: 0.6;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        .demo-controls {
+            margin-top: 24px;
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .demo-btn {
+            background: #1B1B2F;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-family: 'Georgia', serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        
+        .demo-btn:hover {
+            background: #2C2C54;
+        }
+        
+        .demo-btn:disabled {
+            background: #adb5bd;
+            cursor: not-allowed;
+        }
+        
+        .message-log {
+            background: #282c34;
+            border-radius: 6px;
+            padding: 16px;
+            margin-top: 24px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: 'Monaco', monospace;
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+        
+        .message-line {
+            color: #abb2bf;
+            margin: 4px 0;
+        }
+        
+        .message-line.broadcast {
+            color: #98c379;
+        }
+        
+        .message-line.audit {
+            color: #e06c75;
+        }
+        
+        .message-line.discovery {
+            color: #61dafb;
+        }
+        
+        .architecture-diagram {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 32px;
+            margin: 48px 0;
+            text-align: center;
+        }
+        
+        .layer {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 12px 0;
+            transition: all 0.2s ease;
+        }
+        
+        .layer:hover {
+            border-color: #1B1B2F;
+            transform: translateY(-2px);
+        }
+        
+        .layer-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: #1B1B2F;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .layer-desc {
+            font-family: 'Georgia', serif;
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .project-hero-content {
+                padding: 60px 20px !important;
+                text-align: center !important;
+            }
+            
+            section[style*="padding: 80px 64px"] {
+                padding: 40px 20px !important;
+            }
+            
+            .project-content {
+                padding: 40px 20px !important;
+            }
+            
+            .network-demo {
+                margin: 20px 10px !important;
+                padding: 20px !important;
+            }
+            
+            .network-container {
+                height: 200px !important;
+            }
+            
+            .node {
+                width: 40px !important;
+                height: 40px !important;
+                font-size: 0.6rem !important;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 16px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        function goBackToPortfolio() {
+            const returnPage = localStorage.getItem('returnToPage') || 'projects';
+            window.location.href = '../../index.html#projects';
+        }
+
+        // Network Demo Implementation
+        let demoState = 'stopped';
+        let messageCount = 0;
+        let nodes = [];
+
+        function initializeDemo() {
+            const container = document.getElementById('networkContainer');
+            const centerX = 300;
+            const centerY = 150;
+            const radius = 100;
+            
+            // Create 5 nodes in a pentagon
+            for (let i = 0; i < 5; i++) {
+                const angle = (i * 2 * Math.PI) / 5;
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+                
+                const node = document.createElement('div');
+                node.className = 'node';
+                node.textContent = `Node ${i + 1}`;
+                node.style.left = (x - 30) + 'px';
+                node.style.top = (y - 30) + 'px';
+                container.appendChild(node);
+                
+                nodes.push({ x, y, element: node });
+            }
+            
+            // Create connections
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    createConnection(nodes[i], nodes[j], container);
+                }
+            }
+        }
+        
+        function createConnection(nodeA, nodeB, container) {
+            const connection = document.createElement('div');
+            connection.className = 'connection';
+            
+            const dx = nodeB.x - nodeA.x;
+            const dy = nodeB.y - nodeA.y;
+            const length = Math.sqrt(dx * dx + dy * dy);
+            const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+            
+            connection.style.left = nodeA.x + 'px';
+            connection.style.top = nodeA.y + 'px';
+            connection.style.width = length + 'px';
+            connection.style.transform = `rotate(${angle}deg)`;
+            
+            container.appendChild(connection);
+        }
+
+        function startDemo() {
+            if (demoState === 'running') return;
+            
+            demoState = 'running';
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('stopBtn').disabled = false;
+            
+            const log = document.getElementById('messageLog');
+            log.innerHTML = '<div class="message-line discovery">[NETWORK] Starting P2P discovery...</div>';
+            
+            simulateNetworkActivity();
+        }
+        
+        function stopDemo() {
+            demoState = 'stopped';
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = true;
+            
+            const log = document.getElementById('messageLog');
+            const stopLine = document.createElement('div');
+            stopLine.className = 'message-line';
+            stopLine.textContent = '[NETWORK] Demo stopped';
+            log.appendChild(stopLine);
+        }
+        
+        function simulateNetworkActivity() {
+            if (demoState !== 'running') return;
+            
+            const log = document.getElementById('messageLog');
+            const activities = [
+                { type: 'discovery', msg: '[mDNS] Peer discovered at 192.168.1.' + (Math.floor(Math.random() * 254) + 1) },
+                { type: 'broadcast', msg: '[GOSSIP] Broadcasting post: "Hello decentralized world!" - 256 bytes' },
+                { type: 'audit', msg: '[AUDIT] Recording interaction: view_post by user_' + Math.floor(Math.random() * 1000) },
+                { type: 'broadcast', msg: '[P2P] Content propagation: 3 peers, 45ms average latency' },
+                { type: 'audit', msg: '[TRANSPARENCY] All interactions logged to public audit trail' },
+                { type: 'discovery', msg: '[NETWORK] 5 active peers, 12 total connections' }
+            ];
+            
+            const activity = activities[Math.floor(Math.random() * activities.length)];
+            const line = document.createElement('div');
+            line.className = `message-line ${activity.type}`;
+            line.textContent = `[${messageCount++}] ${activity.msg}`;
+            log.appendChild(line);
+            
+            // Auto-scroll to bottom
+            log.scrollTop = log.scrollHeight;
+            
+            // Continue simulation
+            setTimeout(simulateNetworkActivity, 1500 + Math.random() * 2000);
+        }
+
+        function setupProjectScrollAnimation() {
+            const projectHero = document.getElementById('project-hero');
+            const projectContent = document.getElementById('project-content');
+            
+            if (!projectHero || !projectContent) return;
+            
+            let hasScrolled = false;
+            
+            function handleScroll() {
+                const scrollY = window.scrollY;
+                const heroHeight = projectHero.offsetHeight;
+                const heroTrigger = heroHeight * 0.4;
+                
+                if (scrollY > heroTrigger && !hasScrolled) {
+                    projectHero.classList.add('scrolled');
+                    projectContent.classList.add('visible');
+                    hasScrolled = true;
+                }
+                
+                if (scrollY <= 10) {
+                    projectHero.classList.remove('hide-preview');
+                } else {
+                    projectHero.classList.add('hide-preview');
+                }
+            }
+            
+            window.addEventListener('scroll', handleScroll);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            setupProjectScrollAnimation();
+            initializeDemo();
+            
+            // Setup demo controls
+            document.getElementById('startBtn').addEventListener('click', startDemo);
+            document.getElementById('stopBtn').addEventListener('click', stopDemo);
+        });
+    </script>
+    
+    <!-- Hero Section -->
+    <section class="project-hero social-hero" id="project-hero">
+        <div class="project-hero-content">
+            <h1 class="project-hero-title" style="font-family: 'Playfair Display', 'Times New Roman', serif; font-weight: 400; letter-spacing: -0.02em;">Decentralized Social Media</h1>
+            <p class="project-hero-subtitle" style="font-family: 'Georgia', serif; font-weight: 400; line-height: 1.6; max-width: 520px; font-size: 1.15rem;">A fully transparent, auditable social media platform built in Rust where everything is public and verifiable. The complete opposite of modern closed-source platforms.</p>
+            <div class="project-hero-meta" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin: 48px 0; max-width: 400px;">
+                <div>
+                    <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">Built</span>
+                    <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">2024</span>
+                </div>
+                <div>
+                    <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">Language</span>
+                    <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">Rust</span>
+                </div>
+                <div>
+                    <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">Type</span>
+                    <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">P2P Network</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Main Content -->
+    <div class="project-content" id="project-content">
+        
+        <!-- Project Overview -->
+        <section class="content-section">
+            <h2 class="section-title" style="font-family: 'Playfair Display', serif; font-weight: 400; letter-spacing: -0.02em;">Radical Transparency</h2>
+            <p style="font-family: 'Georgia', serif; font-size: 1.2rem; line-height: 1.8; color: #333; margin: 0 auto 40px auto; max-width: 900px;">This is a thought experiment realized in code—a social media platform where <strong>everything is public, auditable, and immutable</strong>. Every interaction, every view, every private message becomes part of a transparent, cryptographically-secured public record. No central authority, no content moderation, no hidden algorithms.</p>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">P2P</div>
+                    <div class="stat-label">Architecture</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Central Servers</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Transparency</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label">Audit Trail</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Network Demo -->
+        <section class="content-section">
+            <h2 class="section-title" style="font-family: 'Playfair Display', serif; font-weight: 400; letter-spacing: -0.02em;">Live P2P Network</h2>
+            
+            <div class="network-demo">
+                <div class="network-container" id="networkContainer">
+                    <!-- Nodes and connections will be dynamically created -->
+                </div>
+                
+                <div class="demo-controls">
+                    <button class="demo-btn" id="startBtn">Start Network</button>
+                    <button class="demo-btn" id="stopBtn" disabled>Stop Network</button>
+                </div>
+                
+                <div class="message-log" id="messageLog">
+                    <div class="message-line">[NETWORK] P2P demo ready. Click "Start Network" to begin.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Features -->
+        <section class="content-section">
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px; font-weight: 400;">Complete Transparency</h3>
+                    <p style="font-family: 'Georgia', serif; color: #444; line-height: 1.7; font-size: 1rem;">All interactions are public and auditable. Every view, upvote, comment, and even private message is visible to all network participants. Immutable posts cannot be deleted or modified.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px; font-weight: 400;">Fully Decentralized</h3>
+                    <p style="font-family: 'Georgia', serif; color: #444; line-height: 1.7; font-size: 1rem;">P2P networking using libp2p with automatic peer discovery via mDNS. No central servers or authorities—each node is equal in the network.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px; font-weight: 400;">Cryptographically Secured</h3>
+                    <p style="font-family: 'Georgia', serif; color: #444; line-height: 1.7; font-size: 1rem;">Ed25519 digital signatures for all content and interactions. Anonymous identities require no personal information, yet all data integrity is cryptographically verifiable.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px; font-weight: 400;">Public Audit Trail</h3>
+                    <p style="font-family: 'Georgia', serif; color: #444; line-height: 1.7; font-size: 1rem;">Every interaction with content is logged and publicly available. View counts, engagement metrics, and user activity are completely transparent with real-time verification.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px; font-weight: 400;">No Content Moderation</h3>
+                    <p style="font-family: 'Georgia', serif; color: #444; line-height: 1.7; font-size: 1rem;">Decentralized nature means no central authority can censor content. The platform explores what happens when transparency and free speech are taken to their logical extreme.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px; font-weight: 400;">Zero Dependencies</h3>
+                    <p style="font-family: 'Georgia', serif; color: #444; line-height: 1.7; font-size: 1rem;">Built with modern Rust networking stack including libp2p, sled database, and tokio async runtime. Self-contained with minimal external dependencies.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture -->
+        <section class="content-section">
+            <h2 class="section-title" style="font-family: 'Playfair Display', serif; font-weight: 400; letter-spacing: -0.02em;">System Architecture</h2>
+            
+            <div class="architecture-diagram">
+                <div class="layer">
+                    <div class="layer-title">Feed & Discovery Layer</div>
+                    <div class="layer-desc">Filterable content streams, infinite scroll support, and content discovery algorithms</div>
+                </div>
+                <div class="layer">
+                    <div class="layer-title">Transparency & Audit Layer</div>
+                    <div class="layer-desc">Full interaction logging, public audit reports, and content integrity verification</div>
+                </div>
+                <div class="layer">
+                    <div class="layer-title">P2P Networking Layer</div>
+                    <div class="layer-desc">libp2p-based peer discovery, gossip protocol for content propagation, decentralized messaging</div>
+                </div>
+                <div class="layer">
+                    <div class="layer-title">Storage & Types Layer</div>
+                    <div class="layer-desc">Local sled database, cryptographic identity management, immutable content structures</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px; margin: 48px 0;">
+                <div>
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #2C2923; margin: 0 0 16px; font-weight: 400;">Core Philosophy</h3>
+                    <p style="font-family: 'Georgia', serif; color: #444; line-height: 1.7; margin-bottom: 16px; font-size: 1rem;">This platform challenges the fundamental assumptions of modern social media through radical transparency and decentralization.</p>
+                    <ul style="font-family: 'Georgia', serif; color: #444; line-height: 1.7; font-size: 1rem;">
+                        <li>No user accounts or registration required</li>
+                        <li>Anonymous cryptographic identities</li>
+                        <li>Complete transparency of all interactions</li>
+                        <li>Immutable content and public audit trails</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #2C2923; margin: 0 0 16px; font-weight: 400;">Technical Implementation</h3>
+                    <p style="font-family: 'Georgia', serif; color: #444; line-height: 1.7; margin-bottom: 16px; font-size: 1rem;">Built with Rust's modern networking and cryptography ecosystem for maximum performance and security.</p>
+                    <ul style="font-family: 'Georgia', serif; color: #444; line-height: 1.7; font-size: 1rem;">
+                        <li>libp2p for peer-to-peer networking</li>
+                        <li>Ed25519 digital signatures</li>
+                        <li>Sled embedded database</li>
+                        <li>Tokio async runtime</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Educational Disclaimer -->
+        <section class="content-section">
+            <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 24px; margin: 48px 0;">
+                <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #856404; margin: 0 0 12px; font-weight: 400;">Educational Project Disclaimer</h3>
+                <p style="font-family: 'Georgia', serif; color: #856404; line-height: 1.7; font-size: 1rem; margin: 0;">This is a thought experiment and educational project. The complete lack of privacy and content moderation makes this unsuitable for real-world social networking. It's designed to explore the technical possibilities of radical transparency in decentralized systems and understand the implications of such an approach.</p>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav" id="bottomNav">
+        <a href="#" onclick="goBackToPortfolio(); return false;" class="nav-back-item">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Back to Portfolio
+        </a>
+    </nav>
+</body>
+</html>
