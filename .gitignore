@@ -1,0 +1,44 @@
+# Project directories - keep portfolio clean
+chess_project/
+huffman-compression/
+linear-algebra/
+neural-network/
+rust-decentralized-social/
+
+# Build outputs
+target/
+build/
+dist/
+*.class
+*.exe
+*.o
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+*.tmp
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.local
+
+# Node modules (if any)
+node_modules/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Temporary files
+new
+*~
+\#*\#
