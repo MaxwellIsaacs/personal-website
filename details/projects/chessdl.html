@@ -122,6 +122,14 @@
             overflow: hidden;
         }
         
+        @media (max-width: 768px) {
+            .emulator-container {
+                margin: 20px 10px;
+                font-size: 0.7rem;
+                border-radius: 6px;
+            }
+        }
+        
         .terminal-header {
             background: #3c3836;
             padding: 4px 12px;
@@ -146,6 +154,13 @@
             margin: 6px 0;
             display: flex;
             gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 768px) {
+            .program-list {
+                gap: 4px;
+            }
         }
         
         .program-btn {
@@ -174,6 +189,19 @@
             grid-template-columns: 1fr 1fr;
             height: 400px;
             border-bottom: 1px solid #504945;
+            position: relative;
+        }
+        
+        .execution-area::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #3c3836;
+            pointer-events: none;
+            z-index: 1;
         }
         
         @media (max-width: 768px) {
@@ -186,6 +214,7 @@
         
         .code-display {
             padding: 8px 12px;
+            padding-bottom: 20px;
             border-right: 1px solid #504945;
             height: 400px;
             font-size: 0.75rem;
@@ -193,14 +222,17 @@
             white-space: pre-wrap;
             overflow-y: auto;
             background: #282828;
+            box-sizing: border-box;
         }
         
         .execution-output {
             padding: 8px 12px;
+            padding-bottom: 20px;
             height: 400px;
             overflow-y: auto;
             font-size: 0.7rem;
             background: #1d2021;
+            box-sizing: border-box;
         }
         
         @media (max-width: 768px) {
@@ -258,6 +290,17 @@
         @keyframes blink {
             0%, 50% { opacity: 1; }
             51%, 100% { opacity: 0; }
+        }
+        
+        /* Mobile responsive general layout */
+        @media (max-width: 768px) {
+            section[style*="padding: 80px 64px"] {
+                padding: 40px 20px !important;
+            }
+            
+            .content-section {
+                padding: 40px 20px !important;
+            }
         }
     </style>
 </head>
@@ -338,7 +381,7 @@
                 </div>
                 
                 <div class="controls">
-                    <span class="status">chessdl v1.0 - early programming project</span>
+                    <span class="status">chessdl</span>
                 </div>
             </div>
         </section>

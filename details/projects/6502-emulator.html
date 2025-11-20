@@ -369,6 +369,40 @@
         .address { color: #fabd2f; }
         .comment { color: #928374; }
         .label { color: #fe8019; }
+        
+        @media (max-width: 768px) {
+            .project-hero-content {
+                padding: 60px 20px !important;
+                text-align: center !important;
+            }
+            
+            section[style*="padding: 80px 64px"] {
+                padding: 40px 20px !important;
+            }
+            
+            .project-content {
+                padding: 40px 20px !important;
+            }
+            
+            .emulator-container {
+                margin: 20px 10px !important;
+                font-size: 0.7rem !important;
+            }
+            
+            .execution-area {
+                grid-template-columns: 1fr !important;
+                height: auto !important;
+            }
+            
+            .code-display, .execution-output {
+                height: 200px !important;
+            }
+            
+            .program-list {
+                flex-wrap: wrap !important;
+                gap: 4px !important;
+            }
+        }
     </style>
 </head>
 <body class="detail-page">
@@ -433,7 +467,6 @@
         <!-- WASM 6502 Interactive Demo -->
         <section class="content-section">
             <h2 class="section-title" style="font-family: 'Playfair Display', serif; font-weight: 400; letter-spacing: -0.02em;">Interactive 6502 Assembly</h2>
-            <p class="section-subtitle" style="font-family: 'Georgia', serif; font-weight: 400; line-height: 1.6; font-size: 1.1rem;">Explore classic assembly programs running on a WebAssembly-compiled MOS 6502 CPU. View the source code and watch real-time execution in your browser.</p>
             
             <div class="emulator-container">
                 <!-- Left Side: Code Display -->
@@ -505,17 +538,15 @@
 
         <!-- Technical Features -->
         <section class="content-section">
-            <h2 class="section-title" style="font-family: 'Playfair Display', serif; font-weight: 400; letter-spacing: -0.02em;">Technical Implementation</h2>
-            
             <div class="feature-grid">
                 <div class="feature-card">
-                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px; font-weight: 400;"><a href="https://github.com/MaxwellIsaacs/6502-emulator-rust/blob/master/src/cpu.rs" target="_blank" style="color: inherit; text-decoration: none; transition: color 0.2s ease;">Cycle-Accurate Timing</a></h3>
-                    <p style="font-family: 'Georgia', serif; color: #444; line-height: 1.7; font-size: 1rem;">Every instruction executes in the exact number of clock cycles as the original hardware, including page boundary crossing penalties and branch timing variations.<br><a href="https://github.com/MaxwellIsaacs/6502-emulator-rust/blob/master/src/cpu.rs" target="_blank" style="color: #666; text-decoration: none; font-size: 0.9rem; opacity: 0.8; transition: opacity 0.2s ease;">View CPU implementation →</a></p>
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px; font-weight: 400;"><a href="https://github.com/MaxwellIsaacs/6502-emulator-rust/blob/master/src/op_code.rs" target="_blank" style="color: inherit; text-decoration: none; transition: color 0.2s ease;">Cycle-Accurate Timing</a></h3>
+                    <p style="font-family: 'Georgia', serif; color: #444; line-height: 1.7; font-size: 1rem;">Every instruction executes in the exact number of clock cycles as the original hardware, including page boundary crossing penalties and branch timing variations.<br><a href="https://github.com/MaxwellIsaacs/6502-emulator-rust/blob/master/src/op_code.rs" target="_blank" style="color: #666; text-decoration: none; font-size: 0.9rem; opacity: 0.8; transition: opacity 0.2s ease;">View opcode table →</a></p>
                 </div>
                 
                 <div class="feature-card">
-                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px; font-weight: 400;"><a href="https://github.com/MaxwellIsaacs/6502-emulator-rust/blob/master/src/op_code.rs" target="_blank" style="color: inherit; text-decoration: none; transition: color 0.2s ease;">Complete Instruction Set</a></h3>
-                    <p style="font-family: 'Georgia', serif; color: #444; line-height: 1.7; font-size: 1rem;">All 151 documented and undocumented opcodes implemented, including the infamous "illegal" instructions used by some games and demos.<br><a href="https://github.com/MaxwellIsaacs/6502-emulator-rust/blob/master/src/op_code.rs" target="_blank" style="color: #666; text-decoration: none; font-size: 0.9rem; opacity: 0.8; transition: opacity 0.2s ease;">View opcode table →</a></p>
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #2C2923; margin: 0 0 12px; font-weight: 400;"><a href="https://github.com/MaxwellIsaacs/6502-emulator-rust/blob/master/src/cpu.rs" target="_blank" style="color: inherit; text-decoration: none; transition: color 0.2s ease;">Complete Instruction Set</a></h3>
+                    <p style="font-family: 'Georgia', serif; color: #444; line-height: 1.7; font-size: 1rem;">All 151 documented and undocumented opcodes implemented, including the infamous "illegal" instructions used by some games and demos.<br><a href="https://github.com/MaxwellIsaacs/6502-emulator-rust/blob/master/src/cpu.rs" target="_blank" style="color: #666; text-decoration: none; font-size: 0.9rem; opacity: 0.8; transition: opacity 0.2s ease;">View CPU implementation →</a></p>
                 </div>
                 
                 <div class="feature-card">
@@ -570,20 +601,6 @@
             </div>
         </section>
 
-        <!-- Applications & Learning -->
-        <section class="content-section">
-            <h2 class="section-title" style="font-family: 'Playfair Display', serif; font-weight: 400; letter-spacing: -0.02em;">Applications & Learning</h2>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; margin: 48px 0;">
-                <div>
-                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #2C2923; margin: 0 0 16px; font-weight: 500;">Education</h3>
-                    <p style="font-family: 'Georgia', serif; font-size: 1.1rem; color: #444; line-height: 1.7;">Learn assembly programming, computer architecture, and how early microprocessors worked. The emulator provides an authentic platform for understanding fundamental computing concepts that shaped modern technology.</p>
-                </div>
-                <div>
-                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #2C2923; margin: 0 0 16px; font-weight: 500;">Development</h3>
-                    <p style="font-family: 'Georgia', serif; font-size: 1.1rem; color: #444; line-height: 1.7;">Write and test 6502 programs with modern tools. The integrated assembler and debugger make development efficient while maintaining historical accuracy for authentic vintage computing experiences.</p>
-                </div>
-            </div>
-        </section>
     </div>
 
     <!-- Bottom Navigation -->

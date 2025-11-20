@@ -17,16 +17,18 @@ const dotfilesPageData = {
       title: 'nix config',
       year: '1 year',
       tech: 'nix',
-      description: 'This is my main system. If there is one thing I could suggest, it is try NixOS. You will never go back',
-      link: 'details/dotfiles/nix-config.html'
+      description: 'Reproducible Linux OS. Roll back changes instantly, identical setup everywhere.',
+      link: 'details/dotfiles/nix-config.html',
+      type: 'info-only'
     },
     {
       image: 'images/hyprland-config.png',
       title: 'hyprland',
       year: '6 months',
       tech: 'wayland compositor',
-      description: 'Modern Wayland compositor with custom animations and workspace management.',
-      link: 'details/dotfiles/hyprland.html'
+      description: 'Tiling window manager. Auto-arranges windows, smooth animations, keyboard-driven.',
+      link: 'details/dotfiles/hyprland.html',
+      type: 'info-only'
     },
     {
       image: 'images/emacs-config.png',
@@ -34,15 +36,17 @@ const dotfilesPageData = {
       year: '6 years',
       tech: 'elisp + org-mode',
       description: 'Comprehensive Emacs setup with Evil mode, LSP, and literate configuration.',
-      link: 'details/dotfiles/emacs.html'
+      link: 'details/dotfiles/emacs.html',
+      type: 'info-only'
     },
     {
       image: 'images/shell-config.png',
       title: 'shell environment',
       year: '4 years',
-      tech: 'zsh + tmux',
-      description: 'Terminal setup with custom themes, aliases, and workflow automation.',
-      link: 'details/dotfiles/shell-environment.html'
+      tech: 'starship + fish + tmux',
+      description: 'Smart terminal setup. Auto-completion, Git status, session management.',
+      link: 'details/dotfiles/shell-environment.html',
+      type: 'info-only'
     }
   ]
 };

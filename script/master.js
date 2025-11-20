@@ -27,6 +27,44 @@ function initializePageData() {
 
 // Card HTML creation
 function createCardHTML(card) {
+  if (card.type === 'icon-only') {
+    return `
+      <div class="project-card-wrapper">
+        <div class="project-card icon-only-card" style="background-image: url('${card.image}');">
+        </div>
+        <div class="project-caption">
+          <div class="project-caption-bar">
+            <span class="caption-left">${card.title}</span>
+            <span class="caption-center">${card.year}</span>
+            <span class="caption-right">${card.tech}</span>
+          </div>
+          <p class="project-caption">${card.description}</p>
+        </div>
+      </div>
+    `;
+  }
+  
+  if (card.type === 'info-only') {
+    return `
+      <div class="project-card-wrapper info-only-wrapper">
+        <div class="project-card info-only-card" style="background-image: url('${card.image}');" 
+             data-title="${card.title}" 
+             data-year="${card.year}" 
+             data-tech="${card.tech}" 
+             data-description="${card.description}">
+          <div class="info-icon">i</div>
+        </div>
+        <div class="project-caption">
+          <div class="project-caption-bar">
+            <span class="caption-left">${card.title}</span>
+            <span class="caption-center">${card.year}</span>
+            <span class="caption-right">${card.tech}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  
   return `
     <div class="project-card-wrapper">
       <div class="project-card" style="background-image: url('${card.image}');"></div>
@@ -144,13 +182,34 @@ function setupCardHoverEffects() {
     const newCard = card.cloneNode(true);
     card.parentNode.replaceChild(newCard, card);
     
+    // Handle info-only cards with popup functionality
+    if (newCard.classList.contains('info-only-card')) {
+      const infoIcon = newCard.querySelector('.info-icon');
+      if (infoIcon) {
+        infoIcon.addEventListener('click', (e) => {
+          e.stopPropagation();
+          showInfoPopup(e, newCard);
+        });
+      }
+      
+      // Make the card itself clickable for detail page
+      newCard.addEventListener('click', () => {
+        const title = newCard.dataset.title;
+        if (title) {
+          openProjectDetail(title);
+        }
+      });
+      newCard.style.cursor = 'pointer';
+      return;
+    }
+    
     // Add click listener for project detail page
     newCard.addEventListener('click', () => {
       const cardWrapper = newCard.closest('.project-card-wrapper');
       const title = cardWrapper.querySelector('.caption-left')?.textContent;
       
       // Open project detail for specific projects
-      if (title && (title.toLowerCase().includes('6502') || title.toLowerCase().includes('partypass') || title.toLowerCase().includes('podcast') || title.toLowerCase().includes('remy') || title.toLowerCase().includes('linear algebra') || title.toLowerCase().includes('mandelbrot') || title.toLowerCase().includes('chess') || title.toLowerCase().includes('huffman') || title.toLowerCase().includes('sudoku') || title.toLowerCase().includes('nix') || title.toLowerCase().includes('hyprland') || title.toLowerCase().includes('emacs') || title.toLowerCase().includes('shell'))) {
+      if (title && (title.toLowerCase().includes('6502') || title.toLowerCase().includes('partypass') || title.toLowerCase().includes('podcast') || title.toLowerCase().includes('remy') || title.toLowerCase().includes('linear algebra') || title.toLowerCase().includes('mandelbrot') || title.toLowerCase().includes('chess') || title.toLowerCase().includes('huffman') || title.toLowerCase().includes('sudoku') || title.toLowerCase().includes('decentralized') || title.toLowerCase().includes('nix') || title.toLowerCase().includes('hyprland') || title.toLowerCase().includes('emacs') || title.toLowerCase().includes('shell'))) {
         openProjectDetail(title);
       }
     });
@@ -177,10 +236,96 @@ function setupCardHoverEffects() {
     });
     
     // Add cursor pointer for clickable cards
-    if (title && (title.toLowerCase().includes('6502') || title.toLowerCase().includes('partypass') || title.toLowerCase().includes('podcast') || title.toLowerCase().includes('remy') || title.toLowerCase().includes('linear algebra') || title.toLowerCase().includes('mandelbrot') || title.toLowerCase().includes('chess') || title.toLowerCase().includes('huffman') || title.toLowerCase().includes('sudoku') || title.toLowerCase().includes('nix') || title.toLowerCase().includes('hyprland') || title.toLowerCase().includes('emacs') || title.toLowerCase().includes('shell'))) {
+    if (title && (title.toLowerCase().includes('6502') || title.toLowerCase().includes('partypass') || title.toLowerCase().includes('podcast') || title.toLowerCase().includes('remy') || title.toLowerCase().includes('linear algebra') || title.toLowerCase().includes('mandelbrot') || title.toLowerCase().includes('chess') || title.toLowerCase().includes('huffman') || title.toLowerCase().includes('sudoku') || title.toLowerCase().includes('decentralized') || title.toLowerCase().includes('nix') || title.toLowerCase().includes('hyprland') || title.toLowerCase().includes('emacs') || title.toLowerCase().includes('shell'))) {
       newCard.style.cursor = 'pointer';
     }
   });
+}
+
+// Show info popup for dotfiles cards
+function showInfoPopup(event, card) {
+  // Remove any existing popup
+  const existingPopup = document.querySelector('.info-popup');
+  if (existingPopup) {
+    existingPopup.remove();
+  }
+  
+  // Get card data
+  const title = card.dataset.title;
+  const year = card.dataset.year;
+  const tech = card.dataset.tech;
+  const description = card.dataset.description;
+  
+  // Create popup
+  const popup = document.createElement('div');
+  popup.className = 'info-popup';
+  popup.innerHTML = `
+    <h4>${title}</h4>
+    <div class="meta">${year} | ${tech}</div>
+    <div class="description">${description}</div>
+  `;
+  
+  // Force visibility with inline styles as fallback
+  popup.style.zIndex = '99999';
+  popup.style.position = 'fixed';
+  popup.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+  popup.style.border = '2px solid rgba(0, 0, 0, 0.2)';
+  popup.style.borderRadius = '20px';
+  popup.style.padding = '18px 22px';
+  popup.style.maxWidth = '240px';
+  popup.style.color = '#1a1a1a';
+  
+  // Position popup directly next to the info icon
+  const infoIcon = event.target;
+  const iconRect = infoIcon.getBoundingClientRect();
+  const windowWidth = window.innerWidth;
+  const popupWidth = 240;
+  
+  // Check if icon is on right side of screen
+  const isRightSide = iconRect.right > windowWidth / 2;
+  
+  if (isRightSide) {
+    // Position to the left of the icon
+    popup.style.left = (iconRect.left - popupWidth - 10) + 'px';
+  } else {
+    // Position to the right of the icon
+    popup.style.left = (iconRect.right + 10) + 'px';
+  }
+  
+  // Vertically align with the center of the icon
+  popup.style.top = (iconRect.top + iconRect.height / 2 - 30) + 'px';
+  
+  // Add to page
+  document.body.appendChild(popup);
+  
+  // Show popup
+  setTimeout(() => {
+    popup.classList.add('show');
+  }, 10);
+  
+  // Remove popup after 3 seconds or on click outside
+  const removePopup = () => {
+    popup.classList.remove('show');
+    setTimeout(() => {
+      if (popup.parentNode) {
+        popup.remove();
+      }
+    }, 200);
+  };
+  
+  setTimeout(removePopup, 6000);
+  
+  // Remove on click outside
+  const handleClickOutside = (e) => {
+    if (!popup.contains(e.target) && !card.contains(e.target)) {
+      removePopup();
+      document.removeEventListener('click', handleClickOutside);
+    }
+  };
+  
+  setTimeout(() => {
+    document.addEventListener('click', handleClickOutside);
+  }, 100);
 }
 
 // Project detail navigation - redirect to separate HTML pages
@@ -198,6 +343,7 @@ function openProjectDetail(projectTitle) {
     'chess': 'details/projects/chessdl.html',
     'huffman': 'details/projects/huffman.html',
     'sudoku': 'details/projects/sudoku.html',
+    'decentralized': 'details/projects/rust-decentralized-social.html',
     'nix': 'details/dotfiles/nix-config.html',
     'hyprland': 'details/dotfiles/hyprland.html',
     'emacs': 'details/dotfiles/emacs.html',

@@ -11,6 +11,58 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Archivo:opsz,wght@8..144,400;8..144,500;8..144,600;8..144,700&family=Playfair+Display:wght@300;400;500;600;700&family=Georgia:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        @media (max-width: 768px) {
+            .project-hero-content[style*="grid-template-columns: 1fr 1fr"] {
+                grid-template-columns: 1fr !important;
+                gap: 40px !important;
+                padding: 60px 20px !important;
+                text-align: center !important;
+            }
+            
+            .project-hero-content > div:last-child {
+                order: -1;
+            }
+            
+            .live-preview-container {
+                max-width: 100% !important;
+                height: 400px !important;
+                margin-bottom: 30px;
+            }
+            
+            .preview-frame {
+                height: 360px !important;
+            }
+            
+            section[style*="padding: 80px 64px"] {
+                padding: 40px 20px !important;
+            }
+            
+            .project-content {
+                padding: 40px 20px !important;
+            }
+            
+            section[style*="grid-template-columns: 1fr 1fr"] {
+                grid-template-columns: 1fr !important;
+                gap: 40px !important;
+            }
+            
+            section[style*="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))"] {
+                grid-template-columns: 1fr !important;
+                gap: 30px !important;
+            }
+            
+            section[style*="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))"] {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+                gap: 20px !important;
+            }
+            
+            .impact-metrics div[style*="grid-template-columns: 1fr 1fr"] {
+                grid-template-columns: 1fr !important;
+                gap: 30px !important;
+            }
+        }
+    </style>
 </head>
 <body class="detail-page">
 
@@ -69,6 +121,7 @@
                 </div>
                 <div class="preview-frame" style="width: 100%; height: 560px; border-radius: 0 0 16px 16px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.4); border: 1px solid #8B7D6B; border-top: none; position: relative;">
                     <iframe 
+                        id="partyPassPreview"
                         src="https://partypass.vip" 
                         style="width: 100%; height: 100%; border: none; background: white; opacity: 0; transition: opacity 0.3s ease;"
                         loading="eager"
@@ -107,6 +160,28 @@
                 <div>
                     <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 600; color: #2C2923; margin: 0 0 24px 0; line-height: 1.2;">The Solution</h2>
                     <p style="font-family: 'Georgia', serif; font-size: 1.1rem; line-height: 1.7; color: #444;">PartyPass leverages cryptographic security for tamper-proof tickets and Stripe Connect for instant payouts. Clean interface, transparent pricing, bulletproof validation.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Impact Metrics -->
+        <section style="padding: 80px 64px; max-width: 1200px; margin: 0 auto;">
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 600; color: #2C2923; margin: 0 0 48px 0;">Impact & Results</h2>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 64px;">
+                <div style="text-align: center;">
+                    <div style="font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; color: #2C2923; line-height: 1; margin-bottom: 8px;">$50,000+</div>
+                    <div style="font-family: 'Georgia', serif; font-size: 1.1rem; color: #666; margin-bottom: 12px;">Payment Processing</div>
+                    <p style="font-family: 'Georgia', serif; font-size: 0.95rem; color: #555; line-height: 1.6; margin: 0;">Handled across 40+ events with instant payouts.</p>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; color: #2C2923; line-height: 1; margin-bottom: 8px;">18,000+</div>
+                    <div style="font-family: 'Georgia', serif; font-size: 1.1rem; color: #666; margin-bottom: 12px;">Tickets Processed</div>
+                    <p style="font-family: 'Georgia', serif; font-size: 0.95rem; color: #555; line-height: 1.6; margin: 0;">From intimate gatherings to major festivals.</p>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; color: #2C2923; line-height: 1; margin-bottom: 8px;">Zero</div>
+                    <div style="font-family: 'Georgia', serif; font-size: 1.1rem; color: #666; margin-bottom: 12px;">Security Incidents</div>
+                    <p style="font-family: 'Georgia', serif; font-size: 0.95rem; color: #555; line-height: 1.6; margin: 0;">Multi-layer authentication and PCI compliance.</p>
                 </div>
             </div>
         </section>
@@ -215,14 +290,14 @@
         <!-- Development Toolbox -->
         <section style="padding: 80px 64px; max-width: 1200px; margin: 0 auto;">
             <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 600; color: #2C2923; margin: 0 0 48px 0;">Development Toolbox</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 32px;">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px;">
                 <div style="padding: 24px; border: 1px solid #e5e5e5;">
                     <h3 style="font-family: 'Playfair Display', serif; font-size: 1.2rem; color: #2C2923; margin: 0 0 12px;">Editor & Environment</h3>
                     <div style="font-family: 'Georgia', serif; font-size: 0.95rem; color: #555; line-height: 1.6;">
-                        <div style="margin-bottom: 6px;">Doom Emacs</div>
-                        <div style="margin-bottom: 6px;">tmux + Alacritty</div>
-                        <div style="margin-bottom: 6px;">Arch Linux</div>
-                        <div>Fish shell + Starship</div>
+                        <div style="margin-bottom: 6px;"><a href="../../details/dotfiles/emacs-config.html" style="color: inherit; text-decoration: none; transition: color 0.2s ease;" onmouseover="this.style.color='#2C2923'" onmouseout="this.style.color='#555'">Doom Emacs</a></div>
+                        <div style="margin-bottom: 6px;"><a href="../../details/dotfiles/shell-environment.html" style="color: inherit; text-decoration: none; transition: color 0.2s ease;" onmouseover="this.style.color='#2C2923'" onmouseout="this.style.color='#555'">tmux + Alacritty</a></div>
+                        <div style="margin-bottom: 6px;"><a href="../../details/dotfiles/arch-setup.html" style="color: inherit; text-decoration: none; transition: color 0.2s ease;" onmouseover="this.style.color='#2C2923'" onmouseout="this.style.color='#555'">Arch Linux</a></div>
+                        <div><a href="../../details/dotfiles/shell-environment.html" style="color: inherit; text-decoration: none; transition: color 0.2s ease;" onmouseover="this.style.color='#2C2923'" onmouseout="this.style.color='#555'">Fish shell + Starship</a></div>
                     </div>
                 </div>
                 <div style="padding: 24px; border: 1px solid #e5e5e5;">
@@ -234,51 +309,13 @@
                     </div>
                 </div>
                 <div style="padding: 24px; border: 1px solid #e5e5e5;">
-                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.2rem; color: #2C2923; margin: 0 0 12px;">DevOps & Deployment</h3>
-                    <div style="font-family: 'Georgia', serif; font-size: 0.95rem; color: #555; line-height: 1.6;">
-                        <div style="margin-bottom: 6px;">Docker + Compose</div>
-                        <div style="margin-bottom: 6px;">GitHub Actions</div>
-                        <div style="margin-bottom: 6px;">Render Cloud</div>
-                        <div>Cloudinary</div>
-                    </div>
-                </div>
-                <div style="padding: 24px; border: 1px solid #e5e5e5;">
                     <h3 style="font-family: 'Playfair Display', serif; font-size: 1.2rem; color: #2C2923; margin: 0 0 12px;">Design & Planning</h3>
                     <div style="font-family: 'Georgia', serif; font-size: 0.95rem; color: #555; line-height: 1.6;">
-                        <div style="margin-bottom: 6px;">Org-roam</div>
+                        <div style="margin-bottom: 6px;"><a href="../../details/dotfiles/emacs-config.html" style="color: inherit; text-decoration: none; transition: color 0.2s ease;" onmouseover="this.style.color='#2C2923'" onmouseout="this.style.color='#555'">Org-roam</a></div>
                         <div style="margin-bottom: 6px;">Notion</div>
                         <div style="margin-bottom: 6px;">Excalidraw</div>
                         <div>Linear</div>
                     </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Impact Metrics -->
-        <section style="padding: 80px 64px; max-width: 1200px; margin: 0 auto;">
-            <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 600; color: #2C2923; margin: 0 0 48px 0;">Impact & Results</h2>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px; margin-bottom: 48px;">
-                <div>
-                    <div style="font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; color: #2C2923; line-height: 1; margin-bottom: 8px;">$125,000+</div>
-                    <div style="font-family: 'Georgia', serif; font-size: 1.1rem; color: #666; margin-bottom: 12px;">Fraud Prevented</div>
-                    <p style="font-family: 'Georgia', serif; font-size: 0.95rem; color: #555; line-height: 1.6; margin: 0;">Through cryptographic validation across 200+ events.</p>
-                </div>
-                <div>
-                    <div style="font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; color: #2C2923; line-height: 1; margin-bottom: 8px;">85%</div>
-                    <div style="font-family: 'Georgia', serif; font-size: 1.1rem; color: #666; margin-bottom: 12px;">Faster Check-ins</div>
-                    <p style="font-family: 'Georgia', serif; font-size: 0.95rem; color: #555; line-height: 1.6; margin: 0;">Instant QR validation eliminates lines.</p>
-                </div>
-            </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px;">
-                <div>
-                    <div style="font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; color: #2C2923; line-height: 1; margin-bottom: 8px;">18,000+</div>
-                    <div style="font-family: 'Georgia', serif; font-size: 1.1rem; color: #666; margin-bottom: 12px;">Tickets Processed</div>
-                    <p style="font-family: 'Georgia', serif; font-size: 0.95rem; color: #555; line-height: 1.6; margin: 0;">From intimate gatherings to major festivals.</p>
-                </div>
-                <div>
-                    <div style="font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; color: #2C2923; line-height: 1; margin-bottom: 8px;">99.9%</div>
-                    <div style="font-family: 'Georgia', serif; font-size: 1.1rem; color: #666; margin-bottom: 12px;">System Uptime</div>
-                    <p style="font-family: 'Georgia', serif; font-size: 0.95rem; color: #555; line-height: 1.6; margin: 0;">Reliable access when it matters most.</p>
                 </div>
             </div>
         </section>
@@ -298,10 +335,12 @@
         function setupProjectScrollAnimation() {
             const projectHero = document.getElementById('project-hero');
             const projectContent = document.getElementById('project-content');
+            const iframe = document.getElementById('partyPassPreview');
             
             if (!projectHero || !projectContent) return;
             
             let hasScrolled = false;
+            let isOnEventsPage = false;
             
             function handleScroll() {
                 const scrollY = window.scrollY;
@@ -313,6 +352,12 @@
                     projectHero.classList.add('scrolled');
                     projectContent.classList.add('visible');
                     hasScrolled = true;
+                    
+                    // Change iframe to events page when transitioning to hero mode
+                    if (iframe && !isOnEventsPage) {
+                        iframe.src = 'https://partypass.vip/events';
+                        isOnEventsPage = true;
+                    }
                 }
                 
                 // Show/hide preview based on scroll position (only at very top)

@@ -17,7 +17,8 @@ const workPageData = {
       title: 'PartyPass',
       year: '2025',
       tech: 'django + next.js',
-      description: 'Full-stack event ticketing platform with Stripe Connect integration, QR validation, and real-time analytics.'
+      description: 'Full-stack event ticketing platform with Stripe Connect integration, QR validation, and real-time analytics.',
+      type: 'info-only'
     }
   ]
 };
