@@ -34,18 +34,19 @@ body::after {
   z-index: -2;
 }
 
-/* Fix background ::after for mobile - extend well beyond viewport for Safari */
+/* Fix background ::after for mobile - account for Safari's dynamic viewport */
 @media (max-width: 768px) {
   body::after {
     background-image: url('images/persian.jpg'); /* Ensure Persian image is present */
     background-attachment: scroll;
     position: fixed;
-    top: -10vh;
+    top: -20vh;
     left: -10vw;
     right: -10vw;
-    bottom: -10vh;
+    bottom: -20vh;
     width: 120vw;
-    height: 120vh;
+    height: 140vh; /* Much larger to account for Safari's dynamic viewport */
+    min-height: 100dvh; /* Use dynamic viewport height where supported */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -73,16 +74,17 @@ body::before {
   z-index: -1;
 }
 
-/* Fix background ::before for mobile - extend well beyond viewport for Safari */
+/* Fix background ::before for mobile - account for Safari's dynamic viewport */
 @media (max-width: 768px) {
   body::before {
     position: fixed;
-    top: -10vh;
+    top: -20vh;
     left: -10vw;
     right: -10vw;
-    bottom: -10vh;
+    bottom: -20vh;
     width: 120vw;
-    height: 120vh;
+    height: 140vh; /* Much larger to account for Safari's dynamic viewport */
+    min-height: 100dvh; /* Use dynamic viewport height where supported */
   }
 }
 
