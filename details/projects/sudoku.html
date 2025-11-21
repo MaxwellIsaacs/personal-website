@@ -188,8 +188,12 @@
         <!-- Overview -->
         <section style="padding: 80px 64px; max-width: 1200px; margin: 0 auto;">
             <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 600; color: #2C2923; margin: 0 0 32px 0; line-height: 1.2;">Overview</h2>
-            <p style="font-family: 'Georgia', serif; font-size: 1.2rem; line-height: 1.8; color: #333; margin-bottom: 32px; max-width: 900px;">A fast Sudoku game built in Rust and compiled to WebAssembly for web deployment. The engine uses backtracking algorithms with constraint propagation to generate valid puzzles and provides real-time validation with an immediate-mode GUI.</p>
-            <p style="font-family: 'Georgia', serif; font-size: 1.1rem; line-height: 1.7; color: #444; max-width: 900px;">Built with egui for cross-platform compatibility - the same Rust codebase runs natively on desktop and in browsers via WASM. Features multiple difficulty levels, keyboard/mouse controls, and optimized rendering for smooth 60fps gameplay.</p>
+            <div style="font-family: 'Georgia', serif; font-size: 1.2rem; line-height: 1.8; color: #333; margin-bottom: 32px; max-width: 900px;">
+                <p style="margin: 0 0 24px 0;"><strong style="color: #2C2923;">WebAssembly game engine</strong> demonstrating <strong style="color: #2C2923;">advanced algorithm implementation</strong> and <strong style="color: #2C2923;">cross-platform deployment</strong>. Live demo running in your browser right now built in <strong style="color: #2C2923;">Rust</strong>, compiled to <strong style="color: #2C2923;">WASM</strong>.</p>
+                
+                <p style="margin: 0;"><strong style="color: #2C2923;">Technical implementation:</strong> Constraint propagation solver with backtracking • Immediate mode GUI rendering at 60fps • WebGL graphics pipeline • Native desktop + web from single codebase • Zero copy WASM interop • Real time puzzle generation and validation</p>
+            </div>
+            <p style="font-family: 'Georgia', serif; font-size: 1.1rem; line-height: 1.7; color: #444; max-width: 900px;">Built with egui for cross platform compatibility. The same Rust codebase runs natively on desktop and in browsers via WASM. Features multiple difficulty levels, keyboard/mouse controls, and optimized rendering for smooth 60fps gameplay.</p>
         </section>
     </div>
 

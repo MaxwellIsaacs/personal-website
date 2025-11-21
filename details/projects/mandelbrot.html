@@ -431,7 +431,11 @@
         <!-- Algorithm Overview -->
         <section style="padding: 80px 64px; max-width: 1200px; margin: 0 auto;">
             <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 600; color: #2C2923; margin: 0 0 32px 0; line-height: 1.2;">Implementation</h2>
-            <p style="font-family: 'Georgia', serif; font-size: 1.2rem; line-height: 1.8; color: #333; margin-bottom: 32px; max-width: 900px;">Built an interactive Mandelbrot set explorer using the escape-time algorithm. Each pixel represents a complex number c, iterating z² + c until z escapes the bounds (|z| > 2) or reaches the maximum iteration count. Points that never escape form the fractal boundary, while escape velocity determines color mapping.</p>
+            <div style="font-family: 'Georgia', serif; font-size: 1.2rem; line-height: 1.8; color: #333; margin-bottom: 32px; max-width: 900px;">
+                <p style="margin: 0 0 24px 0;"><strong style="color: #2C2923;">Real time fractal renderer</strong> demonstrating <strong style="color: #2C2923;">graphics programming</strong> and <strong style="color: #2C2923;">algorithm optimization</strong>. Dual implementation in <strong style="color: #2C2923;">C</strong> and <strong style="color: #2C2923;">JavaScript</strong> with live browser demo running escape time algorithm.</p>
+                
+                <p style="margin: 0;"><strong style="color: #2C2923;">Performance engineering:</strong> Direct pixel buffer manipulation bypassing drawing APIs • Complex number arithmetic with optimized inner loops • Stack allocated buffers for cache locality (C version) • Real time viewport transformations • Interactive zooming to 10^15 precision</p>
+            </div>
             <p style="font-family: 'Georgia', serif; font-size: 1.1rem; line-height: 1.7; color: #444; max-width: 900px;">Optimized for real-time interaction through direct pixel buffer manipulation instead of individual drawing calls. This approach eliminates graphics API overhead and enables smooth zooming and panning through the fractal's infinite detail.</p>
         </section>
         
