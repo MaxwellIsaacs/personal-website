@@ -8,9 +8,10 @@ body {
 
 .background-overlay {
   position: fixed;
-  inset: 0;
-  height: 100dvh;
-  width: 100vw;
+  top: -50px;
+  left: -50px;
+  right: -50px;
+  bottom: -50px;
   background-image: url('images/persian.jpg');
   background-size: cover;
   background-position: center;
@@ -25,9 +26,10 @@ body {
 
 .background-gradient {
   position: fixed;
-  inset: 0;
-  height: 100dvh;
-  width: 100vw;
+  top: -50px;
+  left: -50px;
+  right: -50px;
+  bottom: -50px;
   background: linear-gradient(to right, 
     rgba(255, 255, 255, 0.85) 0%,     /* More translucent at left */
     rgba(255, 255, 255, 0.92) 8%,     /* Start visible area - less translucent */
@@ -68,12 +70,15 @@ body {
   padding-left: 64px;
 }
 
+.container {
+  padding-top: 100px;
+}
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 124px 32px 8px 32px; /* Add top padding here instead of body */
+  padding: 24px 32px 8px 32px;
   background-color: transparent;
   font-family: 'Roboto', sans-serif;
 }
@@ -191,52 +196,6 @@ body.detail-page .header.scrolled .social-links img {
   }
 }
 
-  
-  /* Bottom navigation mobile fixes */
-  .bottom-nav {
-    bottom: 16px !important;
-    left: 16px !important;
-    right: 16px !important;
-    transform: none !important;
-    width: auto !important;
-    padding: 8px 16px !important;
-    justify-content: space-between !important;
-    max-width: calc(100vw - 32px);
-    box-sizing: border-box;
-  }
-  
-  .nav-item {
-    font-size: 13px !important;
-    padding: 6px 2px;
-    min-width: 36px; /* Smaller touch target */
-    text-align: center;
-  }
-  
-  .nav-back-item {
-    font-size: 12px !important;
-    gap: 4px !important;
-    padding: 6px 8px;
-    min-width: 36px;
-    min-height: 36px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  /* Center back to portfolio text on mobile */
-  .bottom-nav:has(.nav-back-item) {
-    justify-content: center !important;
-  }
-  
-  /* Move active nav dot slightly up on mobile */
-  .nav-item.active::after {
-    bottom: -6px;
-  }
-  
-  .nav-back-item svg {
-    width: 12px !important;
-    height: 12px !important;
-  }
 }
 
 .inter-caption {
@@ -2080,6 +2039,21 @@ html, body {
     padding-left: 16px;
   }
   
+  .container {
+    padding-top: 80px;
+  }
+  
+  /* === SAFARI-PROOF BACKGROUND POSITIONING === */
+  .background-overlay,
+  .background-gradient {
+    position: fixed;
+    top: -100px;
+    left: 0;
+    width: 100vw;
+    height: calc(100vh + 200px);
+    /* Extend 100px above and below viewport to prevent Safari clipping */
+  }
+  
   /* === PERFORMANCE: DISABLE BACKDROP FILTERS ON MOBILE === */
   * {
     backdrop-filter: none !important;
@@ -2088,7 +2062,7 @@ html, body {
   
   /* === HEADER === */
   .header {
-    padding: 92px 16px 4px 16px;
+    padding: 16px 16px 4px 16px;
   }
   
   .header-name {

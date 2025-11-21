@@ -1265,6 +1265,8 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Set initial intro content
   if (pageData[currentPage]) {
+    // Clear existing content first to prevent duplicates
+    introContent.textContent = '';
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = pageData[currentPage].intro;
     while (tempDiv.firstChild) {
