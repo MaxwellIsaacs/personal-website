@@ -261,6 +261,9 @@
                         <img src="../../images/emacs-coding.png" alt="Emacs Coding Environment" class="slide-image lightbox-trigger" data-src="../../images/emacs-coding.png" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'color: #666; font-family: Inter, sans-serif;\'>Screenshot: Emacs Coding Environment</div>'">
                     </div>
                     <div class="carousel-slide">
+                        <img src="../../images/doom-org.png" alt="Doom Emacs Org Mode" class="slide-image lightbox-trigger" data-src="../../images/doom-org.png" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'color: #666; font-family: Inter, sans-serif;\'>Screenshot: Doom Emacs Org Mode</div>'">
+                    </div>
+                    <div class="carousel-slide">
                         <img src="../../images/2023-emacs.png" alt="Emacs 2023 Setup" class="slide-image lightbox-trigger" data-src="../../images/2023-emacs.png" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'color: #666; font-family: Inter, sans-serif;\'>Screenshot: Emacs 2023 Setup</div>'">
                     </div>
                 </div>
@@ -271,6 +274,7 @@
                         <div class="indicator active" data-slide="0"></div>
                         <div class="indicator" data-slide="1"></div>
                         <div class="indicator" data-slide="2"></div>
+                        <div class="indicator" data-slide="3"></div>
                     </div>
                     <button class="carousel-btn" id="next-btn">›</button>
                 </div>
@@ -326,7 +330,7 @@
             const indicators = document.querySelectorAll('.indicator');
             
             let currentSlide = 0;
-            const totalSlides = 3;
+            const totalSlides = 4;
             
             function updateCarousel() {
                 const translateX = -(currentSlide * 100);
