@@ -254,38 +254,38 @@ body.detail-page .header.scrolled .social-links img {
   
   /* Bottom navigation mobile fixes */
   .bottom-nav {
-    bottom: 20px !important;
-    left: 20px !important;
-    right: 20px !important;
+    bottom: 16px !important;
+    left: 16px !important;
+    right: 16px !important;
     transform: none !important;
     width: auto !important;
-    padding: 16px 24px !important;
+    padding: 8px 16px !important;
     justify-content: space-between !important;
-    max-width: calc(100vw - 40px);
+    max-width: calc(100vw - 32px);
     box-sizing: border-box;
   }
   
   .nav-item {
-    font-size: 15px !important;
-    padding: 8px 4px;
-    min-width: 44px; /* Touch target */
+    font-size: 13px !important;
+    padding: 6px 2px;
+    min-width: 36px; /* Smaller touch target */
     text-align: center;
   }
   
   .nav-back-item {
-    font-size: 14px !important;
-    gap: 6px !important;
-    padding: 8px 12px;
-    min-width: 44px;
-    min-height: 44px;
+    font-size: 12px !important;
+    gap: 4px !important;
+    padding: 6px 8px;
+    min-width: 36px;
+    min-height: 36px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
   }
   
   .nav-back-item svg {
-    width: 16px !important;
-    height: 16px !important;
+    width: 12px !important;
+    height: 12px !important;
   }
 }
 
@@ -2124,5 +2124,12 @@ html, body {
   .project-caption-bar .caption-center,
   .project-caption-bar .caption-right {
     font-size: 0.7rem;
+  }
+}
+
+/* Specific adjustment for illegal empire podcast caption on mobile */
+@media (max-width: 768px) {
+  .project-card-wrapper:nth-child(5) .project-caption {
+    margin-top: 8px;
   }
 }
