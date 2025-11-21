@@ -319,7 +319,7 @@ body.detail-page .header.scrolled .social-links img {
 /* === Social Icons === */
 .social-links {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   align-items: flex-start;
   padding: 0px 32px 0 0;
   margin-top: 0px;
@@ -333,6 +333,7 @@ body.detail-page .header.scrolled .social-links img {
   min-height: 44px;
   border-radius: 4px;
   transition: background-color 0.2s ease;
+  margin: 0 -4px; /* Negative margin to overlap touch targets */
 }
 
 .animated-icon {
@@ -344,7 +345,7 @@ body.detail-page .header.scrolled .social-links img {
 /* Mobile touch target optimization */
 @media (max-width: 768px) {
   .social-links {
-    gap: 6px;
+    gap: 8px;
     padding: 0px 16px 0 0;
   }
   
@@ -352,6 +353,7 @@ body.detail-page .header.scrolled .social-links img {
     min-width: 48px;
     min-height: 48px;
     border-radius: 6px;
+    margin: 0 -4px; /* Same overlap on mobile */
   }
   
   .social-links a:hover {
