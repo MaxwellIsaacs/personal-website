@@ -97,8 +97,8 @@ function transitionToPage(newPage) {
   isTransitioning = true;
   document.body.classList.add('page-transitioning');
   
-  // Scroll to top when switching tabs
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Scroll to top when switching tabs (instant for Safari compatibility)
+  window.scrollTo(0, 0);
   
   const introContent = document.getElementById('intro-content');
   const projectGrid = document.getElementById('project-grid');
@@ -122,13 +122,20 @@ function transitionToPage(newPage) {
   
   // Wait for exit animations to complete
   setTimeout(() => {
-    // Update intro text
-    introContent.innerHTML = pageData[newPage].intro;
+    // Update intro text (using textContent to avoid DOM rebuilding)
+    introContent.textContent = '';
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = pageData[newPage].intro;
+    while (tempDiv.firstChild) {
+      introContent.appendChild(tempDiv.firstChild);
+    }
     introContent.classList.remove('text-experimental-out');
     introContent.classList.add('text-experimental-in');
     
-    // Clear existing cards
-    projectGrid.innerHTML = '';
+    // Clear existing cards (remove children individually)
+    while (projectGrid.firstChild) {
+      projectGrid.removeChild(projectGrid.firstChild);
+    }
     
     // Special handling for contact page - hide projects section
     if (newPage === 'contact') {
@@ -138,9 +145,9 @@ function transitionToPage(newPage) {
       // Add new cards with entrance animation (skip for dotfiles)
       pageData[newPage].cards.forEach((card, index) => {
         setTimeout(() => {
-          const cardElement = document.createElement('div');
-          cardElement.innerHTML = createCardHTML(card);
-          const cardWrapper = cardElement.firstElementChild;
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = createCardHTML(card);
+          const cardWrapper = tempDiv.firstElementChild;
           if (newPage !== 'dotfiles') {
             cardWrapper.classList.add(`card-${currentAnimation}-enter`);
           }
@@ -178,34 +185,31 @@ function setAnimationType(type) {
 // Card hover effects and interactions
 function setupCardHoverEffects() {
   document.querySelectorAll('.project-card').forEach(card => {
-    // Remove existing listeners by cloning the element
-    const newCard = card.cloneNode(true);
-    card.parentNode.replaceChild(newCard, card);
     
     // Handle info-only cards with popup functionality
-    if (newCard.classList.contains('info-only-card')) {
-      const infoIcon = newCard.querySelector('.info-icon');
+    if (card.classList.contains('info-only-card')) {
+      const infoIcon = card.querySelector('.info-icon');
       if (infoIcon) {
         infoIcon.addEventListener('click', (e) => {
           e.stopPropagation();
-          showInfoPopup(e, newCard);
+          showInfoPopup(e, card);
         });
       }
       
       // Make the card itself clickable for detail page
-      newCard.addEventListener('click', () => {
-        const title = newCard.dataset.title;
+      card.addEventListener('click', () => {
+        const title = card.dataset.title;
         if (title) {
           openProjectDetail(title);
         }
       });
-      newCard.style.cursor = 'pointer';
+      card.style.cursor = 'pointer';
       return;
     }
     
     // Add click listener for project detail page
-    newCard.addEventListener('click', () => {
-      const cardWrapper = newCard.closest('.project-card-wrapper');
+    card.addEventListener('click', () => {
+      const cardWrapper = card.closest('.project-card-wrapper');
       const title = cardWrapper.querySelector('.caption-left')?.textContent;
       
       // Open project detail for specific projects
@@ -215,29 +219,29 @@ function setupCardHoverEffects() {
     });
     
     // Set up PartyPass animation
-    const cardWrapper = newCard.closest('.project-card-wrapper');
+    const cardWrapper = card.closest('.project-card-wrapper');
     const title = cardWrapper?.querySelector('.caption-left')?.textContent;
     if (title && title.toLowerCase().includes('partypass')) {
       // Add the simple modern animation class
-      newCard.classList.add('partypass-card');
+      card.classList.add('partypass-card');
       
       // Start the animation
       setTimeout(() => {
-        newCard.classList.add('animate');
+        card.classList.add('animate');
       }, 500);
     }
     
-    newCard.addEventListener('mouseenter', () => {
-      newCard.style.transform = 'scale(1.01)';
+    card.addEventListener('mouseenter', () => {
+      card.style.transform = 'scale(1.01)';
     });
 
-    newCard.addEventListener('mouseleave', () => {
-      newCard.style.transform = 'scale(1)';
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'scale(1)';
     });
     
     // Add cursor pointer for clickable cards
     if (title && (title.toLowerCase().includes('6502') || title.toLowerCase().includes('partypass') || title.toLowerCase().includes('podcast') || title.toLowerCase().includes('remy') || title.toLowerCase().includes('linear algebra') || title.toLowerCase().includes('mandelbrot') || title.toLowerCase().includes('chess') || title.toLowerCase().includes('huffman') || title.toLowerCase().includes('sudoku') || title.toLowerCase().includes('decentralized') || title.toLowerCase().includes('nix') || title.toLowerCase().includes('hyprland') || title.toLowerCase().includes('emacs') || title.toLowerCase().includes('shell'))) {
-      newCard.style.cursor = 'pointer';
+      card.style.cursor = 'pointer';
     }
   });
 }
@@ -1261,13 +1265,17 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Set initial intro content
   if (pageData[currentPage]) {
-    introContent.innerHTML = pageData[currentPage].intro;
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = pageData[currentPage].intro;
+    while (tempDiv.firstChild) {
+      introContent.appendChild(tempDiv.firstChild);
+    }
     
     // Load initial cards
     pageData[currentPage].cards.forEach((card, index) => {
-      const cardElement = document.createElement('div');
-      cardElement.innerHTML = createCardHTML(card);
-      const cardWrapper = cardElement.firstElementChild;
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = createCardHTML(card);
+      const cardWrapper = tempDiv.firstElementChild;
       projectGrid.appendChild(cardWrapper);
     });
   }
