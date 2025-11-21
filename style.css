@@ -296,6 +296,11 @@ body.detail-page .header.scrolled .social-links img {
     justify-content: center !important;
   }
   
+  /* Move active nav dot slightly up on mobile */
+  .nav-item.active::after {
+    bottom: -6px;
+  }
+  
   .nav-back-item svg {
     width: 12px !important;
     height: 12px !important;
