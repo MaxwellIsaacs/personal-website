@@ -37,13 +37,13 @@ body::after {
 @media (max-width: 768px) {
   body::after {
     background-attachment: scroll;
-    position: fixed;
-    min-height: 100vh;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    position: absolute;
+    min-height: 120vh;
+    height: 120vh;
+    top: -10vh;
+    left: -10vw;
+    right: -10vw;
+    bottom: -10vh;
   }
 }
 
@@ -70,13 +70,13 @@ body::before {
 /* Fix background ::before for mobile */
 @media (max-width: 768px) {
   body::before {
-    position: fixed;
-    min-height: 100vh;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    position: absolute;
+    min-height: 120vh;
+    height: 120vh;
+    top: -10vh;
+    left: -10vw;
+    right: -10vw;
+    bottom: -10vh;
   }
 }
 
