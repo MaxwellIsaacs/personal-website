@@ -11,10 +11,8 @@ body {
 /* Fix background attachment for mobile devices */
 @media (max-width: 768px) {
   body {
-    background-attachment: scroll;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background-image: none; /* Remove base image to prevent it showing through */
+    background-color: transparent;
     padding-top: 80px; /* Reduce top padding on mobile */
   }
 }
@@ -36,17 +34,19 @@ body::after {
   z-index: -2;
 }
 
-/* Fix background ::after for mobile - extend beyond viewport for Safari */
+/* Fix background ::after for mobile - extend well beyond viewport for Safari */
 @media (max-width: 768px) {
   body::after {
     background-attachment: scroll;
     position: fixed;
-    top: -5vh;
-    left: -5vw;
-    right: -5vw;
-    bottom: -5vh;
-    width: 110vw;
-    height: 110vh;
+    top: -10vh;
+    left: -10vw;
+    right: -10vw;
+    bottom: -10vh;
+    width: 120vw;
+    height: 120vh;
+    background-size: cover;
+    background-position: center;
   }
 }
 
@@ -70,16 +70,16 @@ body::before {
   z-index: -1;
 }
 
-/* Fix background ::before for mobile - extend beyond viewport for Safari */
+/* Fix background ::before for mobile - extend well beyond viewport for Safari */
 @media (max-width: 768px) {
   body::before {
     position: fixed;
-    top: -5vh;
-    left: -5vw;
-    right: -5vw;
-    bottom: -5vh;
-    width: 110vw;
-    height: 110vh;
+    top: -10vh;
+    left: -10vw;
+    right: -10vw;
+    bottom: -10vh;
+    width: 120vw;
+    height: 120vh;
   }
 }
 
