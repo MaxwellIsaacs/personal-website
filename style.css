@@ -1365,11 +1365,144 @@ body.detail-page .header.scrolled .social-links img {
     max-width: 100% !important;
   }
   
+  /* Fix project hero content specifically */
+  .project-hero-content[style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+    padding: 40px 16px !important;
+    text-align: left !important;
+  }
+  
+  /* Apply left alignment to all project hero content on mobile */
+  .project-hero-content {
+    text-align: left !important;
+    padding: 40px 16px !important;
+  }
+  
+  /* Move game previews below header on mobile */
+  .project-hero-content > div:last-child {
+    order: 2;
+  }
+  
+  .project-hero-content > div:first-child {
+    order: 1;
+  }
+  
+  /* Hide previews in header on mobile */
+  .project-hero-content .game-container,
+  .project-hero-content .demo-container,
+  .project-hero-content .live-preview-container,
+  .project-hero-content #mandelbrot-container {
+    display: none !important;
+  }
+  
+  /* Mobile preview section below header */
+  .mobile-preview-section {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    margin: 20px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .mobile-preview-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    background: transparent;
+    border: none;
+    color: #333;
+    font-family: 'Georgia', serif;
+    font-size: 0.9rem;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .mobile-preview-toggle:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+  
+  .mobile-preview-toggle::after {
+    content: '▼';
+    margin-left: 8px;
+    transition: transform 0.3s ease;
+  }
+  
+  .mobile-preview-toggle.collapsed::after {
+    transform: rotate(-90deg);
+  }
+  
+  .mobile-preview-content {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 16px;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+  }
+  
+  .mobile-preview-content.expanded {
+    max-height: 600px;
+    padding: 16px;
+  }
+  
+  .mobile-preview-content .game-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+    height: 350px !important;
+    margin: 0 !important;
+    border-radius: 8px !important;
+  }
+  
+  .mobile-preview-content .demo-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  
+  .mobile-preview-content .live-preview-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 450px !important;
+    margin: 0 !important;
+  }
+  
+  /* Improve iframe error handling - remove shadows */
+  .mobile-preview-content iframe,
+  .live-preview-container iframe {
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    background: #f8f8f8 !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+  }
+  
+  /* Remove shadows from preview containers */
+  .mobile-preview-content .live-preview-container,
+  .mobile-preview-content .live-preview-container * {
+    box-shadow: none !important;
+  }
+  
+  /* Hide external site errors on mobile */
+  .mobile-preview-content iframe {
+    pointer-events: auto;
+    isolation: isolate;
+  }
+  
+  /* Mobile preview functionality - automatically creates preview sections */
+  .mobile-preview-section:not(.mobile-preview-processed) {
+    display: none;
+  }
+  
   /* Fix wide padding on all sections */
   section[style*="padding: 80px 64px"],
   section[style*="padding: 80px 60px"],
   div[style*="padding: 80px 64px"],
-  div[style*="padding: 80px 60px"] {
+  div[style*="padding: 80px 60px"],
+  div[style*="padding: 100px 64px"] {
     padding: 40px 16px !important;
     max-width: 100% !important;
   }
@@ -2138,6 +2271,13 @@ html, body {
   /* Specific adjustment for illegal empire podcast caption */
   .project-card-wrapper:nth-child(6) .project-caption {
     margin-top: 24px;
+  }
+  
+  /* Hide project name for illegal empire podcast on mobile only since title is in the card */
+  @media (max-width: 768px) {
+    .project-card-wrapper:nth-child(6) .project-caption .caption-left {
+      opacity: 0;
+    }
   }
   
   /* === DETAIL PAGES === */

@@ -240,6 +240,62 @@
             const returnPage = localStorage.getItem('returnToPage') || 'projects';
             window.location.href = '../../index.html#projects';
         }
+
+        // Mobile preview functionality
+        function createMobilePreview() {
+            if (window.innerWidth <= 768) {
+                const heroSection = document.querySelector('.project-hero');
+                const demoContainer = document.querySelector('.project-hero-content .demo-container');
+                
+                if (heroSection && demoContainer && !document.querySelector('.mobile-preview-section')) {
+                    // Clone the demo container
+                    const clonedDemo = demoContainer.cloneNode(true);
+                    
+                    // Create mobile preview section
+                    const mobileSection = document.createElement('div');
+                    mobileSection.className = 'mobile-preview-section mobile-preview-processed';
+                    mobileSection.innerHTML = `
+                        <button class="mobile-preview-toggle collapsed">
+                            Show Mandelbrot Explorer
+                        </button>
+                        <div class="mobile-preview-content">
+                        </div>
+                    `;
+                    
+                    // Add cloned demo to preview content
+                    mobileSection.querySelector('.mobile-preview-content').appendChild(clonedDemo);
+                    
+                    // Insert after hero section
+                    heroSection.insertAdjacentElement('afterend', mobileSection);
+                    
+                    // Add toggle functionality
+                    const toggle = mobileSection.querySelector('.mobile-preview-toggle');
+                    const content = mobileSection.querySelector('.mobile-preview-content');
+                    
+                    toggle.addEventListener('click', () => {
+                        const isCollapsed = toggle.classList.contains('collapsed');
+                        
+                        if (isCollapsed) {
+                            toggle.classList.remove('collapsed');
+                            content.classList.add('expanded');
+                            toggle.textContent = 'Hide Mandelbrot Explorer';
+                        } else {
+                            toggle.classList.add('collapsed');
+                            content.classList.remove('expanded');
+                            toggle.textContent = 'Show Mandelbrot Explorer';
+                        }
+                    });
+                }
+            }
+        }
+
+        // Run on load and resize
+        document.addEventListener('DOMContentLoaded', createMobilePreview);
+        window.addEventListener('resize', () => {
+            const existing = document.querySelector('.mobile-preview-section');
+            if (existing) existing.remove();
+            createMobilePreview();
+        });
     </script>
     
 

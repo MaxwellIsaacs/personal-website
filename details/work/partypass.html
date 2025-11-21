@@ -72,6 +72,62 @@
             console.log('Going back to page:', returnPage);
             window.location.href = '../../index.html#work';
         }
+
+        // Mobile preview functionality
+        function createMobilePreview() {
+            if (window.innerWidth <= 768) {
+                const heroSection = document.querySelector('.project-hero');
+                const livePreview = document.querySelector('.project-hero-content .live-preview-container');
+                
+                if (heroSection && livePreview && !document.querySelector('.mobile-preview-section')) {
+                    // Clone the live preview container
+                    const clonedPreview = livePreview.cloneNode(true);
+                    
+                    // Create mobile preview section
+                    const mobileSection = document.createElement('div');
+                    mobileSection.className = 'mobile-preview-section mobile-preview-processed';
+                    mobileSection.innerHTML = `
+                        <button class="mobile-preview-toggle collapsed">
+                            Show PartyPass Preview
+                        </button>
+                        <div class="mobile-preview-content">
+                        </div>
+                    `;
+                    
+                    // Add cloned preview to preview content
+                    mobileSection.querySelector('.mobile-preview-content').appendChild(clonedPreview);
+                    
+                    // Insert after hero section
+                    heroSection.insertAdjacentElement('afterend', mobileSection);
+                    
+                    // Add toggle functionality
+                    const toggle = mobileSection.querySelector('.mobile-preview-toggle');
+                    const content = mobileSection.querySelector('.mobile-preview-content');
+                    
+                    toggle.addEventListener('click', () => {
+                        const isCollapsed = toggle.classList.contains('collapsed');
+                        
+                        if (isCollapsed) {
+                            toggle.classList.remove('collapsed');
+                            content.classList.add('expanded');
+                            toggle.textContent = 'Hide PartyPass Preview';
+                        } else {
+                            toggle.classList.add('collapsed');
+                            content.classList.remove('expanded');
+                            toggle.textContent = 'Show PartyPass Preview';
+                        }
+                    });
+                }
+            }
+        }
+
+        // Run on load and resize
+        document.addEventListener('DOMContentLoaded', createMobilePreview);
+        window.addEventListener('resize', () => {
+            const existing = document.querySelector('.mobile-preview-section');
+            if (existing) existing.remove();
+            createMobilePreview();
+        });
     </script>
     
     <!-- Hero Section -->

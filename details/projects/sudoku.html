@@ -46,6 +46,90 @@
             console.log('Going back to page:', returnPage);
             window.location.href = '../../index.html#projects';
         }
+
+        // Mobile preview functionality
+        function createMobilePreview() {
+            if (window.innerWidth <= 768) {
+                const heroSection = document.querySelector('.project-hero');
+                const gameContainer = document.querySelector('.project-hero-content .game-container');
+                const warningText = document.querySelector('.project-hero-content div[style*="top: -24px"]');
+                const subtitleText = document.querySelector('.project-hero-subtitle');
+                
+                if (heroSection && gameContainer && !document.querySelector('.mobile-preview-section')) {
+                    // Clone the game container
+                    const clonedGame = gameContainer.cloneNode(true);
+                    
+                    // Hide the warning text in the header
+                    if (warningText) {
+                        warningText.style.display = 'none';
+                    }
+                    
+                    // Change "to your right" to "below you" on mobile
+                    if (subtitleText && subtitleText.innerHTML.includes('directly to your right')) {
+                        subtitleText.innerHTML = subtitleText.innerHTML.replace('directly to your right', 'below you');
+                    }
+                    
+                    // Create mobile preview section
+                    const mobileSection = document.createElement('div');
+                    mobileSection.className = 'mobile-preview-section mobile-preview-processed';
+                    mobileSection.innerHTML = `
+                        <button class="mobile-preview-toggle collapsed">
+                            Show Sudoku Game
+                        </button>
+                        <div class="mobile-preview-content">
+                            <div style="color: #666; font-family: 'Georgia', serif; font-size: 0.75rem; font-style: italic; text-align: center; margin-bottom: 12px;">
+                                *generating hard puzzles may be slow in browser
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Add cloned game to preview content
+                    mobileSection.querySelector('.mobile-preview-content').appendChild(clonedGame);
+                    
+                    // Insert after hero section
+                    heroSection.insertAdjacentElement('afterend', mobileSection);
+                    
+                    // Add toggle functionality
+                    const toggle = mobileSection.querySelector('.mobile-preview-toggle');
+                    const content = mobileSection.querySelector('.mobile-preview-content');
+                    
+                    toggle.addEventListener('click', () => {
+                        const isCollapsed = toggle.classList.contains('collapsed');
+                        
+                        if (isCollapsed) {
+                            toggle.classList.remove('collapsed');
+                            content.classList.add('expanded');
+                            toggle.textContent = 'Hide Sudoku Game';
+                        } else {
+                            toggle.classList.add('collapsed');
+                            content.classList.remove('expanded');
+                            toggle.textContent = 'Show Sudoku Game';
+                        }
+                    });
+                }
+            } else {
+                // On desktop, make sure warning text is visible and restore original text
+                const warningText = document.querySelector('.project-hero-content div[style*="top: -24px"]');
+                const subtitleText = document.querySelector('.project-hero-subtitle');
+                
+                if (warningText) {
+                    warningText.style.display = 'block';
+                }
+                
+                // Restore "to your right" text on desktop
+                if (subtitleText && subtitleText.innerHTML.includes('below you')) {
+                    subtitleText.innerHTML = subtitleText.innerHTML.replace('below you', 'directly to your right');
+                }
+            }
+        }
+
+        // Run on load and resize
+        document.addEventListener('DOMContentLoaded', createMobilePreview);
+        window.addEventListener('resize', () => {
+            const existing = document.querySelector('.mobile-preview-section');
+            if (existing) existing.remove();
+            createMobilePreview();
+        });
     </script>
     
     <!-- Hero Section -->
