@@ -36,17 +36,17 @@ body::after {
   z-index: -2;
 }
 
-/* Fix background ::after for mobile - maintain effect but fix scrolling */
+/* Fix background ::after for mobile - extend beyond viewport for Safari */
 @media (max-width: 768px) {
   body::after {
     background-attachment: scroll;
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100vw;
-    height: 100vh;
+    top: -5vh;
+    left: -5vw;
+    right: -5vw;
+    bottom: -5vh;
+    width: 110vw;
+    height: 110vh;
   }
 }
 
@@ -70,16 +70,16 @@ body::before {
   z-index: -1;
 }
 
-/* Fix background ::before for mobile - maintain effect but fix scrolling */
+/* Fix background ::before for mobile - extend beyond viewport for Safari */
 @media (max-width: 768px) {
   body::before {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100vw;
-    height: 100vh;
+    top: -5vh;
+    left: -5vw;
+    right: -5vw;
+    bottom: -5vh;
+    width: 110vw;
+    height: 110vh;
   }
 }
 
