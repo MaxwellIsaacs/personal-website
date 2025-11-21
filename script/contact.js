@@ -6,8 +6,8 @@ const contactPageData = {
     <p>
       Let's connect and collaborate.<br />
       Reach out via
-      <a href="mailto:maxwellisaacs@gmail.com">
-        maxwellisaacs@gmail.com
+      <a href="mailto:me@maxisaacs.com">
+        me@maxisaacs.com
       </a>
     </p>
   `,
