@@ -194,7 +194,7 @@
                         }
                         
                         /* Desktop carousel styles */
-                        #future-carousel {
+                        /* #future-carousel {
                             max-width: 800px !important;
                             height: 350px !important;
                         }
@@ -214,22 +214,26 @@
                         .carousel-slide a {
                             max-width: 300px !important;
                             padding: 20px !important;
-                        }
+                        } */
                         
                         /* Carousel mobile styles */
-                        @media (max-width: 768px) {
+                        /* @media (max-width: 768px) {
                             #future-carousel {
-                                height: 250px !important;
+                                height: 400px !important;
                                 max-width: 90% !important;
+                                margin: 0 auto !important;
                             }
                             
                             .carousel-slide {
-                                padding: 16px 12px !important;
+                                padding: 20px !important;
                                 flex-direction: column !important;
                                 text-align: left !important;
                                 align-items: flex-start !important;
-                                gap: 12px !important;
-                                justify-content: center !important;
+                                gap: 16px !important;
+                                justify-content: space-between !important;
+                                box-sizing: border-box !important;
+                                min-width: 100% !important;
+                                display: flex !important;
                             }
                             
                             .carousel-slide > div {
@@ -238,23 +242,27 @@
                                 padding-left: 0 !important;
                                 margin-bottom: 0 !important;
                                 text-align: left !important;
+                                flex: 1 !important;
                             }
                             
                             .carousel-slide h3 {
-                                font-size: 1rem !important;
-                                margin-bottom: 4px !important;
+                                font-size: 1.1rem !important;
+                                margin-bottom: 8px !important;
+                                line-height: 1.2 !important;
                             }
                             
                             .carousel-slide p {
-                                font-size: 0.7rem !important;
-                                line-height: 1.3 !important;
-                                margin-bottom: 4px !important;
+                                font-size: 0.8rem !important;
+                                line-height: 1.4 !important;
+                                margin-bottom: 8px !important;
                             }
                             
                             .carousel-slide a {
-                                max-width: 120px !important;
-                                padding: 8px 6px !important;
-                                margin-top: 0 !important;
+                                max-width: 160px !important;
+                                padding: 12px 10px !important;
+                                margin-top: 12px !important;
+                                align-self: flex-start !important;
+                                flex-shrink: 0 !important;
                             }
                             
                             .carousel-slide a img {
@@ -286,7 +294,7 @@
                                 height: 28px !important;
                                 font-size: 14px !important;
                             }
-                        }
+                        } */
                         
                         /* General mobile section padding */
                         section[style*="padding: 80px 64px"] {
@@ -719,98 +727,6 @@
             </div>
         </section>
 
-        <!-- Future Enhancements -->
-        <section style="padding: 80px 0; max-width: 1200px; margin: 0 auto;">
-            <div style="display: flex; justify-content: center; align-items: center; padding: 0 64px;">
-                <div>
-                    
-                    <!-- Carousel Container -->
-                    <div id="future-carousel" style="position: relative; background: white; margin: 0 auto; max-width: 800px; height: 350px; overflow: hidden;">
-                        <!-- Current Slide Counter -->
-                        <div id="slide-counter" style="position: absolute; top: 20px; right: 24px; font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 600; color: #999; letter-spacing: 0.1em; z-index: 10;">01 / 05</div>
-                        
-                        <!-- Carousel Slides -->
-                        <div id="carousel-track" style="display: flex; transition: transform 0.5s ease; height: 100%;">
-                            <!-- Slide 1 -->
-                            <div class="carousel-slide" style="min-width: 100%; box-sizing: border-box; padding: 40px 60px; display: flex; justify-content: center; align-items: center; text-align: left; gap: 60px;">
-                                <div style="border-left: 3px solid #000; padding-left: 32px; max-width: 520px;">
-                                    <h3 style="font-family: 'Inter', sans-serif; font-size: 2.25rem; font-weight: 800; color: #000; margin: 0 0 20px 0; letter-spacing: -0.03em; line-height: 1.1;">Dead Drop Communications</h3>
-                                    <p style="font-family: 'Inter', sans-serif; font-size: 1.1rem; line-height: 1.4; color: #555; margin: 0 0 16px 0; font-weight: 400;">Replace direct server communication with asynchronous dead drops using cloud storage APIs. Implants check predefined locations at randomized intervals, eliminating persistent C2 infrastructure.</p>
-                                    <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.3; color: #888; margin: 0; font-style: italic;">Implementation would include modular connectors for GitHub Gists, Pastebin Pro, and AWS S3 with encrypted payload caching and randomized check intervals.</p>
-                                </div>
-                                <a href="https://github.com/maxwellisaacs/remy-conductor/issues/1" target="_blank" style="display: block; width: 100%; max-width: 300px; padding: 24px; text-decoration: none; text-align: center; font-family: 'Inter', sans-serif; font-style: italic;">
-                                    <img src="../../images/GitHub.svg" alt="GitHub" style="width: 48px; height: 48px; margin-bottom: 4px; opacity: 0.7; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='1';" onmouseout="this.style.opacity='0.7';">
-                                    <div class="hover-text" style="font-size: 0.9rem; text-decoration: underline; color: #999; transition: color 0.3s ease;" onmouseover="this.style.color='#0969da';" onmouseout="this.style.color='#999';">Track on GitHub</div>
-                                </a>
-                            </div>
-                            
-                            <!-- Slide 2 -->
-                            <div class="carousel-slide" style="min-width: 100%; box-sizing: border-box; padding: 40px 60px; display: flex; justify-content: center; align-items: center; text-align: left; gap: 60px;">
-                                <div style="border-left: 3px solid #000; padding-left: 32px; max-width: 520px;">
-                                    <h3 style="font-family: 'Inter', sans-serif; font-size: 2.25rem; font-weight: 800; color: #000; margin: 0 0 20px 0; letter-spacing: -0.03em; line-height: 1.1;">Adaptive Protocol Selection</h3>
-                                    <p style="font-family: 'Inter', sans-serif; font-size: 1.1rem; line-height: 1.4; color: #555; margin: 0 0 16px 0; font-weight: 400;">Intelligent protocol switching based on network conditions and detection evasion. Dynamically choose between UDP, TCP, HTTP/HTTPS, DNS tunneling, or WebSocket connections.</p>
-                                    <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.3; color: #888; margin: 0; font-style: italic;">Would feature a network profiling engine that automatically selects optimal protocols based on firewall rules, traffic patterns, and available services detected on the target network.</p>
-                                </div>
-                                <a href="https://github.com/maxwellisaacs/remy-conductor/issues/2" target="_blank" style="display: block; width: 100%; max-width: 300px; padding: 24px; text-decoration: none; text-align: center; font-family: 'Inter', sans-serif; font-style: italic;">
-                                    <img src="../../images/GitHub.svg" alt="GitHub" style="width: 48px; height: 48px; margin-bottom: 4px; opacity: 0.7; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='1';" onmouseout="this.style.opacity='0.7';">
-                                    <div class="hover-text" style="font-size: 0.9rem; text-decoration: underline; color: #999; transition: color 0.3s ease;" onmouseover="this.style.color='#0969da';" onmouseout="this.style.color='#999';">Track on GitHub</div>
-                                </a>
-                            </div>
-                            
-                            <!-- Slide 3 -->
-                            <div class="carousel-slide" style="min-width: 100%; box-sizing: border-box; padding: 40px 60px; display: flex; justify-content: center; align-items: center; text-align: left; gap: 60px;">
-                                <div style="border-left: 3px solid #000; padding-left: 32px; max-width: 520px;">
-                                    <h3 style="font-family: 'Inter', sans-serif; font-size: 2.25rem; font-weight: 800; color: #000; margin: 0 0 20px 0; letter-spacing: -0.03em; line-height: 1.1;">Domain Fronting & CDN Abuse</h3>
-                                    <p style="font-family: 'Inter', sans-serif; font-size: 1.1rem; line-height: 1.4; color: #555; margin: 0 0 16px 0; font-weight: 400;">Leverage legitimate CDN services for command delivery. Traffic appears to contact trusted domains while routing to C2 infrastructure, making blocking nearly impossible.</p>
-                                    <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.3; color: #888; margin: 0; font-style: italic;">Integration with CloudFlare Workers, AWS CloudFront, and Azure CDN APIs to route commands through legitimate infrastructure that can't be blocked without breaking critical services.</p>
-                                </div>
-                                <a href="https://github.com/maxwellisaacs/remy-conductor/issues/3" target="_blank" style="display: block; width: 100%; max-width: 300px; padding: 24px; text-decoration: none; text-align: center; font-family: 'Inter', sans-serif; font-style: italic;">
-                                    <img src="../../images/GitHub.svg" alt="GitHub" style="width: 48px; height: 48px; margin-bottom: 4px; opacity: 0.7; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='1';" onmouseout="this.style.opacity='0.7';">
-                                    <div class="hover-text" style="font-size: 0.9rem; text-decoration: underline; color: #999; transition: color 0.3s ease;" onmouseover="this.style.color='#0969da';" onmouseout="this.style.color='#999';">Track on GitHub</div>
-                                </a>
-                            </div>
-                            
-                            <!-- Slide 4 -->
-                            <div class="carousel-slide" style="min-width: 100%; box-sizing: border-box; padding: 40px 60px; display: flex; justify-content: center; align-items: center; text-align: left; gap: 60px;">
-                                <div style="border-left: 3px solid #000; padding-left: 32px; max-width: 520px;">
-                                    <h3 style="font-family: 'Inter', sans-serif; font-size: 2.25rem; font-weight: 800; color: #000; margin: 0 0 20px 0; letter-spacing: -0.03em; line-height: 1.1;">Mesh Networking</h3>
-                                    <p style="font-family: 'Inter', sans-serif; font-size: 1.1rem; line-height: 1.4; color: #555; margin: 0 0 16px 0; font-weight: 400;">Enable peer-to-peer communication between implants for redundant command relay. Creates a resilient mesh network topology when direct C2 connection is lost.</p>
-                                    <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.3; color: #888; margin: 0; font-style: italic;">Distributed command routing system with encrypted peer discovery, automatic failover protocols, and mesh topology mapping for resilient multi-hop communication paths.</p>
-                                </div>
-                                <a href="https://github.com/maxwellisaacs/remy-conductor/issues/4" target="_blank" style="display: block; width: 100%; max-width: 300px; padding: 24px; text-decoration: none; text-align: center; font-family: 'Inter', sans-serif; font-style: italic;">
-                                    <img src="../../images/GitHub.svg" alt="GitHub" style="width: 48px; height: 48px; margin-bottom: 4px; opacity: 0.7; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='1';" onmouseout="this.style.opacity='0.7';">
-                                    <div class="hover-text" style="font-size: 0.9rem; text-decoration: underline; color: #999; transition: color 0.3s ease;" onmouseover="this.style.color='#0969da';" onmouseout="this.style.color='#999';">Track on GitHub</div>
-                                </a>
-                            </div>
-                            
-                            <!-- Slide 5 -->
-                            <div class="carousel-slide" style="min-width: 100%; box-sizing: border-box; padding: 40px 60px; display: flex; justify-content: center; align-items: center; text-align: left; gap: 60px;">
-                                <div style="border-left: 3px solid #000; padding-left: 32px; max-width: 520px;">
-                                    <h3 style="font-family: 'Inter', sans-serif; font-size: 2.25rem; font-weight: 800; color: #000; margin: 0 0 20px 0; letter-spacing: -0.03em; line-height: 1.1;">Steganographic Channels</h3>
-                                    <p style="font-family: 'Inter', sans-serif; font-size: 1.1rem; line-height: 1.4; color: #555; margin: 0 0 16px 0; font-weight: 400;">Embed command data within legitimate traffic like social media posts, image metadata, or blockchain transactions. Commands hidden in plain sight using advanced steganographic techniques.</p>
-                                    <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.3; color: #888; margin: 0; font-style: italic;">Custom encoding modules for Twitter API, Instagram image EXIF data, Bitcoin transaction metadata, and DNS TXT records with automated content generation to maintain plausible cover traffic.</p>
-                                </div>
-                                <a href="https://github.com/maxwellisaacs/remy-conductor/issues/5" target="_blank" style="display: block; width: 100%; max-width: 300px; padding: 24px; text-decoration: none; text-align: center; font-family: 'Inter', sans-serif; font-style: italic;">
-                                    <img src="../../images/GitHub.svg" alt="GitHub" style="width: 48px; height: 48px; margin-bottom: 4px; opacity: 0.7; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='1';" onmouseout="this.style.opacity='0.7';">
-                                    <div class="hover-text" style="font-size: 0.9rem; text-decoration: underline; color: #999; transition: color 0.3s ease;" onmouseover="this.style.color='#0969da';" onmouseout="this.style.color='#999';">Track on GitHub</div>
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <!-- Navigation Controls -->
-                        <div style="position: absolute; top: 50%; right: 24px; transform: translateY(-50%); display: flex; flex-direction: column; gap: 12px; align-items: center;">
-                            <button id="prev-btn" style="background: rgba(0,0,0,0.7); border: none; width: 36px; height: 36px; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; transition: all 0.3s ease; backdrop-filter: blur(4px);">‹</button>
-                            <button id="next-btn" style="background: rgba(0,0,0,0.7); border: none; width: 36px; height: 36px; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; transition: all 0.3s ease; backdrop-filter: blur(4px);">›</button>
-                        </div>
-                        
-                        <!-- Progress Bar -->
-                        <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: rgba(0,0,0,0.1);">
-                            <div id="progress-bar" style="height: 100%; background: #000; width: 20%; transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
     </div>
 
     <!-- Bottom Navigation -->
@@ -858,7 +774,7 @@
         document.addEventListener('DOMContentLoaded', setupProjectScrollAnimation);
 
         // Carousel functionality
-        function setupCarousel() {
+        /* function setupCarousel() {
             const track = document.getElementById('carousel-track');
             const prevBtn = document.getElementById('prev-btn');
             const nextBtn = document.getElementById('next-btn');
@@ -921,7 +837,7 @@
             });
         }
 
-        document.addEventListener('DOMContentLoaded', setupCarousel);
+        // document.addEventListener('DOMContentLoaded', setupCarousel);
         
         // Add mobile touch support
         function setupMobileCarousel() {
@@ -960,7 +876,7 @@
             });
         }
         
-        document.addEventListener('DOMContentLoaded', setupMobileCarousel);
+        document.addEventListener('DOMContentLoaded', setupMobileCarousel); */
 
         // Interactive Architecture Diagram Functions
         function highlightComponent(componentType) {
