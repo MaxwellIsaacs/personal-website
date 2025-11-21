@@ -37,74 +37,18 @@ body::after {
 @media (max-width: 768px) {
   body::after {
     background-attachment: scroll;
-    position: absolute;
-    height: 100vh;
+    position: fixed;
+    min-height: 100vh;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
 }
 
-/* Remove persian background from detail pages */
-body.detail-page {
-  background-image: none;
-  background-color: white;
-}
-
-body.detail-page::before,
-body.detail-page::after {
-  display: none;
-}
-
-/* Ensure header and footer have solid backgrounds on detail pages */
-body.detail-page .header {
-  background-color: white !important;
-}
-
-body.detail-page .footer-spacer {
-  background-color: white !important;
-}
-
-/* Remove persian background from project detail pages */
-.project-detail.active {
-  background-color: white !important;
-  background-image: none !important;
-}
-
-.project-detail.active .header {
-  background-color: white !important;
-}
-
-.project-detail.active .footer-spacer {
-  background-color: white !important;
-}
-
-/* Override body background when project detail is active */
-body:has(.project-detail.active) {
-  background-image: none !important;
-  background-color: white !important;
-}
-
-body:has(.project-detail.active)::before,
-body:has(.project-detail.active)::after {
-  display: none !important;
-}
-
-/* Remove persian background from project detail HTML pages */
-body.project-page {
-  background-image: none !important;
-  background-color: white !important;
-}
-
-body.project-page::before,
-body.project-page::after {
-  display: none !important;
-}
-
-body.project-page .header {
-  background-color: white !important;
-}
-
-body.project-page .footer-spacer {
-  background-color: white !important;
-}
+/* Keep Persian background on all pages - only remove overrides for specific pages that need white */
+/* Note: Work and dotfiles pages may have specific white background requirements */
 
 body::before {
   content: '';
@@ -126,8 +70,13 @@ body::before {
 /* Fix background ::before for mobile */
 @media (max-width: 768px) {
   body::before {
-    position: absolute;
-    height: 100vh;
+    position: fixed;
+    min-height: 100vh;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
 }
 
@@ -217,7 +166,10 @@ body.detail-page .header .social-links img {
 
 body.detail-page .header.scrolled {
   position: fixed;
-  background-color: #fff;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   top: 0;
   left: 0;
   right: 0;
@@ -367,7 +319,7 @@ body.detail-page .header.scrolled .social-links img {
 /* === Social Icons === */
 .social-links {
   display: flex;
-  gap: 14px;
+  gap: 8px;
   align-items: flex-start;
   padding: 0px 32px 0 0;
   margin-top: 0px;
@@ -392,7 +344,7 @@ body.detail-page .header.scrolled .social-links img {
 /* Mobile touch target optimization */
 @media (max-width: 768px) {
   .social-links {
-    gap: 12px;
+    gap: 6px;
     padding: 0px 16px 0 0;
   }
   
@@ -1117,7 +1069,7 @@ body.detail-page .header.scrolled .social-links img {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease;
-  background: #ffffff;
+  background: transparent; /* Allow Persian background to show through */
   overflow-y: auto;
   z-index: 1000;
 }
@@ -1218,7 +1170,7 @@ body.detail-page .header.scrolled .social-links img {
   opacity: 0;
   transform: translateY(50px);
   transition: all 2s cubic-bezier(0.23, 1, 0.32, 1);
-  background: #ffffff;
+  background: transparent; /* Let Persian background show through */
   position: relative;
   z-index: 5;
 }
@@ -1260,17 +1212,21 @@ body.detail-page .header.scrolled .social-links img {
 }
 
 .feature-card {
-  background: #f8f9fa;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-radius: 16px;
   padding: 32px;
   transition: all 0.3s ease;
-  border: 1px solid transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .feature-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
-  border-color: rgba(102, 126, 234, 0.1);
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .feature-icon {
@@ -1298,10 +1254,14 @@ body.detail-page .header.scrolled .social-links img {
 }
 
 .tech-showcase {
-  background: #f8f9fa;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
   border-radius: 24px;
   padding: 48px;
   margin: 48px 0;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
 }
 
 .tech-grid {
@@ -1740,7 +1700,9 @@ body.detail-page .header.scrolled .social-links img {
 
 .section-divider {
   padding: 40px 0;
-  background: #FAFAFA;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .divider-line {
@@ -1751,8 +1713,13 @@ body.detail-page .header.scrolled .social-links img {
 }
 
 .project-content.clean {
-  background: white;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
   color: #2A2A2A;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
 }
 
 .content-section-clean {
