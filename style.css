@@ -5,13 +5,6 @@ body {
   overflow-x: visible;
 }
 
-/* Fix background attachment for mobile devices */
-@media (max-width: 768px) {
-  body {
-    background: none !important;
-    overflow-x: visible;
-  }
-}
 
 .background-overlay {
   position: fixed;
@@ -75,12 +68,6 @@ body {
   padding-left: 64px;
 }
 
-/* Mobile adjustments for left-indent */
-@media (max-width: 768px) {
-  .left-indent {
-    padding-left: 16px;
-  }
-}
 
 .header {
   display: flex;
@@ -155,17 +142,17 @@ body.detail-page .header.scrolled .social-links img {
 
 /* Header size reduction on scroll for mandelbrot page */
 .header.scrolled-small {
-  padding: 12px 64px 4px 64px !important;
+  padding: 12px 64px 4px 64px;
   transition: all 0.3s ease;
 }
 
 .header.scrolled-small .header-name {
-  font-size: 0.85rem !important;
+  font-size: 0.85rem;
   transition: font-size 0.3s ease;
 }
 
 .header.scrolled-small .copywrite {
-  font-size: 0.65rem !important;
+  font-size: 0.65rem;
   line-height: 1.3;
   transition: font-size 0.3s ease;
 }
@@ -175,8 +162,8 @@ body.detail-page .header.scrolled .social-links img {
 }
 
 .header.scrolled-small .animated-icon {
-  width: 18px !important;
-  height: 18px !important;
+  width: 18px;
+  height: 18px;
   transition: all 0.3s ease;
 }
 
@@ -204,18 +191,6 @@ body.detail-page .header.scrolled .social-links img {
   }
 }
 
-@media (max-width: 768px) {
-  .header {
-    padding: 92px 16px 4px 16px; /* Adjusted mobile padding */
-  }
-  
-  .header-name {
-    font-size: 0.85rem;
-  }
-  
-  .copywrite {
-    font-size: 0.7rem;
-  }
   
   /* Bottom navigation mobile fixes */
   .bottom-nav {
@@ -318,28 +293,6 @@ body.detail-page .header.scrolled .social-links img {
 }
 
 /* Mobile touch target optimization */
-@media (max-width: 768px) {
-  .social-links {
-    gap: 8px;
-    padding: 0px 16px 0 0;
-  }
-  
-  .social-links a {
-    min-width: 48px;
-    min-height: 48px;
-    border-radius: 6px;
-    margin: 0 -4px; /* Same overlap on mobile */
-  }
-  
-  .social-links a:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-  }
-  
-  .animated-icon {
-    width: 24px;
-    height: 24px;
-  }
-}
 
 
 .social-icon:hover {
@@ -581,7 +534,7 @@ body.detail-page .header.scrolled .social-links img {
 
 /* Popup for info display - hyperprofessional liquid glass */
 .info-popup {
-  position: fixed;
+  position: absolute;
   background: 
     linear-gradient(135deg, 
       rgba(255, 255, 255, 0.95) 0%,
@@ -1038,7 +991,7 @@ body.detail-page .header.scrolled .social-links img {
 
 /* === Modern Project Detail Page === */
 .project-detail {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -1962,16 +1915,7 @@ html {
   scroll-behavior: smooth;
 }
 
-* {
-  scroll-behavior: smooth;
-}
 
-/* Ensure normal scrolling on mobile */
-@media (max-width: 768px) {
-  html, body {
-    scroll-behavior: auto; /* Disable smooth scrolling on mobile for better performance */
-  }
-}
 
 html, body {
   margin: 0;
@@ -1983,15 +1927,29 @@ html, body {
   width: 100%;
 }
 
-/* Hardware acceleration for smooth animations */
+/* Performance optimizations for Safari */
+.background-overlay,
+.background-gradient {
+  contain: layout style;
+  will-change: auto;
+}
+
 .project-card,
-.project-card-wrapper,
-.nav-item,
-.partypass-card,
-.live-preview-container {
+.nav-item {
+  contain: layout style paint;
   will-change: transform;
   transform: translateZ(0);
-  backface-visibility: hidden;
+}
+
+.project-grid {
+  contain: layout;
+}
+
+/* Remove unnecessary will-change from non-animated elements */
+.project-card-wrapper,
+.partypass-card,
+.live-preview-container {
+  will-change: auto;
 }
 
 /* Touch interaction optimizations */
@@ -2030,8 +1988,12 @@ html, body {
   }
 }
 
-/* Smooth transitions everywhere */
-* {
+/* Targeted transitions for interactive elements */
+.interactive,
+.project-card,
+.nav-item,
+.social-links a,
+.animated-icon {
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
@@ -2101,9 +2063,139 @@ html, body {
   }
 }
 
-/* Specific adjustment for illegal empire podcast caption on mobile */
+/* ===== CONSOLIDATED MOBILE STYLES (max-width: 768px) ===== */
 @media (max-width: 768px) {
+  
+  /* === GLOBAL LAYOUT === */
+  body {
+    background: none !important;
+    overflow-x: visible;
+  }
+  
+  html {
+    scroll-behavior: auto;
+  }
+  
+  .left-indent {
+    padding-left: 16px;
+  }
+  
+  /* === PERFORMANCE: DISABLE BACKDROP FILTERS ON MOBILE === */
+  * {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  
+  /* === HEADER === */
+  .header {
+    padding: 92px 16px 4px 16px;
+  }
+  
+  .header-name {
+    font-size: 0.85rem;
+  }
+  
+  .copywrite {
+    font-size: 0.7rem;
+  }
+  
+  /* === NAVIGATION === */
+  .bottom-nav {
+    bottom: 16px !important;
+    left: 16px !important;
+    right: 16px !important;
+    transform: none !important;
+    width: auto !important;
+    padding: 8px 16px !important;
+    justify-content: space-between !important;
+    max-width: calc(100vw - 32px);
+    font-size: 0.8rem;
+  }
+  
+  .nav-item {
+    padding: 6px 8px;
+    font-size: 0.8rem;
+  }
+  
+  .nav-item.active::after {
+    bottom: -6px;
+  }
+  
+  /* === SOCIAL ICONS === */
+  .social-links {
+    gap: 6px;
+    margin: 0 -4px;
+  }
+  
+  .animated-icon {
+    width: 18px;
+    height: 18px;
+  }
+  
+  /* === PROJECTS === */
+  .projects {
+    margin-top: 40px;
+    padding: 0 16px 120px;
+  }
+  
+  .project-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    max-width: none;
+    margin: 0;
+  }
+  
+  .project-card {
+    height: 280px;
+    border-radius: 12px;
+    transition: transform 0.1s ease;
+  }
+  
+  .project-card:active {
+    transform: scale(0.98);
+  }
+  
+  .project-caption {
+    font-size: 0.8rem;
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+  
+  /* Specific adjustment for illegal empire podcast caption */
   .project-card-wrapper:nth-child(6) .project-caption {
     margin-top: 16px;
+  }
+  
+  /* === DETAIL PAGES === */
+  .detail-container {
+    padding: 20px;
+    margin-top: 20px;
+  }
+  
+  .project-detail {
+    padding: 20px;
+  }
+  
+  .back-to-portfolio {
+    text-align: center;
+    font-size: 0.9rem;
+    padding: 10px 20px;
+  }
+  
+  /* === INTRO === */
+  .intro {
+    margin-top: 40px;
+    padding: 0 16px;
+    font-size: 0.9rem;
+  }
+  
+  /* === TOUCH OPTIMIZATIONS === */
+  .nav-item:active {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
+  
+  .social-links a:active {
+    background-color: rgba(0, 0, 0, 0.1);
   }
 }
