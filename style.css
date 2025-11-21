@@ -12,6 +12,9 @@ body {
 @media (max-width: 768px) {
   body {
     background-attachment: scroll;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     padding-top: 80px; /* Reduce top padding on mobile */
   }
 }
@@ -33,17 +36,10 @@ body::after {
   z-index: -2;
 }
 
-/* Fix background ::after for mobile */
+/* Disable conflicting pseudo-element backgrounds on mobile */
 @media (max-width: 768px) {
   body::after {
-    background-attachment: scroll;
-    position: absolute;
-    min-height: 120vh;
-    height: 120vh;
-    top: -10vh;
-    left: -10vw;
-    right: -10vw;
-    bottom: -10vh;
+    display: none;
   }
 }
 
@@ -67,16 +63,10 @@ body::before {
   z-index: -1;
 }
 
-/* Fix background ::before for mobile */
+/* Disable conflicting pseudo-element backgrounds on mobile */
 @media (max-width: 768px) {
   body::before {
-    position: absolute;
-    min-height: 120vh;
-    height: 120vh;
-    top: -10vh;
-    left: -10vw;
-    right: -10vw;
-    bottom: -10vh;
+    display: none;
   }
 }
 
