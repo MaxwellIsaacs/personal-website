@@ -291,6 +291,11 @@ body.detail-page .header.scrolled .social-links img {
     justify-content: center;
   }
   
+  /* Center back to portfolio text on mobile */
+  .bottom-nav:has(.nav-back-item) {
+    justify-content: center !important;
+  }
+  
   .nav-back-item svg {
     width: 12px !important;
     height: 12px !important;
@@ -2137,7 +2142,7 @@ html, body {
 
 /* Specific adjustment for illegal empire podcast caption on mobile */
 @media (max-width: 768px) {
-  .project-card-wrapper:nth-child(5) .project-caption {
-    margin-top: 8px;
+  .project-card-wrapper:nth-child(6) .project-caption {
+    margin-top: 16px;
   }
 }
