@@ -36,10 +36,17 @@ body::after {
   z-index: -2;
 }
 
-/* Disable conflicting pseudo-element backgrounds on mobile */
+/* Fix background ::after for mobile - maintain effect but fix scrolling */
 @media (max-width: 768px) {
   body::after {
-    display: none;
+    background-attachment: scroll;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
   }
 }
 
@@ -63,10 +70,16 @@ body::before {
   z-index: -1;
 }
 
-/* Disable conflicting pseudo-element backgrounds on mobile */
+/* Fix background ::before for mobile - maintain effect but fix scrolling */
 @media (max-width: 768px) {
   body::before {
-    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
   }
 }
 
