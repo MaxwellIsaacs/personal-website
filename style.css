@@ -37,6 +37,7 @@ body::after {
 /* Fix background ::after for mobile - extend well beyond viewport for Safari */
 @media (max-width: 768px) {
   body::after {
+    background-image: url('images/persian.jpg'); /* Ensure Persian image is present */
     background-attachment: scroll;
     position: fixed;
     top: -10vh;
@@ -47,6 +48,8 @@ body::after {
     height: 120vh;
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
+    filter: hue-rotate(15deg) saturate(1.3); /* Ensure effects are present */
   }
 }
 
