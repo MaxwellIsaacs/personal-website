@@ -8,6 +8,14 @@ body {
   background-attachment: fixed;
 }
 
+/* Fix background attachment for mobile devices */
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll;
+    padding-top: 80px; /* Reduce top padding on mobile */
+  }
+}
+
 body::after {
   content: '';
   position: fixed;
@@ -23,6 +31,15 @@ body::after {
   filter: hue-rotate(15deg) saturate(1.3);
   pointer-events: none;
   z-index: -2;
+}
+
+/* Fix background ::after for mobile */
+@media (max-width: 768px) {
+  body::after {
+    background-attachment: scroll;
+    position: absolute;
+    height: 100vh;
+  }
 }
 
 /* Remove persian background from detail pages */
@@ -106,6 +123,14 @@ body::before {
   z-index: -1;
 }
 
+/* Fix background ::before for mobile */
+@media (max-width: 768px) {
+  body::before {
+    position: absolute;
+    height: 100vh;
+  }
+}
+
 /* === Fonts === */
 @font-face {
   font-family: 'Icona Sans';
@@ -134,6 +159,13 @@ body::before {
 
 .left-indent {
   padding-left: 64px;
+}
+
+/* Mobile adjustments for left-indent */
+@media (max-width: 768px) {
+  .left-indent {
+    padding-left: 16px;
+  }
 }
 
 .header {
@@ -261,20 +293,11 @@ body.detail-page .header.scrolled .social-links img {
   }
   
   .header-name {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
   }
   
   .copywrite {
-    font-size: 0.65rem;
-  }
-  
-  .social-links {
-    gap: 8px;
-  }
-  
-  .animated-icon {
-    width: 16px;
-    height: 16px;
+    font-size: 0.7rem;
   }
   
   /* Bottom navigation mobile fixes */
@@ -284,13 +307,28 @@ body.detail-page .header.scrolled .social-links img {
     right: 20px !important;
     transform: none !important;
     width: auto !important;
-    padding: 12px 20px !important;
-    justify-content: center !important;
+    padding: 16px 24px !important;
+    justify-content: space-between !important;
+    max-width: calc(100vw - 40px);
+    box-sizing: border-box;
+  }
+  
+  .nav-item {
+    font-size: 15px !important;
+    padding: 8px 4px;
+    min-width: 44px; /* Touch target */
+    text-align: center;
   }
   
   .nav-back-item {
     font-size: 14px !important;
     gap: 6px !important;
+    padding: 8px 12px;
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
   
   .nav-back-item svg {
@@ -335,11 +373,43 @@ body.detail-page .header.scrolled .social-links img {
   margin-top: 0px;
 }
 
+.social-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px; /* Minimum touch target size */
+  min-height: 44px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
 
 .animated-icon {
   width: 20px;   /* Smaller default size for large desktop screens */
   height: 20px;
   object-fit: contain;
+}
+
+/* Mobile touch target optimization */
+@media (max-width: 768px) {
+  .social-links {
+    gap: 12px;
+    padding: 0px 16px 0 0;
+  }
+  
+  .social-links a {
+    min-width: 48px;
+    min-height: 48px;
+    border-radius: 6px;
+  }
+  
+  .social-links a:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  .animated-icon {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 
@@ -349,7 +419,7 @@ body.detail-page .header.scrolled .social-links img {
 
 /* === Intro Section === */
 .intro {
-  font-size: 3rem;
+  font-size: clamp(1.8rem, 4vw, 3rem);
   font-weight: 400;
   color: #000;
   line-height: 1.3;
@@ -358,6 +428,14 @@ body.detail-page .header.scrolled .social-links img {
   padding: 180px 32px 0 32px;
   max-width: 1000px;
   font-family: 'Icona Sans', sans-serif;
+}
+
+/* Mobile intro adjustments */
+@media (max-width: 768px) {
+  .intro {
+    padding: 120px 16px 0 16px;
+    font-size: clamp(1.5rem, 5vw, 2rem);
+  }
 }
 
 .intro b {
@@ -383,6 +461,14 @@ body.detail-page .header.scrolled .social-links img {
   padding-left: 32px;
 }
 
+/* Mobile projects section adjustments */
+@media (max-width: 768px) {
+  .projects {
+    margin-top: 150px;
+    padding-left: 16px;
+  }
+}
+
 /* Visible when scrolled into view */
 .projects.visible {
   opacity: 1;
@@ -397,6 +483,25 @@ body.detail-page .header.scrolled .social-links img {
   padding-left: 32px; /* Less padding to allow cards to extend beyond text */
   padding-right: 32px;
   perspective: 1000px;
+}
+
+/* Mobile grid layout - single column */
+@media (max-width: 768px) {
+  .project-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+/* Small mobile - even more compact */
+@media (max-width: 480px) {
+  .project-grid {
+    gap: 32px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
 }
 
 
@@ -663,13 +768,22 @@ body.detail-page .header.scrolled .social-links img {
   font-weight: 600;
 }
 
+/* Enhanced mobile project caption layout */
 @media (max-width: 768px) {
+  .project-caption {
+    font-size: 0.85rem;
+    padding: 0;
+    width: 100% !important;
+    overflow: visible !important;
+  }
+  
   .project-caption-bar {
     gap: 8px;
     flex-direction: column;
     align-items: flex-start;
     width: 100% !important;
     overflow: visible !important;
+    margin-bottom: 6px;
   }
   
   .project-caption-bar span {
@@ -678,11 +792,31 @@ body.detail-page .header.scrolled .social-links img {
     overflow-wrap: break-word !important;
     max-width: 100% !important;
     width: auto !important;
+    font-size: 0.8rem;
+    line-height: 1.3;
   }
   
-  .project-caption {
-    width: 100% !important;
-    overflow: visible !important;
+  .project-caption-bar .caption-left {
+    font-weight: 600;
+    color: #111;
+    font-size: 0.9rem;
+  }
+  
+  .project-caption-bar .caption-center {
+    color: #666;
+    font-size: 0.75rem;
+  }
+  
+  .project-caption-bar .caption-right {
+    color: #888;
+    font-size: 0.75rem;
+    font-style: italic;
+  }
+  
+  .project-caption p {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    margin: 0;
   }
   
   .project-card-wrapper {
@@ -1340,6 +1474,7 @@ body.detail-page .header.scrolled .social-links img {
 }
 
 /* Responsive Design */
+/* Comprehensive mobile detail page fixes */
 @media (max-width: 768px) {
   .project-hero {
     height: 100vh;
@@ -1354,45 +1489,113 @@ body.detail-page .header.scrolled .social-links img {
     border-radius: 24px;
   }
   
-  .project-content {
-    padding: 60px 20px;
-  }
-  
-  /* Fix project detail page overflow */
-  .project-hero-content[style*="grid-template-columns"] {
-    grid-template-columns: 1fr !important;
-    gap: 40px !important;
+  .project-hero-content {
     padding: 60px 16px !important;
     max-width: 100% !important;
   }
   
-  section[style*="padding: 80px 64px"] {
+  .project-hero-title {
+    font-size: clamp(2rem, 8vw, 3.5rem) !important;
+  }
+  
+  .project-hero-subtitle {
+    font-size: clamp(1rem, 3vw, 1.2rem) !important;
+  }
+  
+  .project-content {
+    padding: 60px 20px;
+    max-width: 100% !important;
+    overflow-x: hidden;
+  }
+  
+  /* Fix all inline-styled grids for mobile */
+  div[style*="grid-template-columns"],
+  section[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+    max-width: 100% !important;
+  }
+  
+  /* Fix wide padding on all sections */
+  section[style*="padding: 80px 64px"],
+  section[style*="padding: 80px 60px"],
+  div[style*="padding: 80px 64px"],
+  div[style*="padding: 80px 60px"] {
     padding: 40px 16px !important;
     max-width: 100% !important;
   }
   
-  .game-container[style*="min-width"] {
+  section[style*="padding: 60px"],
+  div[style*="padding: 60px"] {
+    padding: 30px 16px !important;
+    max-width: 100% !important;
+  }
+  
+  /* Fix game containers and demos */
+  .game-container,
+  div[style*="min-width"],
+  iframe[style*="width"],
+  canvas[style*="width"] {
     min-width: auto !important;
     width: 100% !important;
     max-width: calc(100vw - 32px) !important;
   }
+  
+  /* Fix code blocks */
+  .code-block,
+  .code-showcase,
+  pre[style*="width"] {
+    overflow-x: auto;
+    max-width: calc(100vw - 32px) !important;
+  }
+  
+  /* Fix network demo canvas */
+  .network-canvas {
+    width: 100% !important;
+    height: 250px !important;
+  }
 }
   
   .features-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+    padding: 0 16px;
   }
   
   .tech-showcase {
-    padding: 32px 24px;
+    padding: 24px 16px !important;
+    margin: 24px 0 !important;
+  }
+  
+  .tech-grid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)) !important;
+    gap: 12px !important;
   }
   
   .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 32px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+    gap: 24px !important;
   }
   
   .stat-value {
-    font-size: 2.5rem;
+    font-size: 2rem;
+  }
+  
+  /* Fix feature cards */
+  .feature-card {
+    padding: 20px 16px !important;
+    margin: 0 !important;
+  }
+  
+  /* Fix code blocks responsiveness */
+  .code-showcase {
+    padding: 20px 16px !important;
+    overflow-x: auto;
+  }
+  
+  .code-content {
+    font-size: 0.8rem !important;
+    overflow-x: auto;
   }
 }
 
@@ -1725,36 +1928,7 @@ body.detail-page .header.scrolled .social-links img {
     gap: 32px;
   }
 
-  /* Project grid tablet responsiveness */
-  .project-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-  
-  .project-card {
-    aspect-ratio: 1;
-    border-radius: 14px;
-  }
-  
-  /* Fix overflowing grid containers */
-  .features-grid {
-    grid-template-columns: 1fr !important;
-    gap: 24px !important;
-  }
-  
-  .tech-grid {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)) !important;
-    gap: 12px !important;
-  }
-  
-  .stats-grid {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
-    gap: 24px !important;
-  }
-  
-  /* Fix content overflow */
+  /* Additional mobile overflow prevention */
   * {
     box-sizing: border-box !important;
   }
@@ -1883,6 +2057,42 @@ html, body {
   backface-visibility: hidden;
 }
 
+/* Touch interaction optimizations */
+@media (hover: hover) and (pointer: fine) {
+  /* Desktop hover effects only */
+  .project-card:hover {
+    transform: translateY(-4px);
+  }
+  
+  .social-icon:hover {
+    transform: scale(1.05);
+  }
+  
+  .nav-item:hover {
+    color: rgba(255, 255, 255, 0.85);
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  /* Mobile touch optimizations */
+  .project-card {
+    transition: transform 0.1s ease;
+  }
+  
+  .project-card:active {
+    transform: scale(0.98);
+  }
+  
+  .nav-item:active {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
+  
+  .social-links a:active {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
 /* Smooth transitions everywhere */
 * {
   transition: transform 0.2s ease, opacity 0.2s ease;
@@ -1933,65 +2143,23 @@ html, body {
   transition: all 0.3s ease-in-out;
 }
 
-/* Medium mobile - single column */
-@media (max-width: 600px) {
-  .project-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-  
+/* Small mobile optimizations */
+@media (max-width: 480px) {
   .project-card {
-    aspect-ratio: 1;
-    max-width: calc(100vw - 32px);
-    margin: 0 auto;
+    aspect-ratio: 1.2; /* Slightly taller for better mobile viewing */
     border-radius: 12px;
-  }
-}
-
-/* Small mobile - list view */
-@media (max-width: 400px) {
-  .project-grid {
-    display: block;
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-  
-  .project-card-wrapper {
-    margin-bottom: 24px;
-  }
-  
-  .project-card {
-    display: none; /* Hide card view */
   }
   
   .project-caption {
-    display: block !important;
-    padding: 16px 0;
-    border-bottom: 1px solid #e5e5e5;
+    font-size: 0.8rem;
   }
   
-  .project-caption-bar {
-    display: flex !important;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
+  .project-caption-bar .caption-left {
+    font-size: 0.85rem;
   }
   
-  .caption-left {
-    font-weight: 600;
-    font-size: 1.1rem;
-  }
-  
-  .caption-center {
-    color: #666;
-    font-size: 0.9rem;
-  }
-  
-  .caption-right {
-    color: #888;
-    font-size: 0.9rem;
-    font-style: italic;
+  .project-caption-bar .caption-center,
+  .project-caption-bar .caption-right {
+    font-size: 0.7rem;
   }
 }
