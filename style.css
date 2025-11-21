@@ -36,17 +36,36 @@ body::after {
 
 /* Fix background ::after for mobile - account for Safari's dynamic viewport */
 @media (max-width: 768px) {
+  html {
+    min-height: -webkit-fill-available;
+  }
+  
+  body {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    min-height: 100dvh;
+  }
+  
   body::after {
     background-image: url('images/persian.jpg'); /* Ensure Persian image is present */
     background-attachment: scroll;
     position: fixed;
-    top: -20vh;
-    left: -10vw;
-    right: -10vw;
-    bottom: -20vh;
-    width: 120vw;
-    height: 140vh; /* Much larger to account for Safari's dynamic viewport */
-    min-height: 100dvh; /* Use dynamic viewport height where supported */
+    top: 0;
+    top: calc(0px - env(safe-area-inset-top, 0px));
+    left: 0;
+    left: calc(0px - env(safe-area-inset-left, 0px));
+    right: 0;
+    right: calc(0px - env(safe-area-inset-right, 0px));
+    bottom: 0;
+    bottom: calc(0px - env(safe-area-inset-bottom, 0px));
+    width: 100vw;
+    width: calc(100vw + env(safe-area-inset-left, 0px) + env(safe-area-inset-right, 0px));
+    height: 100vh;
+    height: -webkit-fill-available;
+    height: 100dvh;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    min-height: 100dvh;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -78,13 +97,22 @@ body::before {
 @media (max-width: 768px) {
   body::before {
     position: fixed;
-    top: -20vh;
-    left: -10vw;
-    right: -10vw;
-    bottom: -20vh;
-    width: 120vw;
-    height: 140vh; /* Much larger to account for Safari's dynamic viewport */
-    min-height: 100dvh; /* Use dynamic viewport height where supported */
+    top: 0;
+    top: calc(0px - env(safe-area-inset-top, 0px));
+    left: 0;
+    left: calc(0px - env(safe-area-inset-left, 0px));
+    right: 0;
+    right: calc(0px - env(safe-area-inset-right, 0px));
+    bottom: 0;
+    bottom: calc(0px - env(safe-area-inset-bottom, 0px));
+    width: 100vw;
+    width: calc(100vw + env(safe-area-inset-left, 0px) + env(safe-area-inset-right, 0px));
+    height: 100vh;
+    height: -webkit-fill-available;
+    height: 100dvh;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    min-height: 100dvh;
   }
 }
 
