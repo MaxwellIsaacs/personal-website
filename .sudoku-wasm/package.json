@@ -1,0 +1,15 @@
+{
+  "name": "sudoku",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "sudoku_bg.wasm",
+    "sudoku.js",
+    "sudoku.d.ts"
+  ],
+  "main": "sudoku.js",
+  "types": "sudoku.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}

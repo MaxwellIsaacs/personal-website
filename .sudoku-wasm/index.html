@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Max's Sudoku Game</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔢</text></svg>">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        #sudoku_canvas {
+            border-radius: 12px;
+            box-shadow: 
+                0 8px 32px 0 rgba(31, 38, 135, 0.37),
+                0 0 60px rgba(100, 150, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(10, 15, 25, 0.8);
+        }
+
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #a0a8b0;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 0;
+            animation: dots 1.5s steps(3, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% {
+                content: '';
+            }
+            40% {
+                content: '.';
+            }
+            60% {
+                content: '..';
+            }
+            80%, 100% {
+                content: '...';
+            }
+        }
+
+        .container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            transform: translateY(-30px);
+        }
+
+        .title {
+            color: #e0e6ed;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(100, 150, 255, 0.3);
+        }
+
+        .subtitle {
+            color: #8090a0;
+            font-size: 14px;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        #error-message {
+            display: none;
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            max-width: 400px;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">Sudoku</div>
+        <div class="subtitle">Web Assembly Edition</div>
+        
+        <canvas id="sudoku_canvas" width="480" height="520"></canvas>
+        
+        <div class="loading" id="loading">Loading WASM</div>
+        <div id="error-message"></div>
+    </div>
+
+    <script type="module">
+        const loading = document.getElementById('loading');
+        const errorMessage = document.getElementById('error-message');
+        const canvas = document.getElementById('sudoku_canvas');
+
+        function showError(message) {
+            loading.style.display = 'none';
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            console.error(message);
+        }
+
+        function hideLoading() {
+            loading.style.display = 'none';
+        }
+
+        async function run() {
+            try {
+                // Import the WASM module
+                const { default: init } = await import('./sudoku.js');
+                
+                // Initialize the WASM module
+                await init();
+                
+                hideLoading();
+                console.log('Sudoku WASM app loaded successfully!');
+                
+            } catch (err) {
+                showError(`Failed to load WASM module: ${err.message}`);
+            }
+        }
+
+        // Handle canvas focus for better interaction
+        canvas.addEventListener('click', () => {
+            canvas.focus();
+        });
+
+        // Make canvas focusable
+        canvas.tabIndex = 0;
+
+        // Prevent context menu on canvas
+        canvas.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+
+        // Start the app
+        run();
+    </script>
+</body>
+</html>
