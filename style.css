@@ -706,6 +706,29 @@ body.detail-page .header.scrolled .social-links img {
   z-index: 1000;
 }
 
+/* Back to portfolio navigation for detail pages */
+.detail-page .bottom-nav,
+.project-page .bottom-nav {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, rgba(120, 60, 160, 0.65), rgba(80, 30, 120, 0.55));
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-radius: 999px;
+  display: flex;
+  padding: 14px 32px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 1000;
+  width: auto;
+  min-width: 160px;
+  max-width: none;
+  justify-content: center;
+  white-space: nowrap;
+}
+
 .nav-item {
   color: rgba(255, 255, 255, 1);
   font-size: 16px;
@@ -1374,9 +1397,16 @@ body.detail-page .header.scrolled .social-links img {
   }
   
   /* Apply left alignment to all project hero content on mobile */
-  .project-hero-content {
+  .project-hero-content,
+  .project-hero-content > div,
+  .project-hero-content > div > * {
     text-align: left !important;
     padding: 40px 16px !important;
+  }
+  
+  /* Override any inline styles that might force center alignment */
+  .project-hero-content[style*="text-align: center"] {
+    text-align: left !important;
   }
   
   /* Move game previews below header on mobile */
@@ -1451,7 +1481,7 @@ body.detail-page .header.scrolled .social-links img {
     width: 100% !important;
     max-width: 100% !important;
     min-width: 100% !important;
-    height: 350px !important;
+    height: 500px !important;
     margin: 0 !important;
     border-radius: 8px !important;
   }
@@ -2217,6 +2247,20 @@ html, body {
     justify-content: space-between !important;
     max-width: calc(100vw - 32px);
     font-size: 0.8rem;
+  }
+  
+  /* Back navigation on detail pages - keep centered and compact */
+  .detail-page .bottom-nav,
+  .project-page .bottom-nav {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    width: auto !important;
+    min-width: 140px !important;
+    max-width: none !important;
+    justify-content: center !important;
+    padding: 8px 16px !important;
+    white-space: nowrap !important;
   }
   
   .nav-item {

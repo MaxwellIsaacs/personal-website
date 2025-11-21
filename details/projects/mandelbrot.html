@@ -194,7 +194,7 @@
                 grid-template-columns: 1fr !important;
                 gap: 40px !important;
                 padding: 60px 20px !important;
-                text-align: center !important;
+                text-align: left !important;
             }
             
             .project-hero-content > div:last-child {
@@ -248,10 +248,7 @@
                 const demoContainer = document.querySelector('.project-hero-content .demo-container');
                 
                 if (heroSection && demoContainer && !document.querySelector('.mobile-preview-section')) {
-                    // Clone the demo container
-                    const clonedDemo = demoContainer.cloneNode(true);
-                    
-                    // Create mobile preview section
+                    // Create mobile preview section with new container for p5.js
                     const mobileSection = document.createElement('div');
                     mobileSection.className = 'mobile-preview-section mobile-preview-processed';
                     mobileSection.innerHTML = `
@@ -259,11 +256,16 @@
                             Show Mandelbrot Explorer
                         </button>
                         <div class="mobile-preview-content">
+                            <div class="demo-container" style="width: 100%; max-width: 600px;">
+                                <div id="mandelbrot-container-mobile" style="display: flex; justify-content: center; margin-bottom: 12px;">
+                                    <!-- p5.js canvas will be inserted here -->
+                                </div>
+                                <div style="color: #C7BCA1; font-family: 'Georgia', serif; font-size: 0.9rem; text-align: center;">
+                                    Mouse wheel to zoom • Click and drag to pan
+                                </div>
+                            </div>
                         </div>
                     `;
-                    
-                    // Add cloned demo to preview content
-                    mobileSection.querySelector('.mobile-preview-content').appendChild(clonedDemo);
                     
                     // Insert after hero section
                     heroSection.insertAdjacentElement('afterend', mobileSection);
@@ -279,6 +281,11 @@
                             toggle.classList.remove('collapsed');
                             content.classList.add('expanded');
                             toggle.textContent = 'Hide Mandelbrot Explorer';
+                            
+                            // Initialize p5.js canvas when expanded
+                            if (!document.querySelector('#mandelbrot-container-mobile canvas')) {
+                                initializeMobileMandelbrot();
+                            }
                         } else {
                             toggle.classList.add('collapsed');
                             content.classList.remove('expanded');
@@ -287,6 +294,97 @@
                     });
                 }
             }
+        }
+
+        // Initialize mandelbrot for mobile
+        function initializeMobileMandelbrot() {
+            // Remove any existing canvas first
+            const existingCanvas = document.querySelector('#mandelbrot-container-mobile canvas');
+            if (existingCanvas) {
+                existingCanvas.remove();
+            }
+            
+            // Create new p5 instance for mobile
+            new p5(function(p) {
+                let xMin = -2.5, xMax = 1.5, yMin = -2, yMax = 2;
+                let zoom = 1, offsetX = 0, offsetY = 0;
+                let isDragging = false, lastMouseX, lastMouseY;
+                
+                p.setup = function() {
+                    let canvas = p.createCanvas(280, 200);  // Smaller for mobile
+                    canvas.parent('mandelbrot-container-mobile');
+                    canvas.style('border-radius', '8px');
+                    p.pixelDensity(1);
+                    p.noLoop();
+                    p.draw();
+                }
+                
+                p.draw = function() {
+                    p.loadPixels();
+                    let w = (xMax - xMin) / zoom;
+                    let h = (yMax - yMin) / zoom;
+                    let xStart = xMin + offsetX - w/2;
+                    let yStart = yMin + offsetY - h/2;
+                    
+                    for (let x = 0; x < p.width; x++) {
+                        for (let y = 0; y < p.height; y++) {
+                            let a = p.map(x, 0, p.width, xStart, xStart + w);
+                            let b = p.map(y, 0, p.height, yStart, yStart + h);
+                            let bright = mandelbrot(a, b);
+                            const pix = (x + y * p.width) * 4;
+                            p.pixels[pix] = bright;
+                            p.pixels[pix + 1] = bright;
+                            p.pixels[pix + 2] = bright;
+                            p.pixels[pix + 3] = 255;
+                        }
+                    }
+                    p.updatePixels();
+                }
+                
+                p.mouseWheel = function(event) {
+                    if (p.mouseX >= 0 && p.mouseX <= p.width && p.mouseY >= 0 && p.mouseY <= p.height) {
+                        zoom *= event.delta < 0 ? 1.1 : 0.9;
+                        p.redraw();
+                        return false;
+                    }
+                    return true;
+                }
+                
+                p.mousePressed = function() {
+                    isDragging = true;
+                    lastMouseX = p.mouseX;
+                    lastMouseY = p.mouseY;
+                }
+                
+                p.mouseDragged = function() {
+                    if (isDragging) {
+                        let dx = (p.mouseX - lastMouseX) / p.width * (xMax - xMin) / zoom;
+                        let dy = (p.mouseY - lastMouseY) / p.height * (yMax - yMin) / zoom;
+                        offsetX -= dx;
+                        offsetY -= dy;
+                        lastMouseX = p.mouseX;
+                        lastMouseY = p.mouseY;
+                        p.redraw();
+                    }
+                }
+                
+                p.mouseReleased = function() {
+                    isDragging = false;
+                }
+                
+                function mandelbrot(x, y) {
+                    let a = x, b = y;
+                    for (let i = 0; i < 100; i++) {
+                        let aa = a * a - b * b + x;
+                        b = 2 * a * b + y;
+                        a = aa;
+                        if (a * a + b * b > 16) {
+                            return p.map(i, 0, 100, 0, 255);
+                        }
+                    }
+                    return 0;
+                }
+            }, 'mandelbrot-container-mobile');
         }
 
         // Run on load and resize
