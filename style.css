@@ -1388,25 +1388,30 @@ body.detail-page .header.scrolled .social-links img {
     max-width: 100% !important;
   }
   
-  /* Fix project hero content specifically */
-  .project-hero-content[style*="grid-template-columns: 1fr 1fr"] {
+  /* Clean professional mobile hero layout */
+  .project-hero-content[style*="grid-template-columns: 1fr 1fr"],
+  .project-hero-content {
     grid-template-columns: 1fr !important;
-    gap: 24px !important;
-    padding: 40px 16px !important;
+    gap: 20px !important;
+    padding: 80px 20px !important;
+    text-align: left !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    min-height: 70vh !important;
+  }
+  
+  /* Ensure all text elements align left */
+  .project-hero-content h1,
+  .project-hero-content p,
+  .project-hero-content div {
     text-align: left !important;
   }
   
-  /* Apply left alignment to all project hero content on mobile */
-  .project-hero-content,
-  .project-hero-content > div,
-  .project-hero-content > div > * {
-    text-align: left !important;
-    padding: 40px 16px !important;
-  }
-  
-  /* Override any inline styles that might force center alignment */
-  .project-hero-content[style*="text-align: center"] {
-    text-align: left !important;
+  /* Meta information styling */
+  .project-hero-meta {
+    margin-top: 24px !important;
+    gap: 20px !important;
   }
   
   /* Move game previews below header on mobile */
