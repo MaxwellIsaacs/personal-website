@@ -13,9 +13,9 @@ body {
   right: -50px;
   bottom: -50px;
   background-image: url('images/persian.jpg');
-  background-size: 100% auto;
-  background-position: top center;
-  background-repeat: repeat-y;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   filter: hue-rotate(15deg) saturate(1.3);
   z-index: -2;
   pointer-events: none;
