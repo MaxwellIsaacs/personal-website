@@ -792,7 +792,7 @@ body.detail-page .header.scrolled .social-links img {
 }
 .footer-spacer {
   background-color: transparent;
-  height: 50px; /* Minimal space above navbar */
+  height: 120px; /* More space above navbar for better breathing room */
   width: 100%;
 }
 
@@ -2307,7 +2307,7 @@ html, body {
   /* === PROJECTS === */
   .projects {
     margin-top: 40px;
-    padding: 0 16px 80px; /* Reduced bottom padding */
+    padding: 0 16px 120px; /* More bottom padding for better spacing */
   }
   
   .project-grid {
@@ -2392,7 +2392,7 @@ html, body {
       min-height: 100% !important;
       height: 100% !important; /* Match content height */
       background-image: url('images/persian.jpg') !important;
-      background-size: cover !important;
+      background-size: 100% auto !important;
       background-position: top center !important;
       background-repeat: repeat-y !important; /* Repeat vertically if needed */
       background-attachment: scroll !important;
