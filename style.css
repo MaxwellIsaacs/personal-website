@@ -792,7 +792,7 @@ body.detail-page .header.scrolled .social-links img {
 }
 .footer-spacer {
   background-color: transparent;
-  height: 200px; /* Add more space above navbar */
+  height: 50px; /* Minimal space above navbar */
   width: 100%;
 }
 
@@ -2307,7 +2307,7 @@ html, body {
   /* === PROJECTS === */
   .projects {
     margin-top: 40px;
-    padding: 0 16px 120px;
+    padding: 0 16px 80px; /* Reduced bottom padding */
   }
   
   .project-grid {
@@ -2389,12 +2389,12 @@ html, body {
       left: 0 !important;
       right: 0 !important;
       bottom: 0 !important;
-      min-height: 200vh !important; /* Tall enough for all pages */
-      height: 200vh !important; /* Fixed height prevents zoom on transitions */
-      background-image: url('images/persian.jpg'), url('images/persian.jpg') !important;
-      background-size: cover, cover !important;
-      background-position: center, center !important;
-      background-repeat: no-repeat, no-repeat !important;
+      min-height: 100% !important;
+      height: 100% !important; /* Match content height */
+      background-image: url('images/persian.jpg') !important;
+      background-size: cover !important;
+      background-position: top center !important;
+      background-repeat: repeat-y !important; /* Repeat vertically if needed */
       background-attachment: scroll !important;
     }
     
@@ -2404,8 +2404,8 @@ html, body {
       left: 0 !important;
       right: 0 !important;
       bottom: 0 !important;
-      min-height: 200vh !important; /* Tall enough for all pages */
-      height: 200vh !important; /* Fixed height prevents zoom on transitions */
+      min-height: 100% !important;
+      height: 100% !important; /* Match content height */
       background-attachment: scroll !important;
     }
     
