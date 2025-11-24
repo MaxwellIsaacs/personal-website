@@ -2383,7 +2383,21 @@ html, body {
 @supports (-webkit-touch-callout: none) {
   /* iOS Safari specific - Make background scroll with content to prevent white gaps */
   @media screen and (max-device-width: 768px) {
-    .background-overlay,
+    .background-overlay {
+      position: absolute !important; /* Move with content, not fixed */
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      min-height: 200vh !important; /* Tall enough for all pages */
+      height: 200vh !important; /* Fixed height prevents zoom on transitions */
+      background-image: url('images/persian.jpg'), url('images/persian.jpg') !important;
+      background-size: cover, cover !important;
+      background-position: center, center !important;
+      background-repeat: no-repeat, no-repeat !important;
+      background-attachment: scroll !important;
+    }
+    
     .background-gradient {
       position: absolute !important; /* Move with content, not fixed */
       top: 0 !important;
