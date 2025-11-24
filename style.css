@@ -2381,36 +2381,24 @@ html, body {
 
 /* === iOS SAFARI SPECIFIC BACKGROUND FIXES === */
 @supports (-webkit-touch-callout: none) {
-  /* iOS Safari specific */
+  /* iOS Safari specific - Make background scroll with content to prevent white gaps */
   @media screen and (max-device-width: 768px) {
-    .background-overlay {
-      position: fixed;
+    .background-overlay,
+    .background-gradient {
+      position: absolute !important; /* Move with content, not fixed */
       top: 0 !important;
       left: 0 !important;
       right: 0 !important;
-      bottom: 0 !important;
-      width: 100vw !important;
-      height: 100vh !important;
-      min-height: 100vh !important;
-      transform: translateZ(0);
-      -webkit-transform: translateZ(0);
+      min-height: 100% !important;
+      height: auto !important;
+      bottom: auto !important;
       background-attachment: scroll !important;
-      will-change: transform;
     }
     
-    .background-gradient {
-      position: fixed;
-      top: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      bottom: 0 !important;
-      width: 100vw !important;
-      height: 100vh !important;
-      min-height: 100vh !important;
-      transform: translateZ(0);
-      -webkit-transform: translateZ(0);
-      background-attachment: scroll !important;
-      will-change: transform;
+    /* Make sure body has enough height for background */
+    body {
+      position: relative;
+      min-height: 100vh;
     }
   }
 }
