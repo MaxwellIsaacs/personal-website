@@ -1159,7 +1159,7 @@ function setupNavigation() {
 
 // Scroll animations
 function setupScrollAnimation() {
-  const section = document.querySelector('.projects');
+  const section = document.querySelector('#dynamic-content');
   const revealOnScroll = () => {
     const triggerBottom = window.innerHeight * 0.85;
     const sectionTop = section.getBoundingClientRect().top;
@@ -1309,6 +1309,10 @@ function setupHeaderScrollBehavior() {
   setupCardHoverEffects();
   setupNavigation();
   setupScrollAnimation();
+  
+  // Make dynamic content visible immediately since it's above the fold
+  document.querySelector('#dynamic-content')?.classList.add('visible');
+  
   setupIconAnimations();
   setupHeaderScrollBehavior();
   
