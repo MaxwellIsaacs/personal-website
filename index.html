@@ -58,6 +58,64 @@
       "@type": "PostalAddress",
       "addressLocality": "Brooklyn, Montreal"
     }
+  },
+  "mainEntity": [
+    {
+      "@type": "CreativeWork",
+      "name": "PartyPass",
+      "description": "Full-stack event ticketing platform with Stripe Connect integration, QR validation, and real-time analytics",
+      "dateCreated": "2025",
+      "programmingLanguage": ["Django", "Next.js"],
+      "author": {
+        "@type": "Person",
+        "name": "Maxwell Isaacs"
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "remy conductor", 
+      "description": "a stealthy C2 framework that uses WASM with a standardized, custom ABI for fully modular payloads",
+      "dateCreated": "2025",
+      "programmingLanguage": ["Rust", "WebAssembly"],
+      "author": {
+        "@type": "Person",
+        "name": "Maxwell Isaacs"
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "sudoku.wasm",
+      "description": "high-performance sudoku puzzle game built with rust and WASM featuring algorithmic generation and canvas rendering",
+      "dateCreated": "2025", 
+      "programmingLanguage": ["Rust", "WebAssembly"],
+      "author": {
+        "@type": "Person",
+        "name": "Maxwell Isaacs"
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "6502 emulator",
+      "description": "a rust based 6502 emulator capable of running NES games with a simple assmebler",
+      "dateCreated": "2024",
+      "programmingLanguage": ["Rust", "Assembly"],
+      "author": {
+        "@type": "Person", 
+        "name": "Maxwell Isaacs"
+      }
+    },
+    {
+      "@type": "SoftwareSourceCode",
+      "name": "linear algebra library",
+      "description": "a java based linear algebra library I wrote in tandem with my linear algebra class",
+      "dateCreated": "2024",
+      "programmingLanguage": "Java",
+      "author": {
+        "@type": "Person",
+        "name": "Maxwell Isaacs"
+      }
+    }
+  ]
   }
   </script>
   
@@ -127,7 +185,122 @@
     </main>
   </div>
 
-  <!-- Projects Section -->
+  <!-- Static Content for SEO/Crawlers (hidden by default, enhanced by JS) -->
+<section class="projects static-content" style="display: none;">
+  <div class="project-grid left-indent">
+    <!-- Work Projects -->
+    <article class="project-card-wrapper">
+      <div class="project-card" style="background-image: url('images/light-party.png');"></div>
+      <div class="project-caption">
+        <div class="project-caption-bar">
+          <h2 class="caption-left">PartyPass</h2>
+          <time class="caption-center">2025</time>
+          <span class="caption-right">django + next.js</span>
+        </div>
+        <p class="project-caption">Full-stack event ticketing platform with Stripe Connect integration, QR validation, and real-time analytics.</p>
+      </div>
+    </article>
+
+    <!-- Personal Projects -->
+    <article class="project-card-wrapper">
+      <div class="project-card" style="background-image: url('images/remy-icon.png');"></div>
+      <div class="project-caption">
+        <div class="project-caption-bar">
+          <h2 class="caption-left">remy conductor</h2>
+          <time class="caption-center">2025</time>
+          <span class="caption-right">rust + wasm</span>
+        </div>
+        <p class="project-caption">a stealthy C2 framework that uses WASM with a standardized, custom ABI for fully modular payloads.</p>
+      </div>
+    </article>
+
+    <article class="project-card-wrapper">
+      <div class="project-card" style="background-image: url('images/sudoku-icon.png');"></div>
+      <div class="project-caption">
+        <div class="project-caption-bar">
+          <h2 class="caption-left">sudoku.wasm</h2>
+          <time class="caption-center">2025</time>
+          <span class="caption-right">rust + wasm</span>
+        </div>
+        <p class="project-caption">high-performance sudoku puzzle game built with rust and WASM featuring algorithmic generation and canvas rendering.</p>
+      </div>
+    </article>
+
+    <article class="project-card-wrapper">
+      <div class="project-card" style="background-image: url('images/6502-icon.png');"></div>
+      <div class="project-caption">
+        <div class="project-caption-bar">
+          <h2 class="caption-left">6502 emulator</h2>
+          <time class="caption-center">2024–2025</time>
+          <span class="caption-right">rust + asm</span>
+        </div>
+        <p class="project-caption">a rust based 6502 emulator capable of running NES games with a simple assmebler</p>
+      </div>
+    </article>
+
+    <article class="project-card-wrapper">
+      <div class="project-card" style="background-image: url('images/lin-alg-icon.png');"></div>
+      <div class="project-caption">
+        <div class="project-caption-bar">
+          <h2 class="caption-left">linear algebra library</h2>
+          <time class="caption-center">2024</time>
+          <span class="caption-right">java</span>
+        </div>
+        <p class="project-caption">a java based linear algebra library I wrote in tandem with my linear algebra class.</p>
+      </div>
+    </article>
+
+    <article class="project-card-wrapper">
+      <div class="project-card" style="background-image: url('images/mandelbrot-icon.png');"></div>
+      <div class="project-caption">
+        <div class="project-caption-bar">
+          <h2 class="caption-left">mandelbrot visualization</h2>
+          <time class="caption-center">2024</time>
+          <span class="caption-right">c + p5.js</span>
+        </div>
+        <p class="project-caption">two mandelbrot set explorers, one written in p5.js and one written in C</p>
+      </div>
+    </article>
+
+    <article class="project-card-wrapper">
+      <div class="project-card" style="background-image: url('images/podcast-icon.png');"></div>
+      <div class="project-caption">
+        <div class="project-caption-bar">
+          <h2 class="caption-left">illegal empire podcast</h2>
+          <time class="caption-center">2023</time>
+          <span class="caption-right">research + audio production</span>
+        </div>
+        <p class="project-caption">investigative podcast series examining how Latin American criminal networks infiltrate politics and industry, featuring conversations with leading academics on cartel economics, digital crime networks, and criminal governance.</p>
+      </div>
+    </article>
+
+    <article class="project-card-wrapper">
+      <div class="project-card" style="background-image: url('images/chess-icon.png');"></div>
+      <div class="project-caption">
+        <div class="project-caption-bar">
+          <h2 class="caption-left">chessDL</h2>
+          <time class="caption-center">2023</time>
+          <span class="caption-right">C++</span>
+        </div>
+        <p class="project-caption">one of the ugliest (yet functional) versions of chess created using c++ & SDL</p>
+      </div>
+    </article>
+
+    <article class="project-card-wrapper">
+      <div class="project-card" style="background-image: url('images/huffman-icon.png');"></div>
+      <div class="project-caption">
+        <div class="project-caption-bar">
+          <h2 class="caption-left">huffman encoding</h2>
+          <time class="caption-center">2022</time>
+          <span class="caption-right">rust</span>
+        </div>
+        <p class="project-caption">a huffman compression implementation and visualization</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+  <!-- Dynamic Projects Section (JavaScript Enhanced) -->
 <section class="projects" id="dynamic-content">
   <div class="project-grid left-indent" id="project-grid">
     <!-- Dynamic content will be inserted here -->
