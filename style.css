@@ -2,7 +2,7 @@
 body {
   padding-top: 0;
   background: none !important;
-  overflow-x: visible;
+  overflow-x: hidden;
 }
 
 
@@ -69,9 +69,9 @@ body {
   font-size: 0.75rem;
   color: #000;
   font-weight: 400;
-  padding: 15px 0px;
+  padding: 2px 0px;
   display: block;
-  margin-top: -15px;
+  margin-top: 0;
 }
 
 .left-indent {
@@ -86,7 +86,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 8px 32px 4px 32px;
+  padding: 12px 32px 8px 32px;
   background-color: transparent;
   font-family: 'Roboto', sans-serif;
 }
@@ -204,12 +204,10 @@ body.detail-page .header.scrolled .social-links img {
   }
 }
 
-}
-
 .inter-caption {
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
-  font-weight: <weight>;
+  font-weight: 400;
   font-style: normal;
 }
 
@@ -217,7 +215,7 @@ body.detail-page .header.scrolled .social-links img {
 .archivo-header {
   font-family: "Archivo", sans-serif;
   font-optical-sizing: auto;
-  font-weight: <weight>;
+  font-weight: 400;
   font-style: normal;
   font-variation-settings:
     "wdth" 100;
@@ -279,11 +277,28 @@ body.detail-page .header.scrolled .social-links img {
   font-family: 'Icona Sans', sans-serif;
 }
 
-/* Mobile intro adjustments */
+/* Mobile layout adjustments */
 @media (max-width: 768px) {
+  .left-indent {
+    padding-left: 20px;
+  }
+
+  .header {
+    padding: 10px 16px 6px 16px;
+  }
+
   .intro {
     padding: 40px 16px 0 16px;
     font-size: clamp(1.5rem, 5vw, 2rem);
+  }
+
+  .bottom-nav {
+    padding: 12px 20px;
+    gap: 20px;
+  }
+
+  .nav-item {
+    font-size: 14px;
   }
 }
 
@@ -590,8 +605,7 @@ body.detail-page .header.scrolled .social-links img {
 
 .project-caption {
   font-family: 'Icona Sans', sans-serif;
-  padding: 0 0px;
-  top-padding: 10px;
+  padding: 10px 0px 0 0px;
   color: #333;
   font-size: 0.9rem;
   line-height: 1.4;
