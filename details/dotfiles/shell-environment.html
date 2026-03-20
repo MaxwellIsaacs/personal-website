@@ -11,34 +11,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Archivo:opsz,wght@8..144,400;8..144,500;8..144,600;8..144,700&family=Playfair+Display:wght@300;400;500;600;700&family=Georgia:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        @media (max-width: 768px) {
-            .project-hero-content[style*="grid-template-columns: 1fr 1fr"] {
-                grid-template-columns: 1fr !important;
-                gap: 40px !important;
-                padding: 60px 20px !important;
-                text-align: center !important;
-            }
-
-
-            section[style*="padding: 80px 64px"] {
-                padding: 40px 20px !important;
-            }
-
-            .project-content {
-                padding: 40px 20px !important;
-            }
-
-            div[style*="position: fixed; bottom: 24px"] {
-                position: fixed !important;
-                bottom: 20px !important;
-                left: 20px !important;
-                right: 20px !important;
-                transform: none !important;
-                text-align: center !important;
-            }
-        }
-    </style>
 </head>
 <body>
     <script>
@@ -52,7 +24,7 @@
         <div class="project-hero-content">
             <h1 class="project-hero-title" style="font-family: 'Playfair Display', 'Times New Roman', serif; font-weight: 400; letter-spacing: -0.02em;">Shell Environment</h1>
             <p class="project-hero-subtitle" style="font-family: 'Georgia', serif; font-weight: 400; line-height: 1.6; max-width: 520px; font-size: 1.15rem;">Terminal setup with custom themes, aliases, and workflow automation.</p>
-            <div class="project-hero-meta" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin: 48px 0; max-width: 400px;">
+            <div class="project-hero-meta hero-meta-grid">
                 <div>
                     <span style="color: #8B7D6B; font-family: 'Georgia', serif; font-size: 0.8rem; display: block; margin-bottom: 4px; font-weight: 400;">using for</span>
                     <span style="color: #E8E3D3; font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 400;">4 years</span>
@@ -71,7 +43,7 @@
     
     <!-- Photo Carousel -->
     <div class="project-content" id="project-content">
-        <section style="padding: 80px 64px; max-width: 1200px; margin: 0 auto;">
+        <section class="section-wrapper">
             <style>
                 .config-carousel {
                     position: relative;
