@@ -52,7 +52,7 @@ function createCardHTML(card) {
              data-year="${card.year}" 
              data-tech="${card.tech}" 
              data-description="${card.description}">
-          <div class="info-icon">i</div>
+          <!-- <div class="info-icon">i</div> -->
         </div>
         <div class="project-caption">
           <div class="project-caption-bar">
@@ -186,16 +186,17 @@ function setAnimationType(type) {
 function setupCardHoverEffects() {
   document.querySelectorAll('.project-card').forEach(card => {
     
-    // Handle info-only cards with popup functionality
+    // Handle info-only cards - navigate directly to detail page
     if (card.classList.contains('info-only-card')) {
-      const infoIcon = card.querySelector('.info-icon');
-      if (infoIcon) {
-        infoIcon.addEventListener('click', (e) => {
-          e.stopPropagation();
-          showInfoPopup(e, card);
-        });
-      }
-      
+      // Info icon popup disabled for now
+      // const infoIcon = card.querySelector('.info-icon');
+      // if (infoIcon) {
+      //   infoIcon.addEventListener('click', (e) => {
+      //     e.stopPropagation();
+      //     showInfoPopup(e, card);
+      //   });
+      // }
+
       // Make the card itself clickable for detail page
       card.addEventListener('click', () => {
         const title = card.dataset.title;
@@ -396,7 +397,7 @@ function closeProjectDetail() {
   bottomNav.innerHTML = `
     <a href="#" class="nav-item ${returnToPage === 'work' ? 'active' : ''}" data-page="work">Work</a>
     <a href="#" class="nav-item ${returnToPage === 'projects' ? 'active' : ''}" data-page="projects">Projects</a>
-    <a href="#" class="nav-item ${returnToPage === 'dotfiles' ? 'active' : ''}" data-page="dotfiles">Dotfiles</a>
+    <a href="#" class="nav-item ${returnToPage === 'dotfiles' ? 'active' : ''}" data-page="dotfiles">Uses</a>
     <a href="#" class="nav-item ${returnToPage === 'contact' ? 'active' : ''}" data-page="contact">Contact</a>
   `;
   
